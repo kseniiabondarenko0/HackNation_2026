@@ -4,8 +4,8 @@ from . import views, views_needs
 urlpatterns = [
     path("", views.overview, name="overview"),
     path("inicjatywy/", views.radar, name="radar"),
+    path("porownaj/", views.compare, name="compare"),
     path("a/<int:pk>/", views.detail, name="detail"),
-    path("a/<int:pk>/ocena/", views.review, name="review"),
     path("a/<int:pk>/dalej/", views.handling, name="handling"),
     path("zglos/", views.submit, name="submit"),
     path("skutecznosc/", views.effectiveness, name="effectiveness"),

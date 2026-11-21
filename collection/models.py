@@ -21,7 +21,7 @@ class Source(models.Model):
         help_text="Tylko linki zaczynające się od tego prefiksu (domyślnie: katalog adresu startowego)")
     enabled = models.BooleanField(default=True)
     status = models.CharField(max_length=10, choices=STATUS, default="active", db_index=True,
-        help_text="Kandydaci z automatycznego wyszukiwania nie są zbierani, dopóki ekspert ich nie zatwierdzi.")
+        help_text="Kandydaci są zbierani dopiero po automatycznej weryfikacji (robots.txt, linki do artykułów).")
     origin = models.CharField(max_length=10, choices=ORIGIN, default="manual")
     feed_url = models.URLField(max_length=500, blank=True)
     sitemap_url = models.URLField(max_length=500, blank=True)
@@ -60,12 +60,49 @@ class Article(models.Model):
     duplicate_of = models.ForeignKey("self", null=True, blank=True, on_delete=models.SET_NULL)
     fetch_attempts = models.PositiveIntegerField(default=0)
     next_retry_at = models.DateTimeField(null=True, blank=True)
+    # Failed Gemini analyses of THIS text (bad JSON, blocked answer); quota/network errors are not counted here.
+    analysis_attempts = models.PositiveSmallIntegerField(default=0)
+    analysis_error = models.CharField(max_length=300, blank=True)
+    # Checks of the publication date in the primary source made before an undated item is dropped (analysis.retention).
+    date_checks = models.PositiveSmallIntegerField(default=0)
 
     class Meta:
         ordering = ["-first_seen_at"]
 
     def __str__(self):
         return self.title or self.original_url
+
+    @property
+    def pipeline_status(self):
+        """Pipeline stage: znaleziono -> zweryfikowano -> przeanalizowano -> opublikowano; odrzucono; błąd.
+
+        Derived from stored state, so it cannot drift. Items rejected by the AI filter live only in Rejected."""
+        analysis = getattr(self, "analysis", None)
+        if self.status == "skipped":
+            return "odrzucono"
+        if self.status == "error" or (analysis is None and self.analysis_attempts >= 3):
+            return "błąd"
+        if self.status == "found":
+            return "znaleziono"
+        if analysis is None:
+            return "zweryfikowano"
+        if analysis.verdict == "glowna":
+            return "opublikowano"
+        return "odrzucono" if analysis.verdict == "odrzucone" else "przeanalizowano"
+
+
+class Rejected(models.Model):
+    """Compact registry of removed items: enough to never fetch or pay for them again, nothing else.
+
+    The article row (text, analysis) is deleted when an item lands here. Rows expire (analysis.retention)."""
+    url = models.CharField(max_length=800, unique=True)
+    content_hash = models.CharField(max_length=64, blank=True, db_index=True)
+    reason = models.CharField(max_length=200)
+    score = models.PositiveSmallIntegerField(null=True, blank=True)
+    rejected_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.url} ({self.reason})"
 
 
 class CollectionRun(models.Model):

@@ -1,11 +1,12 @@
 """Expert review of publications, the 'Skuteczność' page and PCI priority."""
 from django.contrib.auth.models import User
 from django.test import TestCase
-from django.urls import reverse
+from django.urls import NoReverseMatch, reverse
 from analysis.core import finalize, priority
 from analysis.models import Analysis
 from analysis.rules import analyze
 from analysis.service import analyze_pending
+from analysis.tabs import TABS
 from collection.extract import content_hash
 from collection.models import Article, Source
 from .test_analysis import BASE
@@ -30,7 +31,8 @@ class PriorityTests(TestCase):
         self.assertTrue(any("podkarpackie" in r for r in d["priority_reasons"]))
 
 
-class ReviewTests(TestCase):
+class TabsAndPagesTests(TestCase):
+    """Automatic assessment only: no expert login/decision UI, three lists with counters equal to the lists."""
     def setUp(self):
         src = Source.objects.create(name="T", entry_url="https://example.org/n/")
         for i, (title, text) in enumerate([("Beton", BASE), ("Dzień otwarty", OPEN_DAY), ("Dron", DRONE)]):
@@ -39,60 +41,56 @@ class ReviewTests(TestCase):
         analyze_pending()
         self.beton = Article.objects.get(title="Beton")
         self.open_day = Article.objects.get(title="Dzień otwarty")
-        self.staff = User.objects.create_user("ekspert", password="x", is_staff=True)
-
-    def total(self, view):
-        return self.client.get(reverse("radar"), {"widok": view}).context["total"]
-
-    def test_requires_staff(self):
-        self.client.post(reverse("review", args=[self.beton.pk]), {"decyzja": "zatwierdz"})
-        self.assertEqual(Analysis.objects.get(article=self.beton).review_status, "nowy")
-
-    def test_reject_needs_reason_and_moves_to_rejected_tab(self):
-        self.client.force_login(self.staff)
-        url = reverse("review", args=[self.beton.pk])
-        before = self.total("glowna")
-        self.client.post(url, {"decyzja": "odrzuc"})
-        self.assertEqual(Analysis.objects.get(article=self.beton).review_status, "nowy")
-        self.client.post(url, {"decyzja": "odrzuc", "uwaga": "relacja z wydarzenia"})
-        self.assertEqual(self.total("glowna"), before - 1)
-        self.assertContains(self.client.get(reverse("radar"), {"widok": "odrzucone"}), "relacja z wydarzenia")
-        self.client.post(url, {"decyzja": "cofnij"})
-        an = Analysis.objects.get(article=self.beton)
-        self.assertEqual((an.review_status, an.review_note, an.reviewed_by), ("nowy", "", ""))
-
-    def test_expert_can_rescue_rejected_publication(self):
-        self.assertEqual(Analysis.objects.get(article=self.open_day).verdict, "odrzucone")
-        self.client.force_login(self.staff)
-        self.client.post(reverse("review", args=[self.open_day.pk]), {"decyzja": "zatwierdz"})
-        self.assertEqual(self.total("zatwierdzone"), 1)
-        ids = [a.pk for a in self.client.get(reverse("radar")).context["articles"]]
-        self.assertIn(self.open_day.pk, ids)
-
-    def test_review_survives_reanalysis(self):
-        self.client.force_login(self.staff)
-        self.client.post(reverse("review", args=[self.beton.pk]), {"decyzja": "zatwierdz"})
-        analyze_pending(force=True)
-        self.assertEqual(Analysis.objects.get(article=self.beton).review_status, "zatwierdzony")
 
     def test_priority_sort(self):
         r = self.client.get(reverse("radar"), {"sort": "priorytet", "widok": "wszystkie"})
         self.assertEqual(r.context["articles"][0].title, "Dron")
 
-    def test_detail_shows_filter_and_form(self):
-        self.assertContains(self.client.get(reverse("detail", args=[self.open_day.pk])), "Zaloguj się jako ekspert")
-        self.client.force_login(self.staff)
-        self.assertContains(self.client.get(reverse("detail", args=[self.beton.pk])), "Zatwierdź jako innowację")
+    def test_no_expert_moderation_in_ui(self):
+        with self.assertRaises(NoReverseMatch):
+            reverse("review", args=[self.beton.pk])
+        for url in (reverse("radar"), reverse("detail", args=[self.beton.pk]), reverse("detail", args=[self.open_day.pk]),
+                    reverse("effectiveness"), reverse("about"), reverse("overview")):
+            body = self.client.get(url).content.decode().lower()
+            for banned in ("zaloguj się jako ekspert", "zatwierdzone przez eksperta", "zatwierdź jako innowację",
+                           "decyzja eksperta", "widok=odrzucone", "widok=zatwierdzone"):
+                self.assertNotIn(banned, body, (url, banned))
+
+    def test_counters_equal_lists_also_with_filters(self):
+        for extra in ({}, {"sciezka": "transfer"}, {"woj": "podkarpackie"}, {"q": "dron"}, {"sektor": "Edukacja"}):
+            for view in TABS:
+                r = self.client.get(reverse("radar"), {**extra, "widok": view})
+                counters = {k: n for k, _, n in r.context["tabs"]}
+                self.assertEqual(counters[view], r.context["total"], (extra, view))
+
+    def test_removed_tab_in_old_bookmark_falls_back_without_echo(self):
+        for old in ("odrzucone", "zatwierdzone"):
+            r = self.client.get(reverse("radar"), {"widok": old})
+            self.assertEqual(r.context["view"], "glowna")
+            self.assertNotIn(f"widok={old}", r.content.decode())
+
+    def test_tabs_are_exactly_three(self):
+        r = self.client.get(reverse("radar"))
+        self.assertEqual([label for _, label, _ in r.context["tabs"]], ["Interesujące", "Do weryfikacji", "Wszystkie"])
+
+    def test_waiting_and_all_tabs_follow_analysis_state(self):
+        src = Source.objects.get(name="T")
+        fresh = Article.objects.create(source=src, original_url="https://example.org/n/new", title="Nowy", text=BASE + " x",
+                                       content_hash=content_hash(BASE + " x"), status="fetched")
+        ids = lambda view: {a.pk for a in self.client.get(reverse("radar"), {"widok": view}).context["articles"]}
+        self.assertIn(fresh.pk, ids("weryfikacja"))      # not analysed yet -> temporary queue
+        self.assertNotIn(fresh.pk, ids("glowna"))
+        self.assertNotIn(fresh.pk, ids("wszystkie"))     # "Wszystkie" = passed the check
+        self.assertNotIn(self.open_day.pk, ids("wszystkie"))  # judged not an innovation -> not listed
+        self.assertIn(self.beton.pk, ids("wszystkie"))
 
     def test_effectiveness_page(self):
-        self.client.force_login(self.staff)
-        self.client.post(reverse("review", args=[self.beton.pk]), {"decyzja": "zatwierdz"})
         r = self.client.get(reverse("effectiveness"))
-        self.assertContains(r, "Lejek")
+        self.assertContains(r, "Aktualne materiały w bazie")
         self.assertContains(r, "Test na oznaczonych przykładach")
-        main = next(a for a in r.context["agreement"] if a["id"] == "glowna")
-        self.assertEqual((main["approved"], main["rate"]), (1, 100))
-        self.assertEqual(r.context["collected"], 3)
+        self.assertEqual(r.context["stored"], 3)
+        kept = Analysis.objects.filter(verdict__in=("glowna", "weryfikacja")).count()
+        self.assertEqual(r.context["waiting"], 3 - kept)
 
 
 class NonTechnologicalInnovationTests(TestCase):

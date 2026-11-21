@@ -13,18 +13,11 @@ class Analysis(models.Model):
     signal = models.CharField(max_length=10, default="brak", db_index=True)
     sector = models.CharField(max_length=40, blank=True)
     stage = models.CharField(max_length=12, blank=True)
-    # glowna / weryfikacja / odrzucone -- decides where the article is listed (reason in data["verdict"])
+    # glowna (Interesujące) / weryfikacja (queue) / odrzucone (removed by analysis.retention); reason in data["verdict"]
     verdict = models.CharField(max_length=12, blank=True, db_index=True)
     updated_at = models.DateTimeField(auto_now=True)
     priority = models.PositiveSmallIntegerField(default=0, db_index=True)
     region = models.CharField(max_length=30, blank=True, db_index=True)  # voivodeship, see analysis.regions  # PCI bonus, used for ordering only
-    # Expert decision (human-in-the-loop). Never in update defaults, so re-analysis keeps it.
-    REVIEW = [("nowy", "Nie oceniono"), ("zatwierdzony", "Zatwierdzone przez eksperta"),
-              ("odrzucony", "Odrzucone przez eksperta")]
-    review_status = models.CharField(max_length=12, choices=REVIEW, default="nowy", db_index=True)
-    review_note = models.TextField(blank=True)
-    reviewed_at = models.DateTimeField(null=True, blank=True)
-    reviewed_by = models.CharField(max_length=150, blank=True)
     # What happens after identification (task, section 9): handling stages with a history of changes.
     HANDLING = [("brak", "Nie rozpoczęto"), ("kontakt", "Kontakt z autorem"), ("przekazano", "Przekazano partnerowi"),
                 ("pilotaz", "Pilotaż u partnera"), ("wdrozono", "Wdrożono / skomercjalizowano"),
@@ -36,3 +29,31 @@ class Analysis(models.Model):
 
     def __str__(self):
         return f"Analiza #{self.article_id} ({self.backend})"
+
+
+class LLMUsage(models.Model):
+    """Daily counters per AI provider (one row per day and provider): they enforce the free-tier limits."""
+    day = models.DateField()
+    provider = models.CharField(max_length=20)
+    calls = models.PositiveIntegerField(default=0)
+    tokens_in = models.PositiveIntegerField(default=0)
+    tokens_out = models.PositiveIntegerField(default=0)
+    errors = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        unique_together = [("day", "provider")]
+
+    def __str__(self):
+        return f"{self.provider} {self.day}: {self.calls} wywołań"
+
+
+class LLMState(models.Model):
+    """Pause of a provider after a quota/auth/network error. Survives restarts, so a 429 is never hammered."""
+    provider = models.CharField(max_length=20, unique=True)
+    blocked_until = models.DateTimeField(null=True, blank=True)
+    failures = models.PositiveSmallIntegerField(default=0)   # consecutive failures; 0 after a success
+    last_error = models.CharField(max_length=300, blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.provider}: {self.last_error or 'ok'}"

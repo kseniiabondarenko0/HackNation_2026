@@ -94,5 +94,6 @@ class SafetyTests(TestCase):
 class WebTests(TestCase):
     def test_pages_render(self):
         s = mk(); run_source(s, getter=getter, sleep=lambda _: None)
-        self.assertContains(self.client.get("/"), "Prototyp monitorowania")
+        self.assertEqual(self.client.get("/").status_code, 200)
+        self.assertContains(self.client.get("/inicjatywy/", {"widok": "weryfikacja"}), "Prototyp monitorowania")
         self.assertEqual(self.client.get("/zrodla/").status_code, 200)

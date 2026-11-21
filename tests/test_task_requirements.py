@@ -37,7 +37,7 @@ class ExportAndDetailTests(TestCase):
         self.assertEqual(r["results"][0]["typ_innowacji"], "organizacyjna, procesowa")
         self.assertNotIn("autorzy", r["fields"])
         all_rows = self.client.get(reverse("export", args=["json"]), {"widok": "wszystkie"}).json()
-        self.assertEqual(all_rows["count"], 2)
+        self.assertEqual(all_rows["count"], 1)  # "Wszystkie" = passed the AI check; the rejected notice is not listed
 
     def test_csv_export(self):
         r = self.client.get(reverse("export", args=["csv"]))

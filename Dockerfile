@@ -8,4 +8,4 @@ RUN useradd -m app && mkdir -p /data && chown -R app /app /data
 USER app
 ENV DB_PATH=/data/db.sqlite3
 EXPOSE 8000
-CMD ["sh", "-c", "python manage.py migrate --noinput && python manage.py seed_sources && python manage.py collectstatic --noinput && exec gunicorn config.wsgi:application -b 0.0.0.0:8000 --workers 2 --threads 2 --worker-class gthread --timeout 60"]
+CMD ["sh", "-c", "python manage.py migrate --noinput && python manage.py seed_sources && (python manage.py load_demo || true) && python manage.py collectstatic --noinput && exec gunicorn config.wsgi:application -b 0.0.0.0:8000 --workers 2 --threads 2 --worker-class gthread --timeout 60"]

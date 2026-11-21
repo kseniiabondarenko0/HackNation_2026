@@ -66,14 +66,12 @@ def match_recipients(article, data, limit=3, recipients=None):
 def match_articles(recipient, limit=10, articles=None):
     """Reverse direction: innovations for one recipient / submitted need, best-first, with reasons.
 
-    Only publications the filter did not reject (or an expert approved) are considered."""
-    from django.db.models import Q
+    Only publications the AI check did not reject are considered."""
     from collection.models import Article
     if articles is None:
         articles = (Article.objects.select_related("source", "analysis")
                     .filter(status="fetched", duplicate_of__isnull=True, analysis__isnull=False)
-                    .filter(Q(analysis__verdict__in=("glowna", "weryfikacja")) | Q(analysis__review_status="zatwierdzony"))
-                    .exclude(analysis__review_status="odrzucony")
+                    .filter(analysis__verdict__in=("glowna", "weryfikacja"))
                     .order_by("-first_seen_at")[:500])
     out = []
     for a in articles:

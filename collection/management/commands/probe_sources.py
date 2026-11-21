@@ -36,7 +36,12 @@ class Command(BaseCommand):
         for source in qs.order_by("pk"):
             report = _probe(source.entry_url)
             apply_probe(source, report)
-            if report["ok"] and source.origin == "registry" and source.status == "candidate" and not source.reviewed_at:
+            twin = report["ok"] and Source.objects.filter(entry_url=report["entry_url"]).exclude(
+                pk=source.pk).exclude(status="rejected").first()
+            if twin and source.status == "candidate" and not source.articles.exists():
+                Source.objects.filter(pk=source.pk).update(
+                    status="rejected", enabled=False, reviewed_at=timezone.now(), last_error=f"Duplikat źródła #{twin.pk}")
+            elif report["ok"] and source.origin == "registry" and source.status == "candidate" and not source.reviewed_at:
                 Source.objects.filter(pk=source.pk).update(status="active", enabled=True, next_run_at=timezone.now())
             ok, failed = ok + report["ok"], failed + (not report["ok"])
             self._line(source.name, report)

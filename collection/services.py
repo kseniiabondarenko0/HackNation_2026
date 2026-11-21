@@ -5,10 +5,12 @@ from datetime import timedelta
 from django.conf import settings
 from django.db.models import Q
 from django.utils import timezone
+from . import archive as archive_mod
 from .discovery import discover, sitemap_children
 from .extract import extract_article, content_hash
-from .models import Article, Source, CollectionRun
+from .models import Article, Source, CollectionRun, Rejected
 from .netsafe import safe_get
+from .window import is_old, cutoff
 
 logger = logging.getLogger(__name__)
 
@@ -21,6 +23,21 @@ def due_sources():
     now = timezone.now()
     return Source.objects.filter(enabled=True, status="active").filter(models_q_due(now)).filter(
         Q(locked_until__isnull=True) | Q(locked_until__lte=now)).order_by("next_run_at", "pk")
+
+
+def reject_article(article, reason, score=None, digest=None, archive=False):
+    """Move an article into the compact Rejected registry (URL, hash, reason) and delete the row.
+
+    archive=True (older than the window) appends the full record to the archive FIRST; if that fails nothing is deleted.
+    Never touches manual submissions (analysis.retention removes those separately). Returns True when it was rejected."""
+    if hasattr(article, "submission"):
+        return False
+    if archive:
+        archive_mod.append([article], reason)
+    Rejected.objects.update_or_create(url=article.original_url, defaults={
+        "content_hash": article.content_hash if digest is None else digest, "reason": reason[:200], "score": score})
+    article.delete()
+    return True
 
 
 def _discover(source, getter, sleep, stats):
@@ -63,7 +80,14 @@ def run_source(source, getter=None, sleep=time.sleep):
         stats["discovered"] = len(links)
         if not links:
             raise ValueError("Nie znaleziono linków do artykułów. Sprawdź typ źródła i prefiks adresu.")
+        known_rejected = set(Rejected.objects.filter(url__in=[u for u, _ in links]).values_list("url", flat=True))
         for url, published in links:
+            if url in known_rejected:
+                stats["rejected_known"] = stats.get("rejected_known", 0) + 1
+                continue
+            if is_old(published):   # listing already shows the date: no fetch, no storage
+                stats["too_old"] = stats.get("too_old", 0) + 1
+                continue
             _, created = Article.objects.get_or_create(original_url=url,
                 defaults={"source": source, "published_at": published})
             stats["new"] += int(created)
@@ -139,6 +163,19 @@ def _fetch_article(article, getter, stats):
             stats["skipped"] += 1
         return
     digest = content_hash(data["text"])
+    if not article.content_hash:   # new article only: rows already in the base are never removed here
+        if is_old(data["published_at"]):
+            article.final_url, article.title, article.text = final_url, data["title"][:500], data["text"]
+            article.published_at = data["published_at"]   # in memory only: the archive gets the full record
+            reject_article(article, f"Starsze niż okno {settings.ANALYSIS['WINDOW_MONTHS']} mies. "
+                                    f"(publikacja {data['published_at']:%d.%m.%Y}, granica {cutoff():%d.%m.%Y}).", digest=digest, archive=True)
+            stats["too_old"] = stats.get("too_old", 0) + 1
+            return
+        known = Rejected.objects.filter(content_hash=digest).first()
+        if known:   # same text under another URL as an already rejected item
+            reject_article(article, "Duplikat odrzuconego tekstu: " + known.reason, digest=digest)
+            stats["rejected_known"] = stats.get("rejected_known", 0) + 1
+            return
     if article.content_hash == digest:
         article.fetched_at, article.error, article.fetch_attempts, article.next_retry_at = timezone.now(), "", 0, None
         article.save(update_fields=["fetched_at", "error", "fetch_attempts", "next_retry_at"])

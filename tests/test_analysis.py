@@ -136,10 +136,10 @@ class ServiceTests(TestCase):
         self.assertEqual(r.context["total"], 1)  # the open-day notice is rejected, not in the main list
         r = self.client.get(reverse("radar"), {"sciezka": "transfer", "sygnal": "sredni"})
         self.assertEqual(r.context["total"], 1)
-        self.assertEqual(self.client.get(reverse("radar"), {"sciezka": "bogus", "widok": "wszystkie"}).context["total"], 2)
-        r = self.client.get(reverse("radar"), {"widok": "odrzucone"})
-        self.assertEqual(r.context["total"], 1)
-        self.assertContains(r, "Nie wygląda na opis innowacji")
+        self.assertEqual(self.client.get(reverse("radar"), {"sciezka": "bogus", "widok": "wszystkie"}).context["total"], 1)
+        r = self.client.get(reverse("radar"), {"widok": "odrzucone"})  # no such tab any more: falls back to the main list
+        self.assertEqual((r.context["view"], r.context["total"]), ("glowna", 1))
+        self.assertEqual([t[0] for t in r.context["tabs"]], ["glowna", "weryfikacja", "wszystkie"])
 
     def test_detail_without_analysis(self):
         a = self.mk(BASE)
@@ -203,4 +203,4 @@ class SubmitTests(TestCase):
         self.assertEqual(Article.objects.count(), 0)
 
     def test_form_page_renders(self):
-        self.assertContains(self.client.get(reverse("submit")), "Zgłoś innowację")
+        self.assertContains(self.client.get(reverse("submit")), "Wskaż istniejące rozwiązanie")

@@ -2,4 +2,4 @@
 <div class="meta"><span class="badge">{{ sub.get_submitter_type_display }}</span>{% if sub.organization %}<span class="badge">{{ sub.organization }}</span>{% endif %}<span class="badge">woj. {{ sub.region|default:"nie podano" }}</span><span class="muted">zgłoszono {{ sub.created_at|date:"d.m.Y H:i" }}</span></div>
 {% if sub.author_name and sub.show_name %}<p>Autor: {{ sub.author_name }}</p>{% elif sub.author_name and user.is_staff %}<p class="muted">Autor (niepubliczne, widoczne dla zespołu): {{ sub.author_name }}</p>{% endif %}
 {% if user.is_staff and sub.contact %}<p class="notice">Kontakt (zgoda RODO: {{ sub.consent|yesno:"tak,nie" }}): {{ sub.contact }}</p>{% endif %}
-<p class="muted">Zgłoszenie przechodzi tę samą analizę co publikacje instytucji; do listy zatwierdzonych trafia dopiero po decyzji eksperta.</p></section>{% endif %}
+<p class="muted">Zgłoszenie przechodzi tę samą automatyczną analizę AI co publikacje instytucji; na liście „Interesujące” pojawi się, jeśli AI potwierdzi innowację.</p></section>{% endif %}

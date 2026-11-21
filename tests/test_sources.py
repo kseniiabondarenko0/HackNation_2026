@@ -87,7 +87,8 @@ class ProbeTests(TestCase):
 
 
 @override_settings(DISCOVERY={**settings.DISCOVERY,
-                              "SEARXNG_URL": "", "BRAVE_API_KEY": "", "MIN_SCORE": 1, "SEARCH_DELAY_S": 0})
+                              "SEARXNG_URL": "", "BRAVE_API_KEY": "", "MIN_SCORE": 1, "SEARCH_DELAY_S": 0,
+                              "AUTO_APPROVE": False})   # these tests cover manual approval of candidates
 class DiscoveryTests(TestCase):
     SEEDS = [{"name": "Park testowy", "url": "https://park.example.pl/", "tags": ["park naukowo-technologiczny"]},
              {"name": "Pusta", "url": "https://pusta.example.pl/", "tags": ["park naukowo-technologiczny"]},
@@ -179,11 +180,22 @@ class RegistryAndReviewTests(TestCase):
         self.assertEqual((s.status, s.enabled), ("active", True))
         self.assertEqual(s.entry_url, "https://uczelnia.example.pl/aktualnosci")
 
+    def test_probe_command_rejects_candidate_duplicating_active_source(self):
+        twin = Source.objects.create(name="U", entry_url="https://uczelnia.example.pl/aktualnosci", status="active")
+        dup = Source.objects.create(name="U (kandydat)", entry_url="https://uczelnia.example.pl/", status="candidate",
+                                    enabled=False, origin="registry")
+        with mock.patch("collection.management.commands.probe_sources.probe_site",
+                        side_effect=lambda u: sourcefinder.probe_site(u, getter=getter, robots=robots)):
+            call_command("probe_sources", stdout=StringIO())
+        dup.refresh_from_db()
+        self.assertEqual((dup.status, dup.enabled), ("rejected", False))
+        self.assertIn(f"#{twin.pk}", dup.last_error)
+
     def test_staff_can_approve_and_reject_from_sources_page(self):
         a = Source.objects.create(name="Kand A", entry_url="https://a.example.pl/", status="candidate", enabled=False)
         b = Source.objects.create(name="Kand B", entry_url="https://b.example.pl/", status="candidate", enabled=False)
         page = self.client.get("/zrodla/")
-        self.assertContains(page, "Kandydaci do zatwierdzenia")
+        self.assertContains(page, "Kandydaci źródeł")
         self.assertNotContains(page, "Zatwierdź</button>")
         self.assertEqual(self.client.post(f"/zrodla/{a.pk}/zatwierdz/").status_code, 302)
         a.refresh_from_db(); self.assertEqual(a.status, "candidate")      # anonymous: nothing changes

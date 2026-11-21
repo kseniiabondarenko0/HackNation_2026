@@ -17,6 +17,26 @@ PATHS = {"rozwoj": "Rozwój", "transfer": "Transfer", "komercjalizacja": "Komerc
          "wdrozenie": "Wdrożenie"}
 SIGNALS = {"brak": "brak sygnałów", "niski": "niskie", "sredni": "średnie", "wysoki": "wysokie"}
 MIN_QUOTE = 20
+# Three areas of the official FAQ, derived from the AI sector (no extra model call): the rest of the sectors is technological.
+AREAS = {"technologiczne": "Technologiczne", "edukacyjne": "Edukacyjne", "administracyjne": "Administracyjne"}
+_AREA_SECTORS = {"edukacyjne": ["Edukacja"], "administracyjne": ["Administracja i samorząd", "Pomoc społeczna i włączenie"]}
+
+
+def area_sectors(area):
+    """Sector names (Analysis.sector) belonging to an area; None for an unknown area."""
+    if area not in AREAS:
+        return None
+    if area in _AREA_SECTORS:
+        return _AREA_SECTORS[area]
+    from .rules import SECTORS
+    other = {s for v in _AREA_SECTORS.values() for s in v} | {"Inne"}
+    return [s for s in SECTORS if s not in other]
+
+
+def area_of(sector):
+    return next((a for a in AREAS if sector in (area_sectors(a) or [])), "")
+
+
 VERDICTS = {"glowna": "Interesujące", "weryfikacja": "Do weryfikacji", "odrzucone": "Odrzucone"}
 # Potential (0-100) thresholds; overridable via settings.ANALYSIS["THRESHOLDS"].
 DEFAULT_THRESHOLDS = {"main": 50, "reject": 25, "min_completeness": 60}

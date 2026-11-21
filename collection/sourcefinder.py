@@ -398,6 +398,9 @@ def run_discovery(queries=None, providers=None, limit=None, getter=None, robots=
                 discovery_query=(h["query"] or h["provider"])[:300], discovery_score=report["score"],
                 discovered_at=timezone.now(), interval_min=c["CANDIDATE_INTERVAL_MIN"])
             stats["created"] += 1
+            if c.get("AUTO_APPROVE") and report["robots_allowed"] is not False:
+                approve(Source.objects.get(entry_url=report["entry_url"]))   # no mandatory admin step
+                stats["auto_approved"] = stats.get("auto_approved", 0) + 1
     except Exception as exc:
         run.error = f"{type(exc).__name__}: {exc}"[:500]
         logger.exception("Discovery run failed")

@@ -7,11 +7,14 @@ from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.views.decorators.http import require_POST
-from analysis.core import LABELS, PATHS, SIGNALS, VERDICTS
+from analysis.core import AREAS, LABELS, PATHS, SIGNALS, STAGES, area_of, area_sectors, thresholds
+from analysis.tabs import CHECKED, TABS, WAITING, tab_q
+from analysis import demo
 from analysis.external import external_search
 from analysis.regions import CODES as REGIONS, NATIONAL
 from analysis.models import Analysis
 from analysis.search import search
+from analysis.llmbase import LLMError
 from analysis.service import analyze_article
 from collection.extract import content_hash, extract_article
 from collection import sourcefinder
@@ -23,22 +26,9 @@ from matching.similar import similar
 from .forms import SubmitForm
 
 CATALOG_PAGE = 24
-
-
-TABS = {**VERDICTS, "zatwierdzone": "Zatwierdzone przez eksperta", "wszystkie": "Wszystkie"}
-
-
-def _tab_q(view):
-    approved, rejected = Q(analysis__review_status="zatwierdzony"), Q(analysis__review_status="odrzucony")
-    # Not yet analyzed (worker analyzes after each cycle) stays visible in the main list until judged.
-    pending = Q(analysis__isnull=True) | Q(analysis__verdict="")
-    return {
-        "glowna": (Q(analysis__verdict="glowna") | pending | approved) & ~rejected,
-        "weryfikacja": Q(analysis__verdict="weryfikacja") & ~approved & ~rejected,
-        "odrzucone": (Q(analysis__verdict="odrzucone") & ~approved) | rejected,
-        "zatwierdzone": approved,
-        "wszystkie": Q(),
-    }[view]
+# the 'Do weryfikacji' condition as seen from Source (articles__...): used by the per-source quality table
+WAITING_ARTICLES = Q(articles__status="fetched", articles__duplicate_of__isnull=True) & (
+    Q(articles__analysis__isnull=True) | Q(articles__analysis__verdict__in=("weryfikacja", "")))
 
 
 def _region_filter(qs, region):
@@ -76,7 +66,7 @@ def _qs_url(params, **changes):
 def overview(request):
     """'Przegląd': headline numbers and the newest cards of the main list."""
     main = Article.objects.select_related("source", "analysis", "submission").filter(
-        status="fetched", duplicate_of__isnull=True).filter(_tab_q("glowna"))
+        status="fetched", duplicate_of__isnull=True).filter(tab_q("glowna"))
     total = main.count()
     scored = main.filter(analysis__potential__isnull=False).count()
     high = main.filter(analysis__potential__gte=70).count()
@@ -86,7 +76,8 @@ def overview(request):
     return render(request, "web/overview.html", {
         "latest": list(main.order_by("-first_seen_at", "-pk")[:3]), "total": total, "scored": scored,
         "high": high, "mid_low": scored - high, "unscored": total - scored,
-        "approved": Analysis.objects.filter(review_status="zatwierdzony").count(),
+        "queue": Article.objects.filter(status="fetched", duplicate_of__isnull=True).filter(WAITING).count(),
+        "demo_count": demo.loaded_count(),
         "sectors": [{"label": r["analysis__sector"], "n": r["n"], "pct": round(100 * r["n"] / top)} for r in rows]})
 
 
@@ -98,12 +89,13 @@ def radar(request):
     query = request.GET.get("q", "")[:200].strip()
     if query:
         qs = qs.filter(Q(text__icontains=query) | Q(title__icontains=query))
-    # Tabs: the main list shows only articles the filter judged interesting; the rest stay reviewable.
-    # An expert decision (Analysis.review_status) overrides the automatic verdict.
+    # Three lists (analysis.tabs): Interesujące (AI-confirmed), Do weryfikacji (temporary queue), Wszystkie (checked).
+    # Every filter is applied BEFORE the counters, so a counter always equals what its tab would list.
     view = request.GET.get("widok", "glowna")
-    view = view if view in TABS else "glowna"
-    tabs = [(k, label, qs.filter(_tab_q(k)).count()) for k, label in TABS.items()]
-    qs = qs.filter(_tab_q(view))
+    if view not in TABS:      # e.g. a bookmarked ?widok=odrzucone: fall back to the main list and do not echo the value
+        request.GET = request.GET.copy()
+        request.GET.pop("widok", None)
+        view = "glowna"
     region = request.GET.get("woj", "")
     qs = _region_filter(qs, region)
     actor = request.GET.get("kto", "")
@@ -113,17 +105,25 @@ def radar(request):
         qs = qs.filter(analysis__path=path)
     if signal in SIGNALS:
         qs = qs.filter(analysis__signal=signal)
+    area, maturity = request.GET.get("obszar", ""), request.GET.get("dojrzalosc", "")
+    if area in AREAS:
+        qs = qs.filter(analysis__sector__in=area_sectors(area))
+    if maturity in STAGES:
+        qs = qs.filter(analysis__stage=maturity)
     sector = request.GET.get("sektor", "")[:80]
-    sector_rows = [r for r in qs.filter(analysis__isnull=False).order_by().values("analysis__sector")
+    sector_rows = [r for r in qs.filter(tab_q(view), analysis__isnull=False).order_by().values("analysis__sector")
                    .annotate(n=Count("pk")).order_by("-n", "analysis__sector") if r["analysis__sector"]]
     if sector:
         qs = qs.filter(analysis__sector=sector)
+    tabs = [(k, label, qs.filter(tab_q(k)).count()) for k, label in TABS.items()]
+    qs = qs.filter(tab_q(view))
     if sort == "potencjal":
         qs = qs.order_by(F("analysis__potential").desc(nulls_last=True), "-first_seen_at")
     elif sort == "priorytet":
         qs = qs.order_by(F("analysis__priority").desc(nulls_last=True),
                          F("analysis__potential").desc(nulls_last=True), "-first_seen_at")
     page = Paginator(qs, CATALOG_PAGE).get_page(request.GET.get("page"))
+    has_demo = any(((getattr(a, "analysis", None) and a.analysis.data) or {}).get("demo") for a in page)
     params = request.GET.copy()
     params.pop("page", None)
     tab_params = params.copy()
@@ -138,11 +138,33 @@ def radar(request):
         "selected_source": selected, "total": page.paginator.count,
         "paths": PATHS.items(), "signals": SIGNALS.items(), "path": path, "signal": signal, "sort": sort,
         "extra": params.urlencode(), "view": view, "tabs": tabs, "tab_extra": tab_params.urlencode(),
-        "regions": REGIONS, "region": region, "national": NATIONAL,
+        "regions": REGIONS, "region": region, "national": NATIONAL, "ttl": settings.RETENTION["QUEUE_TTL_HOURS"],
+        "has_demo": has_demo, "areas": AREAS.items(), "area": area, "stages": STAGES.items(), "maturity": maturity,
+        "compare": True,
         "actors": [(k, v) for k, v in Source.ORG if k != "other"], "actor": actor,
         "source_count": Source.objects.filter(enabled=True).count(),
         "last_checked": Source.objects.aggregate(value=Max("last_checked"))["value"],
     })
+
+
+def compare(request):
+    """Side-by-side comparison of 2-4 selected innovations: verified facts apart from AI estimates."""
+    ids = []
+    for raw in request.GET.getlist("id"):
+        if raw.isdecimal() and int(raw) not in ids:
+            ids.append(int(raw))
+    ids = ids[:4]
+    found = {a.pk: a for a in Article.objects.select_related("source", "analysis")
+             .filter(pk__in=ids, status="fetched", analysis__isnull=False)}
+    cols = []
+    for pk in ids:
+        a = found.get(pk)
+        if not a:
+            continue
+        d, ai = a.analysis.data or {}, (a.analysis.data or {}).get("ai") or {}
+        cols.append({"a": a, "an": a.analysis, "d": d, "ai": ai, "area": AREAS.get(area_of(a.analysis.sector), "—"),
+                     "quotes": (d.get("verified") or {}).get("quotes") or [], "demo": bool(d.get("demo"))})
+    return render(request, "web/compare.html", {"cols": cols, "few": len(cols) < 2})
 
 
 def detail(request, pk):
@@ -150,37 +172,11 @@ def detail(request, pk):
     analysis = getattr(article, "analysis", None)
     data = analysis.data if analysis else None
     return render(request, "web/detail.html", {
+        "area": AREAS.get(area_of(analysis.sector), "") if analysis else "",
         "a": article, "an": analysis, "d": data, "handling_choices": Analysis.HANDLING,
         "sub": getattr(article, "submission", None),
         "external": external_search(article.title, (data or {}).get("sector", "")),
         "similar": similar(article), "recipients": match_recipients(article, data)})
-
-
-REVIEW_ACTIONS = {"zatwierdz": "zatwierdzony", "odrzuc": "odrzucony", "cofnij": "nowy"}
-
-
-@require_POST
-@staff_member_required
-def review(request, pk):
-    """Expert decision on one publication: is it an innovation? Kept apart from the automatic verdict."""
-    analysis = get_object_or_404(Analysis, article_id=pk)
-    action = request.POST.get("decyzja", "")
-    if action not in REVIEW_ACTIONS:
-        messages.warning(request, "Nieznana decyzja.")
-        return redirect("detail", pk=pk)
-    note = request.POST.get("uwaga", "").strip()[:2000]
-    if action == "odrzuc" and not note:
-        messages.warning(request, "Podaj krótki powód odrzucenia — to pomaga ulepszać filtr.")
-        return redirect("detail", pk=pk)
-    undo = action == "cofnij"
-    analysis.review_status = REVIEW_ACTIONS[action]
-    analysis.review_note = "" if undo else note
-    analysis.reviewed_at = None if undo else timezone.now()
-    analysis.reviewed_by = "" if undo else request.user.get_username()
-    analysis.save(update_fields=["review_status", "review_note", "reviewed_at", "reviewed_by"])
-    messages.success(request, {"zatwierdz": "Zatwierdzono jako innowację.", "odrzuc": "Odrzucono publikację.",
-                               "cofnij": "Cofnięto decyzję eksperta."}[action])
-    return redirect("detail", pk=pk)
 
 
 @require_POST
@@ -210,36 +206,30 @@ def handling(request, pk):
 
 
 def effectiveness(request):
-    """'Skuteczność': live funnel from the database + agreement of the filter with expert decisions."""
+    """'Skuteczność': live state of the base (what is kept, what waits, what was removed) + the filter on labelled examples."""
     from analysis.evaluation import evaluate
+    from collection.models import Rejected
     base = Article.objects.filter(status="fetched", duplicate_of__isnull=True)
+    stored = base.count()
+    checked = base.filter(CHECKED).count()
+    interesting = base.filter(tab_q("glowna")).count()
     analysed = Analysis.objects.filter(article__in=base)
-    by_verdict = dict(analysed.order_by().values("verdict").annotate(n=Count("id")).values_list("verdict", "n"))
-    agreement = []
-    for vid, label in VERDICTS.items():
-        sub = analysed.filter(verdict=vid)
-        ok, bad = sub.filter(review_status="zatwierdzony").count(), sub.filter(review_status="odrzucony").count()
-        agreement.append({"label": label, "id": vid, "total": sub.count(), "approved": ok, "rejected": bad,
-                          "reviewed": ok + bad, "rate": round(100 * ok / (ok + bad)) if ok + bad else None})
-    collected, interesting = base.count(), by_verdict.get("glowna", 0)
-    funnel = [("Zebrane publikacje (bez duplikatów)", collected),
-              ("Przeanalizowane", analysed.count()),
-              ("Nie odrzucone (interesujące + do weryfikacji)", interesting + by_verdict.get("weryfikacja", 0)),
+    funnel = [("Aktualne materiały w bazie (bez duplikatów)", stored),
+              ("Po analizie AI", checked),
               ("Interesujące (lista główna)", interesting),
-              ("Zatwierdzone przez eksperta", analysed.filter(review_status="zatwierdzony").count()),
               ("Przekazane partnerowi (lub dalej)", analysed.filter(handling__in=("przekazano", "pilotaz", "wdrozono")).count()),
               ("Wdrożone / skomercjalizowane", analysed.filter(handling="wdrozono").count())]
     top = max([n for _, n in funnel] + [1])
     by_source = (Source.objects.annotate(
         collected=Count("articles", filter=Q(articles__status="fetched", articles__duplicate_of__isnull=True)),
         interesting=Count("articles", filter=Q(articles__analysis__verdict="glowna")),
-        review=Count("articles", filter=Q(articles__analysis__verdict="weryfikacja")),
-        approved=Count("articles", filter=Q(articles__analysis__review_status="zatwierdzony")))
+        review=Count("articles", filter=WAITING_ARTICLES))
         .filter(collected__gt=0).order_by("-interesting", "name"))
     return render(request, "web/effectiveness.html", {
-        "funnel": [(label, n, round(100 * n / top)) for label, n in funnel], "agreement": agreement,
-        "by_source": by_source, "collected": collected,
-        "reduction": round(100 * (1 - interesting / collected)) if collected else None,
+        "funnel": [(label, n, round(100 * n / top)) for label, n in funnel], "by_source": by_source,
+        "stored": stored, "waiting": stored - checked, "removed": Rejected.objects.count(),
+        "ttl": settings.RETENTION["QUEUE_TTL_HOURS"], "window": settings.ANALYSIS["WINDOW_MONTHS"],
+        "share": round(100 * interesting / stored) if stored else None,
         "offline": evaluate()})
 
 
@@ -248,7 +238,8 @@ def about(request):
     sources = Source.objects.filter(status="active").annotate(
         fetched_count=Count("articles", filter=Q(articles__status="fetched", articles__duplicate_of__isnull=True)))
     return render(request, "web/about.html", {
-        "sources": sources, "backend": settings.ANALYSIS["BACKEND"],
+        "sources": sources, "backend": settings.ANALYSIS["BACKEND"], "ttl": settings.RETENTION["QUEUE_TTL_HOURS"],
+        "window": settings.ANALYSIS["WINDOW_MONTHS"], "threshold": thresholds()["main"],
         "weights": [(LABELS[k], w) for k, w in settings.ANALYSIS["WEIGHTS"].items()],
         "collect": settings.COLLECT, "max_mb": settings.COLLECT["MAX_BYTES"] // 1_000_000, "recipient_count": Recipient.objects.filter(active=True).count(),
         "article_count": Article.objects.filter(status="fetched", duplicate_of__isnull=True).count()})
@@ -306,7 +297,7 @@ def health(request):
     return JsonResponse({"status": "ok", "version": "0.1"})
 
 
-EXPORT_FIELDS = ["id", "tytul", "url", "zrodlo", "typ_instytucji", "wojewodztwo", "werdykt", "decyzja_eksperta", "potencjal",
+EXPORT_FIELDS = ["id", "tytul", "url", "zrodlo", "typ_instytucji", "wojewodztwo", "werdykt", "potencjal",
                  "kompletnosc", "sektor", "etap", "typ_innowacji", "sciezka", "priorytet_pci", "etap_obslugi",
                  "partner", "karta"]
 
@@ -315,7 +306,7 @@ def _export_rows(request):
     view = request.GET.get("widok", "glowna")
     view = view if view in TABS else "glowna"
     qs = (Article.objects.select_related("source", "analysis", "analysis__handling_partner", "submission")
-          .filter(status="fetched", duplicate_of__isnull=True, analysis__isnull=False).filter(_tab_q(view)))
+          .filter(status="fetched", duplicate_of__isnull=True, analysis__isnull=False).filter(tab_q(view)))
     qs = _actor_filter(_region_filter(qs, request.GET.get("woj", "")), request.GET.get("kto", ""))
     qs = qs.order_by("-first_seen_at")[:2000]
     for a in qs:
@@ -324,7 +315,7 @@ def _export_rows(request):
                "typ_instytucji": (a.submission.get_submitter_type_display() if hasattr(a, "submission")
                                   else a.source.get_organization_type_display()),
                "wojewodztwo": an.region or NATIONAL,
-               "werdykt": (d.get("verdict") or {}).get("label", ""), "decyzja_eksperta": an.get_review_status_display(),
+               "werdykt": (d.get("verdict") or {}).get("label", ""),
                "potencjal": an.potential, "kompletnosc": an.completeness, "sektor": an.sector,
                "etap": d.get("stage_label", ""), "typ_innowacji": ", ".join(d.get("innovation_types") or []),
                "sciezka": (d.get("path") or {}).get("label", ""), "priorytet_pci": an.priority,
@@ -421,7 +412,10 @@ def submit(request):
                 author_name=d["author_name"].strip() if consent else "",
                 show_name=bool(consent and d["show_name"] and d["author_name"].strip()),
                 contact=d["contact"].strip() if consent else "")
-            analyze_article(article)
-            messages.success(request, "Zgłoszenie zapisane i przeanalizowane.")
+            try:
+                analyze_article(article)
+                messages.success(request, "Zgłoszenie zapisane i przeanalizowane.")
+            except LLMError:   # quota / network / bad answer: the submission is kept, the collector retries later
+                messages.warning(request, "Zgłoszenie zapisane. Analiza zostanie wykonana automatycznie później.")
             return redirect("detail", pk=article.pk)
     return render(request, "web/submit.html", {"form": form})

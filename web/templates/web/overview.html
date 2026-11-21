@@ -10,7 +10,8 @@
 <div class="srow"><b>{{ high }}</b><span>z wysokim potencjałem (szacunek systemu, ≥ 70)</span></div>
 <div class="srow"><b>{{ mid_low }}</b><span>ze średnim lub niskim potencjałem</span></div>
 <div class="srow"><b>{{ unscored }}</b><span>bez oceny — brak danych lub oczekuje na analizę</span></div>
-<div class="srow"><b>{{ approved }}</b><span>zatwierdzonych przez eksperta</span></div></div></div>
+<div class="srow"><b>{{ queue }}</b><span>w kolejce „Do weryfikacji” (czeka na AI lub potwierdzenie)</span></div></div></div>
+{% if demo_count %}<p class="notice">W katalogu jest {{ demo_count }} pozycji z zestawu demonstracyjnego (znacznik „Demo”): rzeczywiste publikacje z wstępną oceną AI. Automatyczne zbieranie i analiza działają niezależnie i dopisują nowe materiały.</p>{% endif %}
 <div><div class="sec-head"><h2>Ostatnio dodane</h2><a class="btn" href="{% url 'radar' %}">Wszystkie inicjatywy {% icon "arrow" %}</a></div></div>
 {% if latest %}<div class="grid-cards">{% for a in latest %}{% include "web/_card.html" %}{% endfor %}</div>{% else %}<div class="state" role="status"><div class="ico">{% icon "search" %}</div><h2>Brak inicjatyw</h2><p class="muted">Lista główna jest jeszcze pusta. Sprawdź <a href="{% url 'sources' %}">stan źródeł</a> albo <a href="{% url 'submit' %}">zgłoś pierwszą innowację</a>.</p></div>{% endif %}
 <div class="two"><div class="card"><h2 style="font-size:24px;margin-bottom:18px">Rozkład według sektorów</h2>{% if sectors %}<div class="dist">{% for s in sectors %}<div class="r"><span style="font-weight:500">{{ s.label }}</span><div class="t" role="img" aria-label="{{ s.label }}: {{ s.n }}"><i style="width:{{ s.pct }}%;background:{{ s.label|sector_color }}"></i></div><span class="mono">{{ s.n }}</span></div>{% endfor %}</div>{% else %}<p class="muted">Brak przeanalizowanych publikacji.</p>{% endif %}</div>

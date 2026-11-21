@@ -32,7 +32,9 @@ class Command(BaseCommand):
                 close_old_connections()
                 try:
                     sources = Source.objects.filter(enabled=True, status="active") if options["all"] else due_sources()
+                    ran = 0
                     for source in list(sources):
+                        ran += 1
                         try:
                             stats = run_source(source)
                             self.stdout.write(f"{source.name}: {stats}" + (f" ERROR: {source.last_error}" if source.last_error else ""))
@@ -45,6 +47,13 @@ class Command(BaseCommand):
                             self.stdout.write(f"Wyszukiwanie źródeł: nowych kandydatów {found.stats.get('created', 0)}")
                     except Exception:
                         logger.exception("Source discovery failed; collection continues")
+                    try:   # storage policy: rejected / duplicate / outdated / expired items go before they cost an AI call
+                        from analysis.retention import maybe_cleanup
+                        cleaned = maybe_cleanup(ran_sources=bool(ran))
+                        if cleaned and any(v for k, v in cleaned.items() if k != "backup"):
+                            self.stdout.write(f"Czyszczenie bazy: { {k: v for k, v in cleaned.items() if v} }")
+                    except Exception:
+                        logger.exception("Storage cleanup failed; collection continues")
                     try:
                         from analysis.service import analyze_pending
                         analyze_pending()
