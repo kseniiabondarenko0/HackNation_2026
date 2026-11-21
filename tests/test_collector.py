@@ -15,7 +15,7 @@ PAGES = {
 
 def getter(url):
     if url in PAGES:
-        return url, (FX / PAGES[url]).read_text()
+        return url, (FX / PAGES[url]).read_text(encoding="utf-8")
     raise FetchError("http_404")
 
 
@@ -27,15 +27,15 @@ def mk(**kw):
 
 class DiscoveryTests(TestCase):
     def test_html_filters_prefix_ext_and_tracking(self):
-        urls = [u for u, _ in discover((FX / "listing.html").read_text(), mk())]
+        urls = [u for u, _ in discover((FX / "listing.html").read_text(encoding="utf-8"), mk())]
         self.assertEqual(sorted(urls), ["https://example.org/news/a1", "https://example.org/news/a1-copy", "https://example.org/news/a2"])
 
     def test_rss_with_date(self):
-        (u, pub), = discover((FX / "feed.xml").read_text(), mk(discovery_type="rss"))
+        (u, pub), = discover((FX / "feed.xml").read_text(encoding="utf-8"), mk(discovery_type="rss"))
         self.assertEqual(u, "https://example.org/news/a1"); self.assertEqual(pub.year, 2025)
 
     def test_sitemap_prefix_filter(self):
-        urls = [u for u, _ in discover((FX / "sitemap.xml").read_text(), mk(discovery_type="sitemap"))]
+        urls = [u for u, _ in discover((FX / "sitemap.xml").read_text(encoding="utf-8"), mk(discovery_type="sitemap"))]
         self.assertEqual(urls, ["https://example.org/news/a2"])
 
     def test_normalize_strips_fragment_and_tracking_keeps_real_params(self):
@@ -45,7 +45,7 @@ class DiscoveryTests(TestCase):
 class RunTests(TestCase):
     def setUp(self):
         # listing links are relative in the fixture; give the getter an absolute version
-        self.listing = (FX / "listing.html").read_text()
+        self.listing = (FX / "listing.html").read_text(encoding="utf-8")
 
     def run_it(self, s):
         return run_source(s, getter=getter, sleep=lambda _: None)

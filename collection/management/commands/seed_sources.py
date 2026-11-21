@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from collection.models import Source
 
-# Candidates from the plan (section 6.2). discovery_type/prefix must be verified on the first real run.
+# Free public sources verified with the collector; existing configuration is preserved.
 SEED = [
     dict(name="PWr — Aktualności", entry_url="https://pwr.edu.pl/uczelnia/aktualnosci", organization_type="university",
          discovery_type="html", allowed_prefix="https://pwr.edu.pl/uczelnia/aktualnosci/"),

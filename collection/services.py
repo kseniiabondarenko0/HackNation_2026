@@ -1,73 +1,156 @@
-"""Collector: discover -> fetch -> extract -> store. `getter(url) -> (final_url, text)` is injectable for tests."""
+"""Persistent collection runs, bounded work and per-source recovery."""
+import logging
 import time
 from datetime import timedelta
 from django.conf import settings
-from django.db import IntegrityError, transaction
+from django.db.models import Q
 from django.utils import timezone
-from .discovery import discover
+from .discovery import discover, sitemap_children
 from .extract import extract_article, content_hash
-from .models import Article, Source
-from .netsafe import safe_get, FetchError
+from .models import Article, Source, CollectionRun
+from .netsafe import safe_get
+
+logger = logging.getLogger(__name__)
 
 
-def run_source(source: Source, getter=safe_get, sleep=time.sleep) -> dict:
-    c = settings.COLLECT
-    stats = {"discovered": 0, "new": 0, "fetched": 0, "duplicates": 0, "skipped": 0, "errors": 0}
-    try:
-        _, listing = getter(source.entry_url)
-        links = discover(listing, source)
-    except Exception as e:  # source-level failure must not stop other sources
-        source.last_error = f"{type(e).__name__}: {e}"[:500]
-        source.next_run_at = timezone.now() + timedelta(minutes=source.interval_min)
-        source.save(update_fields=["last_error", "next_run_at"])
-        stats["errors"] += 1
-        return stats
-    stats["discovered"] = len(links)
-    pending = []
-    for url, pub in links:
-        a, created = Article.objects.get_or_create(original_url=url, defaults={"source": source, "published_at": pub})
-        if created:
-            stats["new"] += 1
-        if a.status in ("found", "error") and len(pending) < c["MAX_NEW_PER_RUN"]:
-            pending.append(a)
-    for a in pending:
-        sleep(c["DELAY_S"])
-        _fetch_article(a, getter, stats)
-    source.last_success = timezone.now()
-    source.last_error = ""
-    source.next_run_at = source.last_success + timedelta(minutes=source.interval_min)
-    source.save(update_fields=["last_success", "last_error", "next_run_at"])
-    return stats
-
-
-def _fetch_article(a: Article, getter, stats):
-    try:
-        final_url, html = getter(a.original_url)
-    except FetchError as e:
-        a.status, a.error = "error", str(e)[:300]
-        a.save(update_fields=["status", "error"])
-        stats["errors"] += 1
-        return
-    data = extract_article(html, final_url)
-    if not data or len(data["text"]) < settings.COLLECT["MIN_TEXT_CHARS"]:
-        a.status, a.error, a.final_url = "skipped", "too_little_text", final_url
-        a.save(update_fields=["status", "error", "final_url"])
-        stats["skipped"] += 1
-        return
-    h = content_hash(data["text"])
-    twin = Article.objects.filter(content_hash=h).exclude(pk=a.pk).first()
-    a.final_url, a.title, a.text, a.content_hash = final_url, data["title"], data["text"], h
-    a.published_at = a.published_at or data["published_at"]
-    a.fetched_at, a.status, a.error, a.duplicate_of = timezone.now(), "fetched", "", twin
-    a.save()
-    stats["duplicates" if twin else "fetched"] += 1
+def models_q_due(now):
+    return Q(next_run_at__isnull=True) | Q(next_run_at__lte=now)
 
 
 def due_sources():
     now = timezone.now()
-    return Source.objects.filter(enabled=True).filter(models_q_due(now))
+    return Source.objects.filter(enabled=True).filter(models_q_due(now)).filter(
+        Q(locked_until__isnull=True) | Q(locked_until__lte=now)).order_by("next_run_at", "pk")
 
 
-def models_q_due(now):
-    from django.db.models import Q
-    return Q(next_run_at__isnull=True) | Q(next_run_at__lte=now)
+def _discover(source, getter, sleep, stats):
+    pages, visited, links = [source.entry_url], set(), {}
+    while pages and len(visited) < settings.COLLECT["MAX_DISCOVERY_PAGES"]:
+        url = pages.pop(0)
+        if url in visited:
+            continue
+        if visited:
+            sleep(settings.COLLECT["DELAY_S"])
+        visited.add(url)
+        _, listing = getter(url)
+        stats["discovery_pages"] += 1
+        if source.discovery_type == "sitemap":
+            pages.extend(u for u in sitemap_children(listing, source) if u not in visited)
+        for article_url, published in discover(listing, source):
+            links.setdefault(article_url, published)
+            if len(links) >= settings.COLLECT["MAX_LINKS_PER_RUN"]:
+                return list(links.items())
+    return list(links.items())
+
+
+def run_source(source, getter=None, sleep=time.sleep):
+    getter = getter or safe_get
+    c, now = settings.COLLECT, timezone.now()
+    stats = dict.fromkeys(("discovered", "discovery_pages", "new", "fetched", "updated",
+                           "duplicates", "skipped", "errors", "unchanged"), 0)
+    claimed = Source.objects.filter(pk=source.pk, enabled=True).filter(
+        Q(locked_until__isnull=True) | Q(locked_until__lte=now)).update(
+            locked_until=now + timedelta(seconds=c["LEASE_SECONDS"]))
+    if not claimed:
+        return {**stats, "busy": True}
+    CollectionRun.objects.filter(source=source, status="running").update(
+        status="interrupted", finished_at=now, error="Poprzedni proces został przerwany.")
+    run = CollectionRun.objects.create(source=source)
+    error, status = "", "success"
+    deadline = time.monotonic() + c["MAX_RUN_SECONDS"]
+    try:
+        links = _discover(source, getter, sleep, stats)
+        stats["discovered"] = len(links)
+        if not links:
+            raise ValueError("Nie znaleziono linków do artykułów. Sprawdź typ źródła i prefiks adresu.")
+        for url, published in links:
+            _, created = Article.objects.get_or_create(original_url=url,
+                defaults={"source": source, "published_at": published})
+            stats["new"] += int(created)
+        pending = Article.objects.filter(source=source).filter(
+            Q(status="found") | Q(status="error", fetch_attempts__lt=c["MAX_ATTEMPTS"])
+        ).filter(Q(next_retry_at__isnull=True) | Q(next_retry_at__lte=now)).order_by("first_seen_at", "pk")
+        pending = list(pending[:c["MAX_NEW_PER_RUN"]])
+        room = c["MAX_NEW_PER_RUN"] - len(pending)
+        if room:
+            old = Article.objects.filter(source=source, status="fetched",
+                fetched_at__lte=now - timedelta(hours=c["RECHECK_HOURS"])).filter(
+                    Q(next_retry_at__isnull=True) | Q(next_retry_at__lte=now)).order_by("fetched_at", "pk")
+            pending.extend(list(old[:room]))
+        for article in pending:
+            if time.monotonic() >= deadline:
+                break
+            sleep(c["DELAY_S"])
+            try:
+                _fetch_article(article, getter, stats)
+            except Exception as exc:
+                logger.exception("Article processing failed: %s", article.original_url)
+                _mark_error(article, exc, stats)
+        if stats["errors"]:
+            status = "partial"
+            error = f"Błędy artykułów: {stats['errors']}. Szczegóły w dzienniku i na liście źródeł."
+    except (KeyboardInterrupt, SystemExit):
+        status, error = "interrupted", "Proces zatrzymany; niezakończone artykuły pozostają w kolejce."
+        raise
+    except Exception as exc:
+        stats["errors"] += 1
+        status, error = "error", f"{type(exc).__name__}: {exc}"[:500]
+        logger.warning("Source failed: %s: %s", source.name, error)
+    finally:
+        finished = timezone.now()
+        run.status, run.error, run.stats, run.finished_at = status, error, stats, finished
+        run.save(update_fields=["status", "error", "stats", "finished_at"])
+        updates = {"last_checked": finished, "last_error": error, "last_stats": stats,
+                   "next_run_at": finished + timedelta(minutes=1 if status == "interrupted" else max(1, source.interval_min)),
+                   "locked_until": None}
+        if status in ("success", "partial"):
+            updates["last_success"] = finished
+        Source.objects.filter(pk=source.pk).update(**updates)
+        source.refresh_from_db()
+    return stats
+
+
+def _mark_error(article, exc, stats):
+    article.error = f"{type(exc).__name__}: {exc}"[:300]
+    article.fetch_attempts += 1
+    retry_minutes = min(60, 5 * 2 ** min(article.fetch_attempts, 4))
+    if article.text and article.fetch_attempts >= settings.COLLECT["MAX_ATTEMPTS"]:
+        retry_minutes = settings.COLLECT["RECHECK_HOURS"] * 60
+    article.next_retry_at = timezone.now() + timedelta(minutes=retry_minutes)
+    if not article.text:
+        article.status = "error"
+    article.save()
+    stats["errors"] += 1
+
+
+def _fetch_article(article, getter, stats):
+    try:
+        final_url, html = getter(article.original_url)
+        data = extract_article(html, final_url)
+    except Exception as exc:
+        _mark_error(article, exc, stats)
+        return
+    if not data or len(data["text"]) < settings.COLLECT["MIN_TEXT_CHARS"]:
+        if article.text:
+            _mark_error(article, ValueError("Za mało tekstu podczas ponownego sprawdzenia."), stats)
+        else:
+            article.status, article.error, article.final_url = "skipped", "Za mało treści artykułu.", final_url
+            article.save(update_fields=["status", "error", "final_url"])
+            stats["skipped"] += 1
+        return
+    digest = content_hash(data["text"])
+    if article.content_hash == digest:
+        article.fetched_at, article.error, article.fetch_attempts, article.next_retry_at = timezone.now(), "", 0, None
+        article.save(update_fields=["fetched_at", "error", "fetch_attempts", "next_retry_at"])
+        stats["unchanged"] += 1
+        return
+    was_fetched = bool(article.content_hash)
+    twin = Article.objects.filter(content_hash=digest, duplicate_of__isnull=True).exclude(pk=article.pk).order_by("pk").first()
+    article.final_url, article.title, article.text = final_url, data["title"][:500], data["text"]
+    article.content_hash, article.duplicate_of = digest, twin
+    article.published_at = data["published_at"] or article.published_at
+    article.fetched_at, article.status, article.error = timezone.now(), "fetched", ""
+    article.fetch_attempts, article.next_retry_at = 0, None
+    article.save()
+    Article.objects.filter(duplicate_of=article).exclude(content_hash=digest).update(duplicate_of=None)
+    stats["duplicates" if twin else "updated" if was_fetched else "fetched"] += 1

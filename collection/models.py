@@ -16,6 +16,9 @@ class Source(models.Model):
     last_success = models.DateTimeField(null=True, blank=True)
     last_error = models.TextField(blank=True)
     next_run_at = models.DateTimeField(null=True, blank=True)
+    last_checked = models.DateTimeField(null=True, blank=True)
+    last_stats = models.JSONField(default=dict, blank=True)
+    locked_until = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -35,9 +38,25 @@ class Article(models.Model):
     status = models.CharField(max_length=10, choices=STATUS, default="found")
     error = models.TextField(blank=True)
     duplicate_of = models.ForeignKey("self", null=True, blank=True, on_delete=models.SET_NULL)
+    fetch_attempts = models.PositiveIntegerField(default=0)
+    next_retry_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         ordering = ["-first_seen_at"]
 
     def __str__(self):
         return self.title or self.original_url
+
+
+class CollectionRun(models.Model):
+    STATUS = [("running", "W toku"), ("success", "Zakończony"),
+              ("partial", "Częściowo"), ("error", "Błąd"), ("interrupted", "Przerwany")]
+    source = models.ForeignKey(Source, on_delete=models.CASCADE, related_name="runs")
+    started_at = models.DateTimeField(auto_now_add=True)
+    finished_at = models.DateTimeField(null=True, blank=True)
+    status = models.CharField(max_length=12, choices=STATUS, default="running")
+    stats = models.JSONField(default=dict)
+    error = models.TextField(blank=True)
+
+    class Meta:
+        ordering = ["-started_at"]
