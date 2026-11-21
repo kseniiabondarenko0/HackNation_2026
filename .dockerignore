@@ -1,0 +1,7 @@
+.git
+.venv
+db.sqlite3*
+.env
+__pycache__
+*.pyc
+docs

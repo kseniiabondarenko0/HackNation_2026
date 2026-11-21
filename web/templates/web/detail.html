@@ -1,0 +1,4 @@
+{% extends "web/base.html" %}{% block content %}<div class="card"><h2>{{ a.title }}</h2>
+<div class="muted">{{ a.source.name }} · <a href="{{ a.final_url|default:a.original_url }}" target="_blank" rel="noopener">Źródło</a> ·
+opublikowano: {{ a.published_at|date:"Y-m-d"|default:"brak danych" }} · wykryto: {{ a.first_seen_at|date:"Y-m-d H:i" }} · pobrano: {{ a.fetched_at|date:"Y-m-d H:i" }}</div>
+<pre>{{ a.text }}</pre></div>{% endblock %}

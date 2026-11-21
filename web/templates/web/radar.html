@@ -1,0 +1,6 @@
+{% extends "web/base.html" %}{% block content %}
+<form method="get"><input name="q" value="{{ q }}" placeholder="Szukaj…"> <select name="source"><option value="">Wszystkie źródła</option>
+{% for s in sources %}<option value="{{ s.id }}">{{ s.name }}</option>{% endfor %}</select> <button>Filtruj</button></form><br>
+{% for a in articles %}<div class="card"><a href="{% url 'detail' a.id %}"><b>{{ a.title|default:a.original_url }}</b></a>
+<div class="muted">{{ a.source.name }} · opublikowano: {{ a.published_at|date:"Y-m-d"|default:"brak danych" }} · wykryto: {{ a.first_seen_at|date:"Y-m-d H:i" }}</div></div>
+{% empty %}<div class="card muted">Brak pobranych materiałów. Uruchom: <code>python manage.py collect_sources --once</code></div>{% endfor %}{% endblock %}
