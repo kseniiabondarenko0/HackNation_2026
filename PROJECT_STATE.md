@@ -8,8 +8,8 @@ Docker automatycznie wykonuje migracje i `seed_sources`, zachowuje ustawienia is
 
 ## Weryfikacja
 
-- 27 testów offline przeszło podczas prac nad V0.1.
-- Z kontenera potwierdzono pobranie list i tekstu prawdziwych artykułów PWr oraz UR z regułami robots.txt.
+- 28 testów offline przeszło podczas prac nad V0.1.
+- Worker w tle pobrał 19 publikacji (PWr: 8, UR: 11). Powtórny przebieg nie dodał duplikatów; końcowo brak błędów artykułów.
 - Wyniki końcowego uruchomienia zapisane w `docs/V0_1_VERIFICATION.md`.
 
 ## Następny etap V0.2
