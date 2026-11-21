@@ -1,0 +1,273 @@
+[
+ {
+  "name": "Politechnika Białostocka",
+  "url": "https://pb.edu.pl/",
+  "tags": [
+   "uczelnia",
+   "politechnika",
+   "innowacje",
+   "wdrożenie",
+   "transfer technologii"
+  ]
+ },
+ {
+  "name": "Politechnika Opolska",
+  "url": "https://po.edu.pl/",
+  "tags": [
+   "uczelnia",
+   "politechnika",
+   "innowacje",
+   "wdrożenie"
+  ]
+ },
+ {
+  "name": "Politechnika Częstochowska",
+  "url": "https://pcz.pl/",
+  "tags": [
+   "uczelnia",
+   "politechnika",
+   "wdrożenie",
+   "przemysł"
+  ]
+ },
+ {
+  "name": "Politechnika Świętokrzyska",
+  "url": "https://tu.kielce.pl/",
+  "tags": [
+   "uczelnia",
+   "politechnika",
+   "wdrożenie",
+   "innowacje"
+  ]
+ },
+ {
+  "name": "Politechnika Koszalińska",
+  "url": "https://tu.koszalin.pl/",
+  "tags": [
+   "uczelnia",
+   "politechnika",
+   "innowacje"
+  ]
+ },
+ {
+  "name": "Zachodniopomorski Uniwersytet Technologiczny",
+  "url": "https://www.zut.edu.pl/",
+  "tags": [
+   "uczelnia",
+   "uniwersytet",
+   "technologie",
+   "wdrożenie"
+  ]
+ },
+ {
+  "name": "Uniwersytet Gdański",
+  "url": "https://ug.edu.pl/",
+  "tags": [
+   "uczelnia",
+   "uniwersytet",
+   "innowacje",
+   "komercjalizacja"
+  ]
+ },
+ {
+  "name": "Uniwersytet Śląski",
+  "url": "https://us.edu.pl/",
+  "tags": [
+   "uczelnia",
+   "uniwersytet",
+   "innowacje",
+   "transfer technologii"
+  ]
+ },
+ {
+  "name": "Uniwersytet Przyrodniczy we Wrocławiu",
+  "url": "https://upwr.edu.pl/",
+  "tags": [
+   "uczelnia",
+   "uniwersytet",
+   "wdrożenie",
+   "rolnictwo"
+  ]
+ },
+ {
+  "name": "Uniwersytet Ekonomiczny w Krakowie",
+  "url": "https://uek.krakow.pl/",
+  "tags": [
+   "uczelnia",
+   "uniwersytet",
+   "innowacje",
+   "startup"
+  ]
+ },
+ {
+  "name": "Gdański Uniwersytet Medyczny",
+  "url": "https://gumed.edu.pl/",
+  "tags": [
+   "uczelnia",
+   "uniwersytet",
+   "medycyna",
+   "komercjalizacja",
+   "spin-off"
+  ]
+ },
+ {
+  "name": "Centrum Transferu Technologii Politechniki Gdańskiej",
+  "url": "https://pg.edu.pl/ctwt",
+  "tags": [
+   "centrum transferu technologii",
+   "aktualności",
+   "komercjalizacja",
+   "spin-off"
+  ]
+ },
+ {
+  "name": "Toruński Park Technologiczny",
+  "url": "https://technopark.org.pl/",
+  "tags": [
+   "park naukowo-technologiczny",
+   "aktualności",
+   "innowacje"
+  ]
+ },
+ {
+  "name": "Śląski Park Technologii Medycznych Kardio-Med Silesia",
+  "url": "https://kmptm.pl/",
+  "tags": [
+   "park naukowo-technologiczny",
+   "medycyna",
+   "wdrożenie"
+  ]
+ },
+ {
+  "name": "Podkarpacki Park Naukowo-Technologiczny Aeropolis",
+  "url": "https://aeropolis.com.pl/",
+  "tags": [
+   "park naukowo-technologiczny",
+   "aktualności",
+   "przemysł"
+  ]
+ },
+ {
+  "name": "Białostocki Park Naukowo-Technologiczny",
+  "url": "https://bpnt.bialystok.pl/",
+  "tags": [
+   "park naukowo-technologiczny",
+   "aktualności",
+   "startup"
+  ]
+ },
+ {
+  "name": "Kielecki Park Technologiczny",
+  "url": "https://technopark.kielce.pl/",
+  "tags": [
+   "park naukowo-technologiczny",
+   "aktualności",
+   "inkubator"
+  ]
+ },
+ {
+  "name": "Łódzki Regionalny Park Naukowo-Technologiczny",
+  "url": "https://technopark.lodz.pl/",
+  "tags": [
+   "park naukowo-technologiczny",
+   "aktualności"
+  ]
+ },
+ {
+  "name": "Polska Agencja Kosmiczna",
+  "url": "https://polsa.gov.pl/",
+  "tags": [
+   "instytut",
+   "agencja",
+   "innowacje",
+   "wdrożenie"
+  ]
+ },
+ {
+  "name": "Instytut Chemii Bioorganicznej PAN",
+  "url": "https://www.ibch.poznan.pl/",
+  "tags": [
+   "instytut badawczy",
+   "wdrożenie",
+   "komercjalizacja"
+  ]
+ },
+ {
+  "name": "Instytut Podstaw Informatyki PAN",
+  "url": "https://ipipan.waw.pl/",
+  "tags": [
+   "instytut badawczy",
+   "projekt",
+   "wdrożenie"
+  ]
+ },
+ {
+  "name": "Narodowe Centrum Badań Jądrowych",
+  "url": "https://www.ncbj.gov.pl/",
+  "tags": [
+   "instytut badawczy",
+   "wdrożenie",
+   "przemysł",
+   "projekt pilotażowy"
+  ]
+ },
+ {
+  "name": "Agencja Badań Medycznych",
+  "url": "https://abm.gov.pl/",
+  "tags": [
+   "agencja",
+   "projekt pilotażowy",
+   "wdrożenie",
+   "badania"
+  ]
+ },
+ {
+  "name": "GovTech Polska",
+  "url": "https://www.gov.pl/web/govtech",
+  "tags": [
+   "projekt pilotażowy",
+   "wdrożenie",
+   "innowacje",
+   "administracja"
+  ]
+ },
+ {
+  "name": "Krajowa Izba Gospodarcza — innowacje",
+  "url": "https://kig.pl/",
+  "tags": [
+   "innowacje",
+   "wdrożenie",
+   "przedsiębiorstwa"
+  ]
+ },
+ {
+  "name": "Polski Fundusz Rozwoju",
+  "url": "https://pfr.pl/",
+  "tags": [
+   "innowacje",
+   "startup",
+   "komercjalizacja",
+   "wdrożenie"
+  ]
+ },
+ {
+  "name": "Stowarzyszenie Organizatorów Ośrodków Innowacji SOOIPP",
+  "url": "https://sooipp.org.pl/",
+  "tags": [
+   "park naukowo-technologiczny",
+   "centrum transferu technologii",
+   "inkubator",
+   "innowacje"
+  ]
+ },
+ {
+  "name": "Fundacja Platforma Przemysłu Przyszłości",
+  "url": "https://przemyslprzyszlosci.gov.pl/",
+  "tags": [
+   "wdrożenie",
+   "przemysł",
+   "innowacje",
+   "projekt pilotażowy"
+  ]
+ }
+]

@@ -1,0 +1,7 @@
+{% extends "web/base.html" %}{% block title %}Zgłoś potrzebę — Radar Innowacji{% endblock %}{% block content %}
+<a href="{% url 'needs' %}">← Szukam rozwiązania</a><h1>Zgłoś potrzebę</h1><div class="muted">Opisz, czego szukasz — jako szkoła, gmina, szpital, firma prywatna, inwestor czy osoba prywatna. Radar dopasuje innowacje według obszaru, słów kluczowych i oczekiwanej ścieżki (np. gotowe do wdrożenia lub transferu). Kontakt jest opcjonalny i widoczny tylko dla zespołu prowadzącego radar.</div>
+<form method="post" class="card">{% csrf_token %}{{ form.non_field_errors }}
+{% for f in form %}{% if f.name == "strona_www" %}<p class="hp" aria-hidden="true"><label>{{ f.label }} {{ f }}</label></p>{% else %}<p>{% if f.field.widget.input_type == "checkbox" and not f.field.choices %}<label>{{ f }} {{ f.label }}</label>{% else %}<label><strong>{{ f.label }}</strong><br>{{ f }}</label>{% endif %}{% if f.help_text %}<br><span class="muted">{{ f.help_text }}</span>{% endif %}{% if f.errors %}<br><span class="err">{{ f.errors|join:" " }}</span>{% endif %}</p>{% endif %}{% endfor %}
+<button>Zapisz i pokaż pasujące innowacje</button></form>
+<style>form textarea,form input[type=text]{width:100%}form ul{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:6px 18px}.hp{position:absolute;left:-9999px}</style>
+{% endblock %}

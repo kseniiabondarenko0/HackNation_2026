@@ -1,0 +1,13 @@
+{% extends "web/base.html" %}{% block title %}Dla kogo — Radar Innowacji{% endblock %}{% block content %}
+<h1>Dla kogo jest Radar Innowacji</h1><div class="muted">Z radaru korzystają bez zakładania konta instytucje publiczne, szkoły, firmy prywatne i osoby prywatne. Decyzje ekspertów (zatwierdzanie, etapy wdrożenia, źródła) wymagają konta zespołu prowadzącego radar.</div>
+<div class="table-wrap"><table><thead><tr><th>Kto</th><th>Co może zrobić</th><th>Gdzie</th></tr></thead><tbody>
+<tr><td>Szkoła, przedszkole</td><td>Zgłosić własne rozwiązanie (np. metodę nauczania), znaleźć sprawdzone pomysły innych szkół, opisać potrzebę.</td><td><a href="{% url 'submit' %}">Zgłoś innowację</a> · <a href="{% url 'need_submit' %}">Zgłoś potrzebę</a></td></tr>
+<tr><td>Uczelnia, instytut badawczy</td><td>Zgłosić wynik badań; publikacje z aktualności uczelni radar zbiera sam. Znaleźć partnerów i odbiorców.</td><td><a href="{% url 'submit' %}">Zgłoś innowację</a> · <a href="{% url 'radar' %}">Radar</a></td></tr>
+<tr><td>Samorząd (gmina, powiat, województwo)</td><td>Zgłosić rozwiązanie organizacyjne, przejąć rozwiązanie innej gminy, opisać problem do rozwiązania.</td><td><a href="{% url 'need_submit' %}">Zgłoś potrzebę</a> · <a href="{% url 'radar' %}?woj=podkarpackie">Radar wg województwa</a></td></tr>
+<tr><td>Firma prywatna</td><td>Szukać technologii do wdrożenia lub licencji, zgłosić potrzebę, zgłosić własną innowację.</td><td><a href="{% url 'need_submit' %}">Zgłoś potrzebę</a> · <a href="{% url 'radar' %}?sciezka=komercjalizacja">Do komercjalizacji</a></td></tr>
+<tr><td>Inwestor, fundusz</td><td>Przeglądać innowacje gotowe do komercjalizacji, filtrować wg sektora i województwa, pobrać listę.</td><td><a href="{% url 'radar' %}?sciezka=komercjalizacja">Radar</a> · <a href="{% url 'export' 'csv' %}">Eksport CSV</a></td></tr>
+<tr><td>Osoba prywatna</td><td>Zgłosić pomysł lub rozwiązanie (dane osobowe opcjonalne, tylko za zgodą), przeglądać radar.</td><td><a href="{% url 'submit' %}">Zgłoś innowację</a></td></tr>
+<tr><td>Zespół prowadzący (np. PCI), eksperci</td><td>Zatwierdzać innowacje i źródła, prowadzić etapy wdrożenia, mierzyć skuteczność.</td><td><a href="{% url 'effectiveness' %}">Skuteczność</a> · <a href="/admin/">Zarządzanie</a></td></tr>
+</tbody></table></div>
+<p class="muted">Radar działa dla całej Polski: filtr „Województwo” pokazuje innowacje z wybranego województwa (z tekstu publikacji, siedziby instytucji lub zgłoszenia).</p>
+{% endblock %}

@@ -31,13 +31,20 @@ class Command(BaseCommand):
             while True:
                 close_old_connections()
                 try:
-                    sources = Source.objects.filter(enabled=True) if options["all"] else due_sources()
+                    sources = Source.objects.filter(enabled=True, status="active") if options["all"] else due_sources()
                     for source in list(sources):
                         try:
                             stats = run_source(source)
                             self.stdout.write(f"{source.name}: {stats}" + (f" ERROR: {source.last_error}" if source.last_error else ""))
                         except Exception:
                             logger.exception("Unexpected source failure: %s", source.pk)
+                    try:
+                        from collection.sourcefinder import maybe_run_discovery
+                        found = maybe_run_discovery()
+                        if found is not None:
+                            self.stdout.write(f"Wyszukiwanie źródeł: nowych kandydatów {found.stats.get('created', 0)}")
+                    except Exception:
+                        logger.exception("Source discovery failed; collection continues")
                     try:
                         from analysis.service import analyze_pending
                         analyze_pending()

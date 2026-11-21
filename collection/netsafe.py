@@ -95,3 +95,21 @@ def _robots_delay(url):
 
 def safe_get(url, max_redirects=3):
     return _download(url, max_redirects, authorize=_robots_delay)
+
+
+def robots_info(url):
+    """Robots policy summary for a URL: allowed flag, declared sitemaps, crawl delay.
+
+    Uses the same cache and SSRF checks as safe_get; never raises for a disallowed URL."""
+    try:
+        delay = _robots_delay(url)
+        allowed = True
+    except FetchError as exc:
+        if str(exc) != "robots_disallowed":
+            raise
+        allowed, delay = False, None
+    p = urlsplit(url)
+    policy = _ROBOTS[f"{p.scheme}://{p.netloc}"][1]
+    sitemaps = [s for s in (policy.site_maps() or [])
+                if urlsplit(s).scheme in ("http", "https") and urlsplit(s).hostname == p.hostname]
+    return {"allowed": allowed, "sitemaps": sitemaps, "crawl_delay": delay}

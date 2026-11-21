@@ -12,7 +12,7 @@ from collection.models import Article, Source
 
 BASE = ("Naukowcy z Politechniki opracowali innowacyjny prototyp betonu z odpadów PET. "
         "Celem projektu jest rozwiązanie problemu składowania odpadów tworzyw sztucznych. "
-        "Prototyp został przetestowany w laboratorium, a wyniki pokazują redukcję emisji o 20%. "
+        "Prototyp został przetestowany na budowie w warunkach rzeczywistych, a wyniki pokazują redukcję emisji o 20%. "
         "Wytrzymałość wzrosła o 15%, a koszt produkcji spadł o 10%. "
         "Rozwiązanie jest skalowalne i może trafić do innych miast. "
         "Technologię można upowszechnić wśród partnerów przemysłowych. "
@@ -53,11 +53,11 @@ class RulesTests(TestCase):
         self.assertEqual(d["sector"], "Energia i środowisko")  # odpady/emisje outweigh beton/budowa
         self.assertEqual(d["authors"], ["dr Jan Kowalski"])
         self.assertEqual([crit(d, k)["score"] for k in ("problem", "dowody", "wyniki", "przenosnosc", "gotowosc")],
-                         [1, 1, 2, 2, 2])
+                         [1, 2, 3, 2, 2])  # tiers: field test=2, quantified result=3
         for c in d["criteria"]:
             self.assertTrue(verify_quote(BASE, c["quote"]), c)
         self.assertEqual(d["completeness"], 100)
-        self.assertEqual(d["potential"], 52)  # weights 1,2,2,1,1 -> (1+2+4+2+2)*100/(3*7)
+        self.assertEqual(d["potential"], 71)  # weights 1,2,2,1,1 -> (1+4+6+2+2)*100/(3*7)
 
     def test_sector_materials_for_construction_text(self):
         d = run("Nowy beton konstrukcyjny z dodatkiem kompozytu poprawia trwałość budowli mostowych.")
@@ -100,7 +100,7 @@ class ServiceTests(TestCase):
         a = self.mk(BASE)
         obj, changed = analyze_article(a)
         self.assertTrue(changed)
-        self.assertEqual((obj.potential, obj.path, obj.stage), (52, "transfer", "pilot"))
+        self.assertEqual((obj.potential, obj.path, obj.stage, obj.verdict), (71, "transfer", "pilot", "glowna"))
         self.assertFalse(analyze_article(a)[1])
         self.assertTrue(analyze_article(a, force=True)[1])
         a.text = BASE + MARKET
@@ -132,10 +132,14 @@ class ServiceTests(TestCase):
         self.assertContains(r, "Transfer")
         r = self.client.get(reverse("radar"), {"sort": "potencjal"})
         self.assertEqual(r.context["articles"][0].pk, a.pk)
-        self.assertContains(r, "Potencjał: 52/100")
+        self.assertContains(r, "Potencjał: 71/100")
+        self.assertEqual(r.context["total"], 1)  # the open-day notice is rejected, not in the main list
         r = self.client.get(reverse("radar"), {"sciezka": "transfer", "sygnal": "sredni"})
         self.assertEqual(r.context["total"], 1)
-        self.assertEqual(self.client.get(reverse("radar"), {"sciezka": "bogus"}).context["total"], 2)
+        self.assertEqual(self.client.get(reverse("radar"), {"sciezka": "bogus", "widok": "wszystkie"}).context["total"], 2)
+        r = self.client.get(reverse("radar"), {"widok": "odrzucone"})
+        self.assertEqual(r.context["total"], 1)
+        self.assertContains(r, "Nie wygląda na opis innowacji")
 
     def test_detail_without_analysis(self):
         a = self.mk(BASE)

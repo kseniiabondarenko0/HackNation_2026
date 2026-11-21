@@ -1,0 +1,5 @@
+{% extends "web/base.html" %}{% block title %}Szukam rozwiązania — Radar Innowacji{% endblock %}{% block content %}
+<div class="row"><div><h1>Szukam rozwiązania</h1><div class="muted">Szkoła, gmina, szpital, firma prywatna, inwestor lub osoba prywatna opisuje swoją potrzebę, a radar pokazuje pasujące innowacje z innych instytucji — z uzasadnieniem dopasowania. Nowe innowacje są dopasowywane automatycznie przy każdym otwarciu potrzeby.</div></div><a class="button" href="{% url 'need_submit' %}">Zgłoś potrzebę</a></div>
+{% for r in needs %}<div class="card"><div class="row"><h2 style="margin:0"><a href="{% url 'need_detail' r.pk %}">{{ r.name }}</a></h2><span class="badge">{{ r.get_institution_type_display }}{% if r.region %} · {{ r.region }}{% endif %}</span></div><p>{{ r.needs|truncatechars:220 }}</p><div class="muted">Zgłoszono: {{ r.submitted_at|date:"d.m.Y H:i"|default:"—" }}</div></div>
+{% empty %}<div class="card"><p>Nie zgłoszono jeszcze żadnej potrzeby.</p><p class="muted">Do dopasowań używamy też {{ examples }} przykładowych profili typów instytucji (panel zarządzania).</p></div>{% endfor %}
+{% endblock %}

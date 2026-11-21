@@ -1,0 +1,9 @@
+{% extends "web/base.html" %}{% block title %}{{ r.name }} — Radar Innowacji{% endblock %}{% block content %}
+<a href="{% url 'needs' %}">← Szukam rozwiązania</a>
+<section class="card"><div class="row"><h1 style="margin:0">{{ r.name }}</h1><span class="badge">{{ r.get_institution_type_display }}{% if r.region %} · {{ r.region }}{% endif %}{% if r.is_example %} · profil przykładowy{% endif %}</span></div>
+<p>{{ r.needs }}</p><div class="meta muted"><span>Słowa kluczowe: {{ r.tags|default:"—" }}</span><span>Obszary: {{ r.sectors|default:"—" }}</span><span>Ścieżki: {{ r.paths|default:"—" }}</span></div>
+{% if user.is_staff and r.contact %}<p class="notice">Kontakt (zgoda RODO: {{ r.consent|yesno:"tak,nie" }}): {{ r.contact }}</p>{% endif %}</section>
+<section class="card"><h2>Pasujące innowacje</h2><p class="notice">Dopasowanie według profilu: obszar 3 pkt, ścieżka 2, etap 1, każde wspólne słowo kluczowe 1 (maks. 5). To propozycje do sprawdzenia — autorzy innowacji nie wiedzą jeszcze o tej potrzebie.</p>
+{% for m in matches %}<div class="card"><div class="row"><strong><a href="{% url 'detail' m.article.pk %}">{{ m.article.title|default:"Publikacja" }}</a></strong><span class="badge ok">dopasowanie {{ m.score }} pkt</span></div><div class="muted">{{ m.article.source.name }} · {{ m.article.analysis.data.verdict.label }}{% if m.article.analysis.data.path %} · ścieżka: {{ m.article.analysis.data.path.label }}{% endif %}</div><ul>{% for x in m.reasons %}<li>{{ x }}</li>{% endfor %}</ul></div>
+{% empty %}<p class="muted">Na razie brak pasujących innowacji. Radar sprawdzi to ponownie, gdy pojawią się nowe publikacje — wystarczy wrócić na tę stronę.</p>{% endfor %}</section>
+{% endblock %}

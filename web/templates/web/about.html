@@ -1,0 +1,74 @@
+{% extends "web/base.html" %}{% block title %}O systemie · Radar Innowacji<section class="card"><h2>Ochrona danych osobowych (RODO)</h2>
+<ul><li>Przetwarzamy wyłącznie treści opublikowane publicznie przez instytucje. Imiona i nazwiska autorów pokazujemy tylko, gdy są wymienione w tekście źródła, wraz z linkiem do oryginału; nie łączymy ich z innymi danymi.</li>
+<li>Zgłaszać mogą też osoby prywatne i firmy. Imię i nazwisko autora oraz kontakt są opcjonalne i zapisywane tylko za zgodą; nazwisko pokazujemy publicznie wyłącznie, gdy autor to zaznaczy.</li>
+<li>Kontakt podany przy zgłoszeniu potrzeby zapisujemy tylko po zaznaczeniu zgody (art. 6 ust. 1 lit. a RODO) i pokazujemy wyłącznie zalogowanemu zespołowi.</li>
+<li>Eksport (<code>/api/innowacje.*</code>) nie zawiera autorów ani kontaktów.</li>
+<li>Formularze publiczne mają ukryte pole przeciw automatom; każde zgłoszenie przechodzi filtr i decyzję eksperta, zanim trafi do zatwierdzonych.</li>
+<li>Decyzje ekspertów i etapy obsługi zapisujemy z nazwą konta i datą (rozliczalność).</li>
+<li>Usunięcie danych: administrator usuwa publikację, zgłoszenie lub potrzebę w panelu zarządzania; nie przechowujemy kopii poza bazą.</li>
+<li>Strona nie używa ciasteczek analitycznych ani śledzenia; jedyne ciasteczka to sesja i ochrona CSRF.</li></ul></section>
+{% endblock %}{% block content %}
+<h1>O systemie</h1>
+<p>Radar Innowacji wyszukuje w publicznych źródłach opisy rozwiązań (technicznych, edukacyjnych, organizacyjnych), porządkuje je w karty, ocenia według jawnej rubryki, sugeruje ścieżkę dalszego rozwoju, pokazuje podobne rozwiązania i kandydatów na odbiorców. Każdy wynik ma uzasadnienie, które da się sprawdzić w tekście źródła.</p>
+
+<section class="card"><h2>Źródła danych</h2>
+<p>W bazie: {{ article_count }} publikacji (bez duplikatów), {{ recipient_count }} aktywnych profili odbiorców.</p>
+<div class="table-wrap"><table><thead><tr><th>Źródło</th><th>Sposób wykrywania</th><th>Publikacje</th><th>Stan</th></tr></thead><tbody>
+{% for s in sources %}<tr><td>{{ s.name }}<div class="muted"><code>{{ s.entry_url }}</code></div></td><td>{{ s.get_discovery_type_display }}</td><td>{{ s.fetched_count }}</td><td>{% if s.enabled %}włączone{% else %}wyłączone{% endif %}</td></tr>{% empty %}<tr><td colspan="4" class="muted">Brak skonfigurowanych źródeł.</td></tr>{% endfor %}
+</tbody></table></div>
+<ul><li>Automatyczne zbieranie: listy HTML, RSS/Atom i mapy witryn (sitemap) skonfigurowanych stron publicznych.</li>
+<li>Zgłoszenia ręczne: formularz „Zgłoś innowację” (tekst lub adres strony), analizowane tym samym procesem.</li>
+<li>Profile odbiorców: przykładowe profile typów instytucji, wpisane ręcznie w panelu zarządzania.</li>
+<li>Przechowujemy tekst do analizy, a na karcie pokazujemy krótkie cytaty i link do oryginału.</li></ul></section>
+
+<section class="card"><h2>Jak powstaje ocena</h2>
+<ul><li>Ekspert zatwierdza lub odrzuca publikację (z uzasadnieniem); jego decyzja ma pierwszeństwo przed filtrem, nie znika przy ponownej analizie i służy do mierzenia precyzji filtra na stronie <a href="{% url 'effectiveness' %}">Skuteczność</a>.</li>
+<li>Priorytet PCI (lotnictwo i kosmos, motoryzacja, IT, zdrowie; związek z Podkarpaciem) zmienia tylko kolejność na liście, nie ocenę.</li><li>Rubryka: 5 kryteriów, każde 0–3 albo „brak danych”. Wagi (konfiguracja):{% for label, w in weights %} {{ label }} ×{{ w }}{% if not forloop.last %},{% endif %}{% endfor %}.</li>
+<li>Ocena kryterium zostaje tylko wtedy, gdy jej cytat dosłownie występuje w tekście źródła. Inaczej: „brak danych”.</li>
+<li>„Potencjał” liczony jest tylko z kryteriów z danymi, a „kompletność dowodów” pokazana osobno. Mało danych nie oznacza niskiej wartości.</li>
+<li>Ścieżka (rozwój, transfer, komercjalizacja, wdrożenie) wybierana jest jawnymi regułami, z uzasadnieniem i listą braków.</li>
+<li>Podobne rozwiązania: podobieństwo słownictwa TF-IDF wewnątrz lokalnej bazy, z listą wspólnych słów.</li>
+<li>Odbiorcy: punktacja za zgodny sektor, wspólne słowa kluczowe, ścieżkę i etap, z wyjaśnieniem każdego punktu.</li>
+<li>Aktywny moduł analizy: <code>{{ backend }}</code>. Tryb „rules” działa bez modelu językowego; wynik jest zapisywany i powtarzalny.</li></ul></section>
+
+<section class="card"><h2>Założenia</h2>
+<ul><li>Innowacje, także „ukryte”, zostawiają ślad w publicznych komunikatach uczelni, szkół, samorządów i agencji.</li>
+<li>Słowa i zdania w tekście są sygnałem, który ekspert powinien potwierdzić, a nie dowodem.</li>
+<li>Autorów pokazujemy tylko wtedy, gdy są publicznie wymienieni w tekście źródła.</li>
+<li>Profile odbiorców opisują typy instytucji i ich potrzeby; w praktyce uzupełnia je operator (np. PCI).</li></ul></section>
+
+<section class="card"><h2>Ograniczenia</h2>
+<ul><li>System widzi tylko skonfigurowane źródła i zgłoszenia, nie cały internet. Brak wyniku nie znaczy, że rozwiązanie nie istnieje.</li>
+<li>Pomijane są PDF-y, skany oraz strony wymagające logowania lub JavaScriptu.</li>
+<li>Analiza regułowa opiera się na słowach kluczowych w języku polskim; może pominąć opis napisany innym słownictwem.</li>
+<li>Podobieństwo dotyczy słownictwa, nie treści technicznej; dwa różne projekty o podobnym temacie też będą „podobne”.</li>
+<li>Data publikacji bywa nieznana; osobno zapisujemy datę wykrycia i pobrania.</li></ul></section>
+
+<section class="card"><h2>Czego system NIE twierdzi</h2>
+<ul><li>Nie potwierdza, że rozwiązanie jest innowacyjne, skuteczne ani bezpieczne.</li>
+<li>Nie podaje prawdopodobieństwa sukcesu; „potencjał” służy tylko do sortowania.</li>
+<li>Nie twierdzi, że odbiorca jest zainteresowany, wyraził zgodę ani wie o rozwiązaniu. To kandydaci do kontaktu.</li>
+<li>Nie ocenia ludzi ani instytucji, tylko opis rozwiązania w danym tekście.</li>
+<li>Nie zastępuje decyzji eksperta.</li></ul></section>
+
+<section class="card"><h2>Skalowalność i integracja</h2>
+<ul><li>Nowe źródła dodaje się w panelu zarządzania, bez zmiany kodu; harmonogram i blokady przebiegów są per źródło.</li>
+<li>Moduł analizy działa za adapterem: dziś reguły, kolejne backendy (np. lokalny model) dodaje się bez zmiany reszty systemu; wyniki są buforowane według treści i wersji.</li>
+<li>Dane dostępne do integracji: <code>/api/innowacje.json</code> i <code>/api/innowacje.csv</code> (parametr <code>widok</code> jak w radarze, np. <code>?widok=zatwierdzone</code>), <code>/api/szukaj/?q=…</code>, <code>/api/status/</code>. Eksport nie zawiera danych osobowych.</li>
+<li>Instytucje szukające rozwiązań zgłaszają potrzeby (<a href="{% url 'needs' %}">Szukam rozwiązania</a>); radar sam dopasowuje do nich innowacje.</li>
+<li>Obecnie SQLite (WAL) i jeden kolektor; przy większej skali: PostgreSQL, kolejka zadań i kilka kolektorów.</li></ul></section>
+
+<section class="card"><h2>Bezpieczeństwo i zasady pobierania</h2>
+<ul><li>Pobierane są tylko publiczne adresy HTTP(S); adresy prywatne i przekierowania do nich są blokowane (ochrona przed SSRF).</li>
+<li>Respektujemy robots.txt, opóźnienie między zapytaniami (min. {{ collect.DELAY_S }} s), limit rozmiaru ({{ max_mb }} MB) i czasu odpowiedzi.</li>
+<li>Limity na przebieg: {{ collect.MAX_NEW_PER_RUN }} nowych publikacji, {{ collect.MAX_LINKS_PER_RUN }} linków; ograniczona liczba ponownych prób.</li>
+<li>Zmiany źródeł i profili odbiorców wymagają konta administratora.</li>
+<li>Publiczne wdrożenie wymaga dodatkowej kontroli sieci (m.in. ochrony przed DNS rebinding).</li></ul></section>
+<section class="card"><h2>Ochrona danych osobowych (RODO)</h2>
+<ul><li>Przetwarzamy wyłącznie treści opublikowane publicznie przez instytucje. Imiona i nazwiska autorów pokazujemy tylko, gdy są wymienione w tekście źródła, wraz z linkiem do oryginału; nie łączymy ich z innymi danymi.</li>
+<li>Kontakt podany przy zgłoszeniu potrzeby zapisujemy tylko po zaznaczeniu zgody (art. 6 ust. 1 lit. a RODO) i pokazujemy wyłącznie zalogowanemu zespołowi.</li>
+<li>Eksport (<code>/api/innowacje.*</code>) nie zawiera autorów ani kontaktów.</li>
+<li>Decyzje ekspertów i etapy obsługi zapisujemy z nazwą konta i datą (rozliczalność).</li>
+<li>Usunięcie danych: administrator usuwa publikację, zgłoszenie lub potrzebę w panelu zarządzania; nie przechowujemy kopii poza bazą.</li>
+<li>Strona nie używa ciasteczek analitycznych ani śledzenia; jedyne ciasteczka to sesja i ochrona CSRF.</li></ul></section>
+{% endblock %}

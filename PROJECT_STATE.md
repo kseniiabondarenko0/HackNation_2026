@@ -21,6 +21,28 @@ Docker automatycznie wykonuje migracje i `seed_sources`, zachowuje ustawienia is
 - Formularz „Zgłoś innowację” (`/zglos/`): wklejony opis albo URL (pobierany przez `safe_get`), ten sam potok analizy, deduplikacja.
 - 52 testy offline przechodzą (python 3.10, Django 5.2).
 
+## 2026-11-21 (popołudnie) — zrobione
+
+- Naprawiono radar: zakładki werdyktu zniknęły z `web/views.py` przy scalaniu z kodem kandydatów źródeł (szablon ich oczekiwał, test padał). Przywrócone.
+- Decyzja eksperta dla publikacji (`Analysis.review_*`, POST `/a/<id>/ocena/`, `_review.html`), zakładka „Zatwierdzone przez eksperta”; decyzja eksperta nadpisuje werdykt w zakładkach.
+- `/skutecznosc/`: lejek, zgodność z ekspertem, wynik na przykładach (`analysis.evaluation.evaluate`), jakość źródeł.
+- Priorytet PCI (`analysis.core.priority`, pole `Analysis.priority`, sortowanie „Priorytet PCI”); nowe sektory „Lotnictwo i kosmos”, „Motoryzacja”. `VERSION = "3"` → worker przelicza analizy. Metryki `evaluate_filter` bez zmian (100%/100%, ściśle 100%/67%).
+- `LICENSE` EUPL-1.2. 98 testów offline.
+
+## 2026-11-21 (wieczór) — wymagania zadania domknięte
+
+- Innowacje nietechnologiczne: reguły etapu/dowodów/przenośności/opisu rozwiązania (wprowadzono, uruchomiono, przejęły, program, procedura…), sektor „Pomoc społeczna i włączenie”, pole „Typ innowacji” (technologiczna/edukacyjna/organizacyjna/społeczna/procesowa). +10 oznaczonych przykładów (szkoła, gmina, MOPS, szpital, przedszkole; dożynki, sesja rady…). `evaluate_filter`: 29 przykładów, 0 błędów.
+- Rejestr: +szkoła (Liceum UR), JST (Miasto Rzeszów, Powiat Jasielski, Gmina Jasło), PANS Jarosław/Krosno, PCI, MEN — `verified: false`, potwierdzić `probe_sources --registry --write`.
+- „Szukam rozwiązania” (`/potrzeby/`): instytucja zgłasza potrzebę → dopasowane innowacje (`matching.recipients.match_articles`); kontakt tylko za zgodą, widoczny dla staff. Nowe profile: lotnictwo/kosmos, motoryzacja, pomoc społeczna.
+- „Co dalej z tą innowacją” (`Analysis.handling*`, POST `/a/<id>/dalej/`): etapy z historią i partnerem; lejek na `/skutecznosc/`.
+- Linki do baz z pkt 7 zadania (`analysis/external.py`), eksport `/api/innowacje.json|csv`, sekcja RODO w „O systemie”.
+- `manage.py demo_cases`: scenariusz a)–e) dla przypadku A (czujnik sepsy) i B (gmina). 113 testów.
+
+## 2026-11-21 (wieczór, cd.) — województwa i użytkownicy
+
+- `analysis/regions.py`: 16 województw, wykrywanie z tekstu, `Source.region`, `Analysis.region`, filtr `woj` (radar, eksport), `PRIORITY_REGION`, +1 pkt dopasowania za to samo województwo, wybór województwa w formularzach. `VERSION = "5"`; klucz cache zawiera region źródła.
+- Użytkownicy: `Source.ORG` + firma prywatna / NGO / osoba prywatna; `collection.Submission` (kto zgłasza, województwo, autor i kontakt za zgodą); filtr `kto`; typ odbiorcy „Osoba prywatna”; honeypot; strona „Dla kogo”. 128 testów.
+
 ## Następne kroki
 
 1. Backend `ollama` w `analysis/service.py` BACKENDS (finalize() już odrzuca niezweryfikowane cytaty); sprawdzić na Macu.

@@ -19,7 +19,7 @@ def models_q_due(now):
 
 def due_sources():
     now = timezone.now()
-    return Source.objects.filter(enabled=True).filter(models_q_due(now)).filter(
+    return Source.objects.filter(enabled=True, status="active").filter(models_q_due(now)).filter(
         Q(locked_until__isnull=True) | Q(locked_until__lte=now)).order_by("next_run_at", "pk")
 
 
@@ -48,7 +48,7 @@ def run_source(source, getter=None, sleep=time.sleep):
     c, now = settings.COLLECT, timezone.now()
     stats = dict.fromkeys(("discovered", "discovery_pages", "new", "fetched", "updated",
                            "duplicates", "skipped", "errors", "unchanged"), 0)
-    claimed = Source.objects.filter(pk=source.pk, enabled=True).filter(
+    claimed = Source.objects.filter(pk=source.pk, enabled=True, status="active").filter(
         Q(locked_until__isnull=True) | Q(locked_until__lte=now)).update(
             locked_until=now + timedelta(seconds=c["LEASE_SECONDS"]))
     if not claimed:
