@@ -1,0 +1,20 @@
+{% extends "web/base.html" %}{% block title %}Porównanie inicjatyw — Radar Innowacji{% endblock %}{% block crumb %}Porównanie{% endblock %}{% block pagetitle %}Porównanie inicjatyw{% endblock %}{% block content %}
+{% if few %}<div class="state" role="status"><h2>Wybierz co najmniej dwie inicjatywy</h2><p class="muted">Zaznacz 2–4 pozycje na <a href="{% url 'radar' %}">liście inicjatyw</a> i użyj przycisku „Porównaj zaznaczone”.</p></div>
+{% else %}<p class="lead-p">Dane <strong>zweryfikowane</strong> (adres, data, cytaty z tekstu) są oddzielone od <strong>szacunków AI</strong> (ocena, TRL, etap, uzasadnienie), które są wstępną interpretacją, a nie faktem.</p>
+<div class="tbl-wrap" tabindex="0" role="region" aria-label="Porównanie inicjatyw"><table><thead><tr><th scope="col"></th>{% for c in cols %}<th scope="col"><a href="{% url 'detail' c.a.pk %}">{{ c.a.title|default:c.a.original_url|truncatechars:90 }}</a>{% if c.demo %} <span class="badge b-warn">Demo</span>{% endif %}</th>{% endfor %}</tr></thead><tbody>
+<tr><th scope="row" colspan="{{ cols|length|add:1 }}" class="muted">Dane zweryfikowane</th></tr>
+<tr><th scope="row">Źródło</th>{% for c in cols %}<td>{{ c.a.source.name }}</td>{% endfor %}</tr>
+<tr><th scope="row">Data publikacji</th>{% for c in cols %}<td>{{ c.a.published_at|date:"d.m.Y"|default:"nie ustalono" }}</td>{% endfor %}</tr>
+<tr><th scope="row">Cytaty potwierdzone w tekście</th>{% for c in cols %}<td>{{ c.quotes|length }}</td>{% endfor %}</tr>
+<tr><th scope="row">Adres</th>{% for c in cols %}<td><a href="{{ c.a.final_url|default:c.a.original_url }}" rel="noopener" target="_blank">otwórz źródło</a></td>{% endfor %}</tr>
+<tr><th scope="row" colspan="{{ cols|length|add:1 }}" class="muted">Szacunki AI (wstępne)</th></tr>
+<tr><th scope="row">Ocena potencjału</th>{% for c in cols %}<td>{% if c.an.potential is not None %}{{ c.an.potential }}/100{% else %}—{% endif %}</td>{% endfor %}</tr>
+<tr><th scope="row">Obszar / sektor</th>{% for c in cols %}<td>{{ c.area }} / {{ c.an.sector|default:"—" }}</td>{% endfor %}</tr>
+<tr><th scope="row">Etap wdrożenia</th>{% for c in cols %}<td>{{ c.d.stage_label|default:"—" }}</td>{% endfor %}</tr>
+<tr><th scope="row">TRL (szacunek)</th>{% for c in cols %}<td>{% if c.ai.trl %}~{{ c.ai.trl }}{% else %}brak danych / nie dotyczy{% endif %}</td>{% endfor %}</tr>
+<tr><th scope="row">Sugerowana ścieżka</th>{% for c in cols %}<td>{{ c.d.path.label|default:"—" }}</td>{% endfor %}</tr>
+<tr><th scope="row">Uzasadnienie</th>{% for c in cols %}<td>{% firstof c.ai.explanation c.d.lead "—" %}</td>{% endfor %}</tr>
+<tr><th scope="row">Brakujące informacje</th>{% for c in cols %}<td>{% for m in c.ai.missing_info %}{{ m }}{% if not forloop.last %}; {% endif %}{% empty %}—{% endfor %}</td>{% endfor %}</tr>
+<tr><th scope="row">Niepewność</th>{% for c in cols %}<td>{{ c.ai.uncertainty|default:"—" }}</td>{% endfor %}</tr>
+</tbody></table></div>{% endif %}
+{% endblock %}

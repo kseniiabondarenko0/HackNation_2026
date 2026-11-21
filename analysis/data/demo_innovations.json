@@ -1,0 +1,2434 @@
+{
+ "format": 1,
+ "generated_at": "2026-11-21T22:16:56+00:00",
+ "note": "Zestaw demonstracyjny: rzeczywiste publikacje instytucji wraz z odpowiedzią AI zapisaną w systemie. Oceny AI są wstępne (szacunek systemu, nie decyzja człowieka); pełny tekst jest pod linkiem źródłowym.",
+ "items": [
+  {
+   "url": "https://pwr.edu.pl/uczelnia/aktualnosci/od-plastikowej-butelki-do-nawierzchni-parkingowej-prestizowa-nagroda-dla-projektu-z-pwr-14377.html",
+   "final_url": "https://pwr.edu.pl/uczelnia/aktualnosci/od-plastikowej-butelki-do-nawierzchni-parkingowej-prestizowa-nagroda-dla-projektu-z-pwr-14377.html",
+   "title": "Zielony beton z PET z nagrodą! Projekt Politechniki Wrocławskiej",
+   "published_at": "2026-11-19",
+   "source": {
+    "name": "PWr — Aktualności",
+    "entry_url": "https://pwr.edu.pl/uczelnia/aktualnosci",
+    "organization_type": "university",
+    "region": "dolnośląskie",
+    "discovery_type": "html",
+    "allowed_prefix": "https://pwr.edu.pl/uczelnia/aktualnosci/",
+    "feed_url": "",
+    "sitemap_url": "",
+    "origin": "manual"
+   },
+   "excerpt": "Politechnika Wrocławska została laureatem Konkursu Biznes-Nauka-Innowacje organizowanego przez Dziennik Gazetę Prawną. Jury doceniło opracowany na naszej uczelni projekt wykorzystania surowców wtórnych w budownictwie. W konkursie są nagradzane przedsięwzięcia łączące potencjał polskich uczelni, instytutów badawczych i laboratoriów z biznesem. Efektem takiej współpracy muszą być wdrożenia, komercjalizacja wiedzy oraz technologie wywierające bezpośredni wpływ na rozwój gospodarczy i społeczny. Galę finałową z udziałem wiceminister nauki i szkolnictwa wyższego Marii Mrówczyńskiej zorganizowano w Warszawie, a nasza uczelnia otrzymała nagrodę branżową w kategorii „Energy i Zielona Transformacja” …\n\nProjekt dotyczy opracowania technologii produkcji betonowej kostki brukowej z wykorzystaniem granulatu PET pochodzącego z recyklingu poużytkowych butelek.\n\nPrzy ul. Tęczowej w Rybniku wykonano eksperymentalne miejsce parkingowe o powierzchni około 8 m², wykorzystując opracowaną kostkę brukową z recyklatem PET.\n\nProjekt powstał we współpracy naukowców PWr z firmą Bruk-Bet, która umożliwiła wykonanie eksperymentalnych partii kostki na przemysłowej linii produkcyjnej.\n\nObie serie spełniły przyjęte kryteria oceny mrozoodporności po 150 cyklach zamrażania i rozmrażania.",
+   "analysis": {
+    "potential": 90,
+    "completeness": 100,
+    "path": "wdrozenie",
+    "signal": "wysoki",
+    "sector": "Materiały i budownictwo",
+    "stage": "pilot",
+    "priority": 0,
+    "region": "dolnośląskie",
+    "data": {
+     "lead": "Projekt Politechniki Wrocławskiej opracował technologię produkcji kostki brukowej z recyklingowanego granulatu PET. Rozwiązanie przeszło testy przemysłowe i pilotażowe wdrożenie w Rybniku, promując gospodarkę obiegu zamkniętego.",
+     "sector": "Materiały i budownictwo",
+     "stage": "pilot",
+     "stage_label": "Pilotaż",
+     "authors": [],
+     "signal": "wysoki",
+     "signal_label": "wysokie",
+     "signal_terms": [],
+     "market": "",
+     "criteria": [],
+     "potential": 90,
+     "known": 4,
+     "total": 4,
+     "completeness": 100,
+     "path": {
+      "id": "wdrozenie",
+      "label": "Wdrożenie",
+      "missing": [
+       "Brak szczegółowych danych dotyczących kosztów produkcji w porównaniu do tradycyjnej kostki brukowej.",
+       "Brak informacji o długoterminowej trwałości materiału w warunkach intensywnego ruchu kołowego."
+      ],
+      "reasons": [
+       "Etap: Pilotaż",
+       "Ocena potencjału 90/100 (Gemini)"
+      ]
+     },
+     "dropped": [],
+     "relevance": {
+      "is_solution": true,
+      "reason": "Projekt wykazuje wysoki poziom innowacyjności poprzez praktyczne wykorzystanie odpadów PET w przemyśle budowlanym bez konieczności zmiany linii produkcyjnych. Posiada udokumentowane wyniki badań labor",
+      "evidence": [
+       "Projekt dotyczy opracowania technologii produkcji betonowej kostki brukowej z wykorzystaniem granulatu PET pochodzącego z recyklingu poużytkowych butelek.",
+       "Przy ul. Tęczowej w Rybniku wykonano eksperymentalne miejsce parkingowe o powierzchni około 8 m², wykorzystując opracowaną kostkę brukową z recyklatem PET.",
+       "Projekt powstał we współpracy naukowców PWr z firmą Bruk-Bet, która umożliwiła wykonanie eksperymentalnych partii kostki na przemysłowej linii produkcyjnej.",
+       "Obie serie spełniły przyjęte kryteria oceny mrozoodporności po 150 cyklach zamrażania i rozmrażania."
+      ],
+      "noise": []
+     },
+     "verdict": {
+      "id": "glowna",
+      "label": "Interesujące",
+      "reason": "Potwierdzona inicjatywa z 19.11.2026; ocena 90/100 (próg 50), wiarygodność: wysoka."
+     },
+     "priority": 0,
+     "priority_reasons": [],
+     "region": {
+      "code": "dolnośląskie",
+      "how": "z tekstu: „Wrocławskiej”"
+     },
+     "innovation_types": [
+      "technologiczna",
+      "procesowa"
+     ],
+     "caveat": "Ocena wygenerowana przez model Gemini na podstawie tekstu źródła: to interpretacja AI, a nie potwierdzony fakt. Zweryfikowane są tylko dane ze strony i cytaty występujące w tekście.",
+     "verified": {
+      "url": "https://pwr.edu.pl/uczelnia/aktualnosci/od-plastikowej-butelki-do-nawierzchni-parkingowej-prestizowa-nagroda-dla-projektu-z-pwr-14377.html",
+      "source": "PWr — Aktualności",
+      "organization_type": "Uczelnia",
+      "published_at": "2026-11-19",
+      "date_source": "metadane strony",
+      "quotes": [
+       "Projekt dotyczy opracowania technologii produkcji betonowej kostki brukowej z wykorzystaniem granulatu PET pochodzącego z recyklingu poużytkowych butelek.",
+       "Przy ul. Tęczowej w Rybniku wykonano eksperymentalne miejsce parkingowe o powierzchni około 8 m², wykorzystując opracowaną kostkę brukową z recyklatem PET.",
+       "Projekt powstał we współpracy naukowców PWr z firmą Bruk-Bet, która umożliwiła wykonanie eksperymentalnych partii kostki na przemysłowej linii produkcyjnej.",
+       "Obie serie spełniły przyjęte kryteria oceny mrozoodporności po 150 cyklach zamrażania i rozmrażania."
+      ]
+     },
+     "ai": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "is_initiative": true,
+      "score": 90,
+      "summary": "Projekt Politechniki Wrocławskiej opracował technologię produkcji kostki brukowej z recyklingowanego granulatu PET. Rozwiązanie przeszło testy przemysłowe i pilotażowe wdrożenie w Rybniku, promując gospodarkę obiegu zamkniętego.",
+      "explanation": "Projekt wykazuje wysoki poziom innowacyjności poprzez praktyczne wykorzystanie odpadów PET w przemyśle budowlanym bez konieczności zmiany linii produkcyjnych. Posiada udokumentowane wyniki badań laboratoryjnych (wytrzymałość, mrozoodporność) oraz udany pilotaż w warunkach rzeczywistych (parking w Rybniku). Współpraca z partnerami przemysłowymi (Bruk-Bet, Indorama Ventures) oraz wdrożenie w ramach gospodarki obiegu zamkniętego potwierdzają duży potencjał skalowalności i realny wpływ na środowisko.",
+      "uncertainty": "Ocena opiera się na deklaracjach uczelni i wynikach pilotażu, których pełna efektywność ekonomiczna i trwałość w długim okresie wymagają dalszej weryfikacji po sezonie zimowym.",
+      "missing_info": [
+       "Brak szczegółowych danych dotyczących kosztów produkcji w porównaniu do tradycyjnej kostki brukowej.",
+       "Brak informacji o długoterminowej trwałości materiału w warunkach intensywnego ruchu kołowego."
+      ],
+      "credibility": "wysoka",
+      "credibility_reason": "Informacja pochodzi z oficjalnego serwisu Politechniki Wrocławskiej, zawiera konkretne nazwiska, nazwy partnerów przemysłowych oraz opis przeprowadzonych badań i pilotażu.",
+      "tokens": [
+       1854,
+       701
+      ]
+     }
+    }
+   }
+  },
+  {
+   "url": "https://lukasiewicz.gov.pl/sily-zbrojne-rp-zwiekszaja-zamowienie-na-roboty-piap-tarantula/",
+   "final_url": "https://lukasiewicz.gov.pl/sily-zbrojne-rp-zwiekszaja-zamowienie-na-roboty-piap-tarantula/",
+   "title": "Siły Zbrojne RP zwiększają zamówienie na roboty PIAP TARANTULA - Sieć Badawcza Łukasiewicz",
+   "published_at": "2026-11-18",
+   "source": {
+    "name": "Sieć Badawcza Łukasiewicz — Aktualności",
+    "entry_url": "https://lukasiewicz.gov.pl/feed/",
+    "organization_type": "research",
+    "region": "",
+    "discovery_type": "rss",
+    "allowed_prefix": "https://lukasiewicz.gov.pl/",
+    "feed_url": "https://lukasiewicz.gov.pl/feed/",
+    "sitemap_url": "https://lukasiewicz.gov.pl/sitemaps.xml",
+    "origin": "registry"
+   },
+   "excerpt": "Agencja Uzbrojenia uruchomiła prawo opcji, zwiększając zamówienie na polskie roboty rozpoznawcze PIAP TARANTULA produkowane przez Łukasiewicz – PIAP. W ramach podpisanego wcześniej podstawowego zamówienia do służby miało trafić 96 bezzałogowych platform o wartości ok. 50 mln zł brutto. Prawo opcji rozszerza pulę do 130 robotów! PIAP TARANTULA to ważący około 17 kilogramów robot gąsienicowy wyposażony w kamery i przeznaczony do rozpoznania w niebezpiecznym terenie, budynkach i trudno dostępnych miejscach. Robot umożliwia prowadzenie obserwacji na odległość, ograniczając ryzyko dla żołnierzy. Posiada na wyposażeniu m.in.: - kamery dzienne, - kamery nocne i termowizyjne, - rozbudowaną głowicę …",
+   "analysis": {
+    "potential": 90,
+    "completeness": 75,
+    "path": "wdrozenie",
+    "signal": "sredni",
+    "sector": "Lotnictwo i kosmos",
+    "stage": "in_use",
+    "priority": 2,
+    "region": "wielkopolskie",
+    "data": {
+     "lead": "Zwiększenie zamówienia przez Agencję Uzbrojenia na polskie roboty rozpoznawcze PIAP TARANTULA, produkowane przez Łukasiewicz – PIAP, do łącznej liczby 130 jednostek.",
+     "sector": "Lotnictwo i kosmos",
+     "stage": "in_use",
+     "stage_label": "Użytkowane",
+     "authors": [],
+     "signal": "sredni",
+     "signal_label": "średnie",
+     "signal_terms": [],
+     "market": "",
+     "criteria": [],
+     "potential": 90,
+     "known": 3,
+     "total": 4,
+     "completeness": 75,
+     "path": {
+      "id": "wdrozenie",
+      "label": "Wdrożenie",
+      "missing": [
+       "Brak szczegółowych danych na temat specyficznych innowacji w oprogramowaniu sterującym w porównaniu do poprzednich wersji robotów."
+      ],
+      "reasons": [
+       "Etap: Użytkowane",
+       "Ocena potencjału 90/100 (Gemini)"
+      ]
+     },
+     "dropped": [],
+     "relevance": {
+      "is_solution": true,
+      "reason": "Tekst opisuje wdrożenie i skalowanie zaawansowanego technologicznie rozwiązania (roboty rozpoznawcze PIAP TARANTULA) w sektorze obronnym. Projekt jest w fazie wdrożenia (dostawy), posiada udokumentowa",
+      "evidence": [
+       "Agencja Uzbrojenia uruchomiła prawo opcji, zwiększając zamówienie na polskie roboty rozpoznawcze PIAP TARANTULA produkowane przez Łukasiewicz – PIAP.",
+       "W ramach podpisanego wcześniej podstawowego zamówienia do służby miało trafić 96 bezzałogowych platform o wartości ok. 50 mln zł brutto. Prawo opcji rozszerza pulę do 130 robotów!",
+       "PIAP TARANTULA to ważący około 17 kilogramów robot gąsienicowy wyposażony w kamery i przeznaczony do rozpoznania w niebezpiecznym terenie, budynkach i trudno dostępnych miejscach."
+      ],
+      "noise": []
+     },
+     "verdict": {
+      "id": "glowna",
+      "label": "Interesujące",
+      "reason": "Potwierdzona inicjatywa z 18.11.2026; ocena 90/100 (próg 50), wiarygodność: wysoka."
+     },
+     "priority": 2,
+     "priority_reasons": [
+      "Obszar priorytetowy PCI: Lotnictwo i kosmos"
+     ],
+     "region": {
+      "code": "wielkopolskie",
+      "how": "z tekstu: „poznania”"
+     },
+     "innovation_types": [
+      "technologiczna"
+     ],
+     "caveat": "Ocena wygenerowana przez model Gemini na podstawie tekstu źródła: to interpretacja AI, a nie potwierdzony fakt. Zweryfikowane są tylko dane ze strony i cytaty występujące w tekście.",
+     "verified": {
+      "url": "https://lukasiewicz.gov.pl/sily-zbrojne-rp-zwiekszaja-zamowienie-na-roboty-piap-tarantula/",
+      "source": "Sieć Badawcza Łukasiewicz — Aktualności",
+      "organization_type": "Instytut badawczy",
+      "published_at": "2026-11-18",
+      "date_source": "metadane strony",
+      "quotes": [
+       "Agencja Uzbrojenia uruchomiła prawo opcji, zwiększając zamówienie na polskie roboty rozpoznawcze PIAP TARANTULA produkowane przez Łukasiewicz – PIAP.",
+       "W ramach podpisanego wcześniej podstawowego zamówienia do służby miało trafić 96 bezzałogowych platform o wartości ok. 50 mln zł brutto. Prawo opcji rozszerza pulę do 130 robotów!",
+       "PIAP TARANTULA to ważący około 17 kilogramów robot gąsienicowy wyposażony w kamery i przeznaczony do rozpoznania w niebezpiecznym terenie, budynkach i trudno dostępnych miejscach."
+      ]
+     },
+     "ai": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "is_initiative": true,
+      "score": 90,
+      "summary": "Zwiększenie zamówienia przez Agencję Uzbrojenia na polskie roboty rozpoznawcze PIAP TARANTULA, produkowane przez Łukasiewicz – PIAP, do łącznej liczby 130 jednostek.",
+      "explanation": "Tekst opisuje wdrożenie i skalowanie zaawansowanego technologicznie rozwiązania (roboty rozpoznawcze PIAP TARANTULA) w sektorze obronnym. Projekt jest w fazie wdrożenia (dostawy), posiada udokumentowane wyniki w postaci zwiększenia zamówienia przez Agencję Uzbrojenia oraz potwierdzone zastosowanie praktyczne w Siłach Zbrojnych RP. Wysoka ocena wynika z faktu, że jest to gotowy, polski produkt technologiczny, który przeszedł proces certyfikacji i jest masowo zamawiany przez instytucję państwową.",
+      "uncertainty": "Ocena jest wysoka, ponieważ dotyczy oficjalnego komunikatu instytucji badawczej o wdrożeniu produktu, co minimalizuje ryzyko błędu interpretacyjnego.",
+      "missing_info": [
+       "Brak szczegółowych danych na temat specyficznych innowacji w oprogramowaniu sterującym w porównaniu do poprzednich wersji robotów."
+      ],
+      "credibility": "wysoka",
+      "credibility_reason": "Źródłem jest oficjalna strona Sieci Badawczej Łukasiewicz, a informacja dotyczy konkretnego zamówienia publicznego realizowanego przez jednostkę badawczą.",
+      "tokens": [
+       906,
+       634
+      ]
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.iztech.pl/aktualnosci/centrum-esa-w-polsce/",
+   "final_url": "https://www.iztech.pl/aktualnosci/centrum-esa-w-polsce/",
+   "title": "Centrum ESA w Polsce - iztech.pl",
+   "published_at": "2026-11-21",
+   "source": {
+    "name": "Polska Izba Gospodarcza Zaawansowanych Technologii (IZTECH)",
+    "entry_url": "https://www.iztech.pl/aktualnosci/",
+    "organization_type": "ngo",
+    "region": "",
+    "discovery_type": "html",
+    "allowed_prefix": "https://www.iztech.pl/aktualnosci/",
+    "feed_url": "",
+    "sitemap_url": "",
+    "origin": "registry"
+   },
+   "excerpt": "„Chodziło o stworzenie Centrum ESA w Polsce, które będzie działało na rzecz przemysłu i obronności Polski. Dlatego z wielką przyjemnością ogłaszam, że wspólnie wybraliśmy Warszawę na lokalizację tego ośrodka” – powiedział Josef Aschbacher. „W tym momencie ESA posiada około 6500 pracowników i mamy ośrodki w całej Europie. Jednak ośrodek Polski będzie pierwszym ośrodkiem ESA poza obszarem krajów, które w 1975 roku podpisały konwencję o utworzeniu ESA. Zatem Polska jest pierwszym – jak się to mówi – z nowych członków ESA, gdzie takie centrum powstanie” – dodał. Wskazał, że w tym momencie grupa zadaniowa podejmuje różne czynności, ale przede wszystkim z obszarów związanych pośrednio lub …\n\nNowe centrum będzie m.in. rozwijać technologie o podwójnym zastosowaniu (dual-use), wspierać innowacje i zarządzanie kryzysowe.\n\nBGK i spółki PFR utworzą fundusz inwestycji w spółki kosmiczne na 0,5 mld zł. BGK przedstawi specjalną linię finansowania dla samorządów na rzecz rozwoju infrastruktury sektora kosmicznego\n\nośrodek ESA w Warszawie będzie koncentrować się na bezpieczeństwie oraz rozwoju technologii o podwójnym zastosowaniu – wykorzystywanych zarówno w infrastrukturze cywilnej, jak i wojskowej.",
+   "analysis": {
+    "potential": 85,
+    "completeness": 100,
+    "path": "wdrozenie",
+    "signal": "wysoki",
+    "sector": "Lotnictwo i kosmos",
+    "stage": "pilot",
+    "priority": 2,
+    "region": "mazowieckie",
+    "data": {
+     "lead": "Utworzenie w Warszawie pierwszego w historii Centrum ESA poza krajami założycielskimi. Inicjatywa wspiera technologie podwójnego zastosowania, bezpieczeństwo i rozwój polskiego sektora kosmicznego przy wsparciu funduszy rządowych.",
+     "sector": "Lotnictwo i kosmos",
+     "stage": "pilot",
+     "stage_label": "Pilotaż",
+     "authors": [],
+     "signal": "wysoki",
+     "signal_label": "wysokie",
+     "signal_terms": [],
+     "market": "",
+     "criteria": [],
+     "potential": 85,
+     "known": 4,
+     "total": 4,
+     "completeness": 100,
+     "path": {
+      "id": "wdrozenie",
+      "label": "Wdrożenie",
+      "missing": [
+       "Brak szczegółowego harmonogramu operacyjnego uruchomienia centrum",
+       "Brak listy konkretnych partnerów naukowych lub przemysłowych zaangażowanych w prace centrum poza ogólnym wskazaniem na polskie ośrodki"
+      ],
+      "reasons": [
+       "Etap: Pilotaż",
+       "Ocena potencjału 85/100 (Gemini)"
+      ]
+     },
+     "dropped": [],
+     "relevance": {
+      "is_solution": true,
+      "reason": "Projekt dotyczy strategicznej inwestycji w infrastrukturę badawczo-rozwojową o znaczeniu międzynarodowym. Centrum ESA w Warszawie będzie kluczowym ośrodkiem dla technologii dual-use, komunikacji i zar",
+      "evidence": [
+       "Chodziło o stworzenie Centrum ESA w Polsce, które będzie działało na rzecz przemysłu i obronności Polski. Dlatego z wielką przyjemnością ogłaszam, że wspólnie wybraliśmy Warszawę na lokalizację tego ośrodka",
+       "Nowe centrum będzie m.in. rozwijać technologie o podwójnym zastosowaniu (dual-use), wspierać innowacje i zarządzanie kryzysowe.",
+       "BGK i spółki PFR utworzą fundusz inwestycji w spółki kosmiczne na 0,5 mld zł. BGK przedstawi specjalną linię finansowania dla samorządów na rzecz rozwoju infrastruktury sektora kosmicznego",
+       "ośrodek ESA w Warszawie będzie koncentrować się na bezpieczeństwie oraz rozwoju technologii o podwójnym zastosowaniu – wykorzystywanych zarówno w infrastrukturze cywilnej, jak i wojskowej."
+      ],
+      "noise": []
+     },
+     "verdict": {
+      "id": "glowna",
+      "label": "Interesujące",
+      "reason": "Potwierdzona inicjatywa z 21.11.2026; ocena 85/100 (próg 50), wiarygodność: wysoka."
+     },
+     "priority": 2,
+     "priority_reasons": [
+      "Obszar priorytetowy PCI: Lotnictwo i kosmos"
+     ],
+     "region": {
+      "code": "mazowieckie",
+      "how": "z tekstu: „Warszawę”"
+     },
+     "innovation_types": [
+      "technologiczna",
+      "organizacyjna"
+     ],
+     "caveat": "Ocena wygenerowana przez model Gemini na podstawie tekstu źródła: to interpretacja AI, a nie potwierdzony fakt. Zweryfikowane są tylko dane ze strony i cytaty występujące w tekście.",
+     "verified": {
+      "url": "https://www.iztech.pl/aktualnosci/centrum-esa-w-polsce/",
+      "source": "Polska Izba Gospodarcza Zaawansowanych Technologii (IZTECH)",
+      "organization_type": "Organizacja pozarządowa",
+      "published_at": "2026-11-21",
+      "date_source": "metadane strony",
+      "quotes": [
+       "Chodziło o stworzenie Centrum ESA w Polsce, które będzie działało na rzecz przemysłu i obronności Polski. Dlatego z wielką przyjemnością ogłaszam, że wspólnie wybraliśmy Warszawę na lokalizację tego ośrodka",
+       "Nowe centrum będzie m.in. rozwijać technologie o podwójnym zastosowaniu (dual-use), wspierać innowacje i zarządzanie kryzysowe.",
+       "BGK i spółki PFR utworzą fundusz inwestycji w spółki kosmiczne na 0,5 mld zł. BGK przedstawi specjalną linię finansowania dla samorządów na rzecz rozwoju infrastruktury sektora kosmicznego",
+       "ośrodek ESA w Warszawie będzie koncentrować się na bezpieczeństwie oraz rozwoju technologii o podwójnym zastosowaniu – wykorzystywanych zarówno w infrastrukturze cywilnej, jak i wojskowej."
+      ]
+     },
+     "ai": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "is_initiative": true,
+      "score": 85,
+      "summary": "Utworzenie w Warszawie pierwszego w historii Centrum ESA poza krajami założycielskimi. Inicjatywa wspiera technologie podwójnego zastosowania, bezpieczeństwo i rozwój polskiego sektora kosmicznego przy wsparciu funduszy rządowych.",
+      "explanation": "Projekt dotyczy strategicznej inwestycji w infrastrukturę badawczo-rozwojową o znaczeniu międzynarodowym. Centrum ESA w Warszawie będzie kluczowym ośrodkiem dla technologii dual-use, komunikacji i zarządzania kryzysowego. Wysoka ocena wynika z rangi instytucji (ESA), skali zaangażowania finansowego (731 mln euro na misje ESA, 0,5 mld zł funduszu inwestycyjnego) oraz strategicznego znaczenia dla suwerenności technologicznej Polski i Europy.",
+      "uncertainty": "Ocena dotyczy planowanej inwestycji o wysokim priorytecie politycznym, której ostateczny sukces zależy od sprawnej implementacji zapowiedzianych funduszy i współpracy międzynarodowej.",
+      "missing_info": [
+       "Brak szczegółowego harmonogramu operacyjnego uruchomienia centrum",
+       "Brak listy konkretnych partnerów naukowych lub przemysłowych zaangażowanych w prace centrum poza ogólnym wskazaniem na polskie ośrodki"
+      ],
+      "credibility": "wysoka",
+      "credibility_reason": "Informacja pochodzi z oficjalnego komunikatu Polskiej Izby Gospodarczej Zaawansowanych Technologii (IZTECH) i odnosi się do decyzji ogłoszonych przez przedstawicieli ESA oraz rządu RP.",
+      "tokens": [
+       2095,
+       725
+      ]
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.umb.edu.pl/aktualnosci/35271,Dr_Pawel_Krasnicki_z_europejskim_patentem_na_udoskonalenie_narzedzia_do_operacji_oka",
+   "final_url": "https://www.umb.edu.pl/aktualnosci/35271,Dr_Pawel_Krasnicki_z_europejskim_patentem_na_udoskonalenie_narzedzia_do_operacji_oka",
+   "title": "Uniwersytet Medyczny w Białymstoku. Aktualności.",
+   "published_at": "2026-11-19",
+   "source": {
+    "name": "Uniwersytet Medyczny w Białymstoku",
+    "entry_url": "https://www.umb.edu.pl/aktualnosci",
+    "organization_type": "university",
+    "region": "podlaskie",
+    "discovery_type": "html",
+    "allowed_prefix": "https://www.umb.edu.pl/aktualnosci/",
+    "feed_url": "",
+    "sitemap_url": "",
+    "origin": "registry"
+   },
+   "excerpt": "Dr Paweł Kraśnicki z Kliniki Okulistyki Uniwersytetu Medycznego w Białymstoku uzyskał europejski patent na rozwiązanie usprawniające pracę witrektomu (narzędzia chirurgicznego do operacji oka). Ochronę patentową w Polsce uzyskało również drugie, uzupełniające rozwiązanie opracowane przez okulistę z UMB. Oba mają zwiększyć precyzję i przewidywalność pracy narzędzia podczas operacji oka. Witrektom służy do cięcia i usuwania ciała szklistego, czyli przezroczystej, żelowej substancji wypełniającej wnętrze oka. Dr Kraśnicki zmienił mechanizm tnący tego narzędzia. Ostrze poruszające się tam i z powrotem zastąpił ostrzami obrotowymi, których liczbę i rozmieszczenie dopasował do wielkości otworu …\n\nOstrze poruszające się tam i z powrotem zastąpił ostrzami obrotowymi, których liczbę i rozmieszczenie dopasował do wielkości otworu zasysającego\n\nEuropejski Urząd Patentowy udzielił patentu EP 4 356 881 B1",
+   "analysis": {
+    "potential": 85,
+    "completeness": 75,
+    "path": "rozwoj",
+    "signal": "sredni",
+    "sector": "Zdrowie i medycyna",
+    "stage": "prototype",
+    "priority": 2,
+    "region": "podlaskie",
+    "data": {
+     "lead": "Dr Paweł Kraśnicki z UMB opracował innowacyjny mechanizm tnący do witrektomu, chroniony patentem europejskim i krajowym. Rozwiązanie zwiększa precyzję i bezpieczeństwo operacji oka poprzez zastosowanie ostrzy obrotowych.",
+     "sector": "Zdrowie i medycyna",
+     "stage": "prototype",
+     "stage_label": "Prototyp",
+     "authors": [],
+     "signal": "sredni",
+     "signal_label": "średnie",
+     "signal_terms": [],
+     "market": "",
+     "criteria": [],
+     "potential": 85,
+     "known": 3,
+     "total": 4,
+     "completeness": 75,
+     "path": {
+      "id": "rozwoj",
+      "label": "Rozwój",
+      "missing": [
+       "Brak informacji o etapie komercjalizacji lub planach wdrożenia rynkowego (np. współpraca z producentem narzędzi medycznych).",
+       "Brak danych o wynikach badań klinicznych lub testów na modelach porównawczych."
+      ],
+      "reasons": [
+       "Etap: Prototyp",
+       "Ocena potencjału 85/100 (Gemini)"
+      ]
+     },
+     "dropped": [],
+     "relevance": {
+      "is_solution": true,
+      "reason": "Tekst opisuje konkretne rozwiązanie techniczne (nowy mechanizm tnący witrektomu), które uzyskało ochronę patentową (EP 4 356 881 B1 oraz P.442579). Innowacja polega na zastąpieniu ruchu posuwisto-zwro",
+      "evidence": [
+       "Dr Paweł Kraśnicki z Kliniki Okulistyki Uniwersytetu Medycznego w Białymstoku uzyskał europejski patent na rozwiązanie usprawniające pracę witrektomu",
+       "Ostrze poruszające się tam i z powrotem zastąpił ostrzami obrotowymi, których liczbę i rozmieszczenie dopasował do wielkości otworu zasysającego",
+       "Europejski Urząd Patentowy udzielił patentu EP 4 356 881 B1"
+      ],
+      "noise": []
+     },
+     "verdict": {
+      "id": "glowna",
+      "label": "Interesujące",
+      "reason": "Potwierdzona inicjatywa z 19.11.2026; ocena 85/100 (próg 50), wiarygodność: wysoka."
+     },
+     "priority": 2,
+     "priority_reasons": [
+      "Obszar priorytetowy PCI: Zdrowie i medycyna"
+     ],
+     "region": {
+      "code": "podlaskie",
+      "how": "z tekstu: „Białymstoku”"
+     },
+     "innovation_types": [
+      "technologiczna"
+     ],
+     "caveat": "Ocena wygenerowana przez model Gemini na podstawie tekstu źródła: to interpretacja AI, a nie potwierdzony fakt. Zweryfikowane są tylko dane ze strony i cytaty występujące w tekście.",
+     "verified": {
+      "url": "https://www.umb.edu.pl/aktualnosci/35271,Dr_Pawel_Krasnicki_z_europejskim_patentem_na_udoskonalenie_narzedzia_do_operacji_oka",
+      "source": "Uniwersytet Medyczny w Białymstoku",
+      "organization_type": "Uczelnia",
+      "published_at": "2026-11-19",
+      "date_source": "metadane strony",
+      "quotes": [
+       "Dr Paweł Kraśnicki z Kliniki Okulistyki Uniwersytetu Medycznego w Białymstoku uzyskał europejski patent na rozwiązanie usprawniające pracę witrektomu",
+       "Ostrze poruszające się tam i z powrotem zastąpił ostrzami obrotowymi, których liczbę i rozmieszczenie dopasował do wielkości otworu zasysającego",
+       "Europejski Urząd Patentowy udzielił patentu EP 4 356 881 B1"
+      ]
+     },
+     "ai": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "is_initiative": true,
+      "score": 85,
+      "summary": "Dr Paweł Kraśnicki z UMB opracował innowacyjny mechanizm tnący do witrektomu, chroniony patentem europejskim i krajowym. Rozwiązanie zwiększa precyzję i bezpieczeństwo operacji oka poprzez zastosowanie ostrzy obrotowych.",
+      "explanation": "Tekst opisuje konkretne rozwiązanie techniczne (nowy mechanizm tnący witrektomu), które uzyskało ochronę patentową (EP 4 356 881 B1 oraz P.442579). Innowacja polega na zastąpieniu ruchu posuwisto-zwrotnego ostrzami obrotowymi, co poprawia parametry pracy narzędzia chirurgicznego. Wysoki wynik wynika z udokumentowanej własności intelektualnej oraz potencjału wdrożeniowego w okulistyce.",
+      "uncertainty": "Niepewność dotyczy stopnia gotowości technologicznej (TRL) rozwiązania, gdyż tekst skupia się na aspekcie prawnym (patent), a nie na fazie wdrożenia przemysłowego.",
+      "missing_info": [
+       "Brak informacji o etapie komercjalizacji lub planach wdrożenia rynkowego (np. współpraca z producentem narzędzi medycznych).",
+       "Brak danych o wynikach badań klinicznych lub testów na modelach porównawczych."
+      ],
+      "credibility": "wysoka",
+      "credibility_reason": "Informacja pochodzi z oficjalnego serwisu Uniwersytetu Medycznego w Białymstoku i zawiera konkretne numery patentów.",
+      "tokens": [
+       914,
+       607
+      ]
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.uw.edu.pl/milion-dolarow-grantu-od-google-org-dla-uw/",
+   "final_url": "https://www.uw.edu.pl/milion-dolarow-grantu-od-google-org-dla-uw/",
+   "title": "Milion dolarów grantu od Google.org dla UW",
+   "published_at": "2026-11-19",
+   "source": {
+    "name": "Uniwersytet Warszawski — Aktualności",
+    "entry_url": "https://www.uw.edu.pl/feed/",
+    "organization_type": "university",
+    "region": "mazowieckie",
+    "discovery_type": "rss",
+    "allowed_prefix": "https://www.uw.edu.pl/",
+    "feed_url": "https://www.uw.edu.pl/feed/",
+    "sitemap_url": "",
+    "origin": "registry"
+   },
+   "excerpt": "Uniwersytet Warszawski otrzymał grant w wysokości 1 mln USD oraz 100 tys. USD w kredytach chmurowych Google Cloud (GCP) w ramach globalnego programu „AI for Science Capacity Fund”, utworzonego przez Google.org. Środki zostaną przeznaczone na realizację dwuletniego projektu Efficient AI-for-Science (EAI-Sci) Framework (zaplanowanego na lata 2027–2028). Celem projektu jest wyposażenie badaczy nauk przyrodniczych i medycznych w najnowsze narzędzia sztucznej inteligencji oraz zatrzymanie talentów na polskich uczelniach. Projekt EAI-Sci, którego liderem naukowym jest prof. Piotr Sankowski z Wydziału Matematyki, Informatyki i Mechaniki UW, powstał przy instytucjonalnym zaangażowaniu kanclerza UW …\n\nzespół badawczy z UW opracuje uniwersalną i otwartą bibliotekę narzędzi EAI-Sci (która zostanie publicznie udostępniona w serwisie GitHub)\n\nRównie istotnym filarem projektu będzie integracja narzędzi z obszaru wyjaśnialnej sztucznej inteligencji (Explainable AI – XAI).\n\nProjekt UW wykracza poza granice Polski, pozycjonując uczelnię jako regionalne centrum AI for Science w Europie Środkowo-Wschodniej (CEE).",
+   "analysis": {
+    "potential": 85,
+    "completeness": 100,
+    "path": "rozwoj",
+    "signal": "wysoki",
+    "sector": "IT i sztuczna inteligencja",
+    "stage": "idea",
+    "priority": 2,
+    "region": "mazowieckie",
+    "data": {
+     "lead": "Uniwersytet Warszawski otrzymał grant 1 mln USD od Google.org na projekt EAI-Sci, mający na celu stworzenie otwartej biblioteki narzędzi AI dla nauk przyrodniczych i medycznych oraz budowę regionalnego hubu AI w Europie Środkowo-Wschodniej.",
+     "sector": "IT i sztuczna inteligencja",
+     "stage": "idea",
+     "stage_label": "Pomysł",
+     "authors": [],
+     "signal": "wysoki",
+     "signal_label": "wysokie",
+     "signal_terms": [],
+     "market": "",
+     "criteria": [],
+     "potential": 85,
+     "known": 4,
+     "total": 4,
+     "completeness": 100,
+     "path": {
+      "id": "rozwoj",
+      "label": "Rozwój",
+      "missing": [
+       "Brak szczegółowego harmonogramu etapów wdrożenia poza ramami czasowymi 2027-2028.",
+       "Brak informacji o konkretnych partnerach zewnętrznych poza Google.org."
+      ],
+      "reasons": [
+       "Etap: Pomysł",
+       "Ocena potencjału 85/100 (Gemini)"
+      ]
+     },
+     "dropped": [],
+     "relevance": {
+      "is_solution": true,
+      "reason": "Projekt EAI-Sci to innowacyjne przedsięwzięcie łączące uczenie maszynowe z naukami przyrodniczymi. Wysoki wynik wynika z prestiżowego finansowania, jasnej strategii (open source, XAI), zaangażowania e",
+      "evidence": [
+       "Celem projektu jest wyposażenie badaczy nauk przyrodniczych i medycznych w najnowsze narzędzia sztucznej inteligencji oraz zatrzymanie talentów na polskich uczelniach.",
+       "zespół badawczy z UW opracuje uniwersalną i otwartą bibliotekę narzędzi EAI-Sci (która zostanie publicznie udostępniona w serwisie GitHub)",
+       "Równie istotnym filarem projektu będzie integracja narzędzi z obszaru wyjaśnialnej sztucznej inteligencji (Explainable AI – XAI).",
+       "Projekt UW wykracza poza granice Polski, pozycjonując uczelnię jako regionalne centrum AI for Science w Europie Środkowo-Wschodniej (CEE)."
+      ],
+      "noise": []
+     },
+     "verdict": {
+      "id": "glowna",
+      "label": "Interesujące",
+      "reason": "Potwierdzona inicjatywa z 19.11.2026; ocena 85/100 (próg 50), wiarygodność: wysoka."
+     },
+     "priority": 2,
+     "priority_reasons": [
+      "Obszar priorytetowy PCI: IT i sztuczna inteligencja"
+     ],
+     "region": {
+      "code": "mazowieckie",
+      "how": "z tekstu: „Warszawski”"
+     },
+     "innovation_types": [
+      "technologiczna",
+      "edukacyjna"
+     ],
+     "caveat": "Ocena wygenerowana przez model Gemini na podstawie tekstu źródła: to interpretacja AI, a nie potwierdzony fakt. Zweryfikowane są tylko dane ze strony i cytaty występujące w tekście.",
+     "verified": {
+      "url": "https://www.uw.edu.pl/milion-dolarow-grantu-od-google-org-dla-uw/",
+      "source": "Uniwersytet Warszawski — Aktualności",
+      "organization_type": "Uczelnia",
+      "published_at": "2026-11-19",
+      "date_source": "metadane strony",
+      "quotes": [
+       "Celem projektu jest wyposażenie badaczy nauk przyrodniczych i medycznych w najnowsze narzędzia sztucznej inteligencji oraz zatrzymanie talentów na polskich uczelniach.",
+       "zespół badawczy z UW opracuje uniwersalną i otwartą bibliotekę narzędzi EAI-Sci (która zostanie publicznie udostępniona w serwisie GitHub)",
+       "Równie istotnym filarem projektu będzie integracja narzędzi z obszaru wyjaśnialnej sztucznej inteligencji (Explainable AI – XAI).",
+       "Projekt UW wykracza poza granice Polski, pozycjonując uczelnię jako regionalne centrum AI for Science w Europie Środkowo-Wschodniej (CEE)."
+      ]
+     },
+     "ai": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "is_initiative": true,
+      "score": 85,
+      "summary": "Uniwersytet Warszawski otrzymał grant 1 mln USD od Google.org na projekt EAI-Sci, mający na celu stworzenie otwartej biblioteki narzędzi AI dla nauk przyrodniczych i medycznych oraz budowę regionalnego hubu AI w Europie Środkowo-Wschodniej.",
+      "explanation": "Projekt EAI-Sci to innowacyjne przedsięwzięcie łączące uczenie maszynowe z naukami przyrodniczymi. Wysoki wynik wynika z prestiżowego finansowania, jasnej strategii (open source, XAI), zaangażowania ekspertów oraz potencjału skalowania rozwiązań w regionie CEE. Inicjatywa adresuje realną lukę kompetencyjną i technologiczną w środowisku akademickim, promując współpracę interdyscyplinarną i zatrzymanie talentów w Polsce.",
+      "uncertainty": "Ocena opiera się na planach projektowych i założeniach, których skuteczność zostanie zweryfikowana dopiero w trakcie realizacji w latach 2027-2028.",
+      "missing_info": [
+       "Brak szczegółowego harmonogramu etapów wdrożenia poza ramami czasowymi 2027-2028.",
+       "Brak informacji o konkretnych partnerach zewnętrznych poza Google.org."
+      ],
+      "credibility": "wysoka",
+      "credibility_reason": "Informacja pochodzi z oficjalnego serwisu Uniwersytetu Warszawskiego i dotyczy konkretnego grantu przyznanego przez Google.org.",
+      "tokens": [
+       2089,
+       685
+      ]
+     }
+    }
+   }
+  },
+  {
+   "url": "https://pans.krosno.pl/pierwsze-w-polsce-na-uczelni-wyzszej-cywilnej-laboratorium-szkolno-treningowe-systemu-zarzadzania-kryzysowego-jasmin/",
+   "final_url": "https://pans.krosno.pl/pierwsze-w-polsce-na-uczelni-wyzszej-cywilnej-laboratorium-szkolno-treningowe-systemu-zarzadzania-kryzysowego-jasmin/",
+   "title": "Pierwsze w Polsce na uczelni wyższej cywilnej laboratorium szkolno - treningowe Systemu Zarządzania Kryzysowego JAŚMIN",
+   "published_at": "2026-11-19",
+   "source": {
+    "name": "PANS w Krośnie — Aktualności (RSS)",
+    "entry_url": "https://pans.krosno.pl/category/aktualnosci/feed/",
+    "organization_type": "university",
+    "region": "podkarpackie",
+    "discovery_type": "rss",
+    "allowed_prefix": "https://pans.krosno.pl/",
+    "feed_url": "https://pans.krosno.pl/category/aktualnosci/feed/",
+    "sitemap_url": "",
+    "origin": "registry"
+   },
+   "excerpt": "W dniu 19 listopada 2026 r. w Państwowej Akadmii Nauk Stosowanych w Krośnie, w budynku przy ul. Dmochowskiego 12 , odbyło się uroczyste otwarcie Laboratorium Zarzadzania Kryzysowego. Podczas otwarcia laboratorium szkoleniowego SZK JAŚMIN zaprezentowano Wielośrodowiskowy Zautomatyzowany System Zarządzania Kryzysowego JAŚMIN (SZK JAŚMIN) – oprogramowanie zainstalowane w laboratorium z dodatkowym wyposażeniem wraz z systemem symulacji VBS4 oraz Przenośne Centrum Zarządzania Kryzysowego (Integrator SZK). Twórca i jedyny wykonawca systemu, firma Teldat poinformowała, że jest to „Pierwsze w Polsce na uczelni wyższej cywilnej laboratorium szkolno – treningowe Systemu Zarządzania Kryzysowego JAŚMIN …\n\nPierwsze w Polsce na uczelni wyższej cywilnej laboratorium szkolno – treningowe Systemu Zarządzania Kryzysowego JAŚMIN z modułem/systemem symulacji VBS4\n\nstudenci zostaną przeszkoleni oraz otrzymają potwierdzone i ewidencjonowane przez firmę Teldat certyfikaty do dyplomów ukończenia studiów\n\nMożliwość integracji SZK JAŚMIN z innymi narzędziami, w tym przede wszystkim z laboratorium 5G, którym dysponuje uczelnia.",
+   "analysis": {
+    "potential": 85,
+    "completeness": 75,
+    "path": "wdrozenie",
+    "signal": "sredni",
+    "sector": "Administracja i samorząd",
+    "stage": "in_use",
+    "priority": 1,
+    "region": "podkarpackie",
+    "data": {
+     "lead": "PANS w Krośnie uruchomiła pierwsze w Polsce cywilne laboratorium szkoleniowe systemu zarządzania kryzysowego JAŚMIN, umożliwiające certyfikowane szkolenia studentów i służb w zakresie reagowania kryzysowego.",
+     "sector": "Administracja i samorząd",
+     "stage": "in_use",
+     "stage_label": "Użytkowane",
+     "authors": [],
+     "signal": "sredni",
+     "signal_label": "średnie",
+     "signal_terms": [],
+     "market": "",
+     "criteria": [],
+     "potential": 85,
+     "known": 3,
+     "total": 4,
+     "completeness": 75,
+     "path": {
+      "id": "wdrozenie",
+      "label": "Wdrożenie",
+      "missing": [
+       "Brak informacji o liczbie studentów objętych programem w skali roku.",
+       "Brak danych o kosztach utrzymania laboratorium po wdrożeniu."
+      ],
+      "reasons": [
+       "Etap: Użytkowane",
+       "Ocena potencjału 85/100 (Gemini)"
+      ]
+     },
+     "dropped": [],
+     "relevance": {
+      "is_solution": true,
+      "reason": "Inicjatywa dotyczy wdrożenia zaawansowanego systemu informatycznego (SZK JAŚMIN) w środowisku akademickim. Projekt ma wysoki potencjał edukacyjny i praktyczny, oferując certyfikowane szkolenia dla stu",
+      "evidence": [
+       "Pierwsze w Polsce na uczelni wyższej cywilnej laboratorium szkolno – treningowe Systemu Zarządzania Kryzysowego JAŚMIN z modułem/systemem symulacji VBS4",
+       "studenci zostaną przeszkoleni oraz otrzymają potwierdzone i ewidencjonowane przez firmę Teldat certyfikaty do dyplomów ukończenia studiów",
+       "Możliwość integracji SZK JAŚMIN z innymi narzędziami, w tym przede wszystkim z laboratorium 5G, którym dysponuje uczelnia."
+      ],
+      "noise": []
+     },
+     "verdict": {
+      "id": "glowna",
+      "label": "Interesujące",
+      "reason": "Potwierdzona inicjatywa z 19.11.2026; ocena 85/100 (próg 50), wiarygodność: wysoka."
+     },
+     "priority": 1,
+     "priority_reasons": [
+      "Województwo priorytetowe: podkarpackie"
+     ],
+     "region": {
+      "code": "podkarpackie",
+      "how": "z tekstu: „Krośnie”"
+     },
+     "innovation_types": [
+      "technologiczna",
+      "edukacyjna"
+     ],
+     "caveat": "Ocena wygenerowana przez model Gemini na podstawie tekstu źródła: to interpretacja AI, a nie potwierdzony fakt. Zweryfikowane są tylko dane ze strony i cytaty występujące w tekście.",
+     "verified": {
+      "url": "https://pans.krosno.pl/pierwsze-w-polsce-na-uczelni-wyzszej-cywilnej-laboratorium-szkolno-treningowe-systemu-zarzadzania-kryzysowego-jasmin/",
+      "source": "PANS w Krośnie — Aktualności (RSS)",
+      "organization_type": "Uczelnia",
+      "published_at": "2026-11-19",
+      "date_source": "metadane strony",
+      "quotes": [
+       "Pierwsze w Polsce na uczelni wyższej cywilnej laboratorium szkolno – treningowe Systemu Zarządzania Kryzysowego JAŚMIN z modułem/systemem symulacji VBS4",
+       "studenci zostaną przeszkoleni oraz otrzymają potwierdzone i ewidencjonowane przez firmę Teldat certyfikaty do dyplomów ukończenia studiów",
+       "Możliwość integracji SZK JAŚMIN z innymi narzędziami, w tym przede wszystkim z laboratorium 5G, którym dysponuje uczelnia."
+      ]
+     },
+     "ai": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "is_initiative": true,
+      "score": 85,
+      "summary": "PANS w Krośnie uruchomiła pierwsze w Polsce cywilne laboratorium szkoleniowe systemu zarządzania kryzysowego JAŚMIN, umożliwiające certyfikowane szkolenia studentów i służb w zakresie reagowania kryzysowego.",
+      "explanation": "Inicjatywa dotyczy wdrożenia zaawansowanego systemu informatycznego (SZK JAŚMIN) w środowisku akademickim. Projekt ma wysoki potencjał edukacyjny i praktyczny, oferując certyfikowane szkolenia dla studentów oraz kadr administracji i służb mundurowych. Wysoka ocena wynika z unikalności rozwiązania w skali kraju, udokumentowanego wdrożenia oraz możliwości integracji z istniejącą infrastrukturą (laboratorium 5G).",
+      "uncertainty": "Ocena opiera się na oficjalnym komunikacie uczelni, co zapewnia wysoką wiarygodność, jednak długofalowa efektywność dydaktyczna projektu będzie zależeć od jakości programów szkoleniowych.",
+      "missing_info": [
+       "Brak informacji o liczbie studentów objętych programem w skali roku.",
+       "Brak danych o kosztach utrzymania laboratorium po wdrożeniu."
+      ],
+      "credibility": "wysoka",
+      "credibility_reason": "Informacja pochodzi z oficjalnego serwisu uczelni publicznej (PANS w Krośnie) i zawiera konkretne dane o technologii, partnerze (Teldat) oraz źródle finansowania.",
+      "tokens": [
+       1286,
+       608
+      ]
+     }
+    }
+   }
+  },
+  {
+   "url": "https://pb.edu.pl/2026/11/18/politechnika-bialostocka-ratuje-supraskie-katakumby-zabezpieczanie-konstrukcji/",
+   "final_url": "https://pb.edu.pl/2026/11/18/politechnika-bialostocka-ratuje-supraskie-katakumby-zabezpieczanie-konstrukcji/",
+   "title": "Politechnika Białostocka ratuje supraskie katakumby. Zabezpieczanie konstrukcji - Politechnika Białostocka Aktualności",
+   "published_at": "2026-11-18",
+   "source": {
+    "name": "Politechnika Białostocka",
+    "entry_url": "https://pb.edu.pl/feed/",
+    "organization_type": "university",
+    "region": "podlaskie",
+    "discovery_type": "rss",
+    "allowed_prefix": "https://pb.edu.pl/",
+    "feed_url": "https://pb.edu.pl/feed/",
+    "sitemap_url": "",
+    "origin": "registry"
+   },
+   "excerpt": "Proces ratowania XVI-wiecznych katakumb Monasteru Zwiastowania Przenajświętszej Bogarodzicy w Supraślu to jedno z najbardziej prestiżowych i skomplikowanych przedsięwzięć z zakresu inżynierii budowlanej, archeologii oraz konserwacji zabytków w Polsce. Zabytek, któremu w 2023 roku nadano godność Pomnika Historii Rzeczypospolitej Polskiej, przez dekady ulegał postępującej degradacji pod wpływem czynników atmosferycznych, wód gruntowych i erozji biologicznej. Dzięki unikalnej inicjatywie środowiska akademickiego oraz zaangażowaniu ekspertów z Politechniki Białostockiej, ten bezcenny obiekt przechodzi obecnie gruntowną renowację i zabezpieczenie konstrukcyjne. Naukowe wsparcie i nadzór …\n\nKluczową rolę w diagnozowaniu stanu technicznego oraz opracowywaniu dedykowanych technologii materiałowych odgrywają specjaliści z Katedry Konstrukcji Budowlanych i Mechaniki Budowli na Wydziale Budownictwa i Nauk o Środowisku PB\n\nW procesie badawczym wykorzystano zaawansowane metody analityczne, w tym mikroskopię skaningową oraz trójwymiarowy skaning laserowy. Narzędzia te pozwoliły precyzyjnie ocenić geometrię, deformacje oraz mikrostrukturę starych cegieł i zapraw.\n\nPrzed rozpoczęciem renowacji ten obiekt dosłownie składał się do środka – wspomina bp Andrzej. – Teraz wszystkie elementy zostały zabezpieczone i zespojone – można powiedzieć, że to już lita skała.\n\nWykonawcy zabezpieczyli wnętrza katakumb i wzmocnili nisze grobowe. Wtedy przystąpiliśmy do odprowadzania wód gruntowych z zewnętrznej strony katakumb",
+   "analysis": {
+    "potential": 85,
+    "completeness": 100,
+    "path": "wdrozenie",
+    "signal": "wysoki",
+    "sector": "Materiały i budownictwo",
+    "stage": "in_use",
+    "priority": 0,
+    "region": "podlaskie",
+    "data": {
+     "lead": "Politechnika Białostocka prowadzi zaawansowane prace inżynieryjne i konserwatorskie przy ratowaniu XVI-wiecznych katakumb w Supraślu, wykorzystując nowoczesne metody badawcze do stabilizacji konstrukcji zabytku.",
+     "sector": "Materiały i budownictwo",
+     "stage": "in_use",
+     "stage_label": "Użytkowane",
+     "authors": [],
+     "signal": "wysoki",
+     "signal_label": "wysokie",
+     "signal_terms": [],
+     "market": "",
+     "criteria": [],
+     "potential": 85,
+     "known": 4,
+     "total": 4,
+     "completeness": 100,
+     "path": {
+      "id": "wdrozenie",
+      "label": "Wdrożenie",
+      "missing": [
+       "Brak szczegółowych danych na temat kosztów projektu oraz dokładnego harmonogramu zakończenia wszystkich etapów prac."
+      ],
+      "reasons": [
+       "Etap: Użytkowane",
+       "Ocena potencjału 85/100 (Gemini)"
+      ]
+     },
+     "dropped": [],
+     "relevance": {
+      "is_solution": true,
+      "reason": "Projekt stanowi przykład skutecznego transferu wiedzy akademickiej do praktyki konserwatorskiej. Politechnika Białostocka wdrożyła zaawansowane metody diagnostyczne (skaning laserowy, mikroskopia skan",
+      "evidence": [
+       "Kluczową rolę w diagnozowaniu stanu technicznego oraz opracowywaniu dedykowanych technologii materiałowych odgrywają specjaliści z Katedry Konstrukcji Budowlanych i Mechaniki Budowli na Wydziale Budownictwa i Nauk o Środowisku PB",
+       "W procesie badawczym wykorzystano zaawansowane metody analityczne, w tym mikroskopię skaningową oraz trójwymiarowy skaning laserowy. Narzędzia te pozwoliły precyzyjnie ocenić geometrię, deformacje oraz mikrostrukturę starych cegieł i zapraw.",
+       "Przed rozpoczęciem renowacji ten obiekt dosłownie składał się do środka – wspomina bp Andrzej. – Teraz wszystkie elementy zostały zabezpieczone i zespojone – można powiedzieć, że to już lita skała.",
+       "Wykonawcy zabezpieczyli wnętrza katakumb i wzmocnili nisze grobowe. Wtedy przystąpiliśmy do odprowadzania wód gruntowych z zewnętrznej strony katakumb"
+      ],
+      "noise": []
+     },
+     "verdict": {
+      "id": "glowna",
+      "label": "Interesujące",
+      "reason": "Potwierdzona inicjatywa z 18.11.2026; ocena 85/100 (próg 50), wiarygodność: wysoka."
+     },
+     "priority": 0,
+     "priority_reasons": [],
+     "region": {
+      "code": "podlaskie",
+      "how": "z tekstu: „Białymstoku”"
+     },
+     "innovation_types": [
+      "technologiczna",
+      "procesowa"
+     ],
+     "caveat": "Ocena wygenerowana przez model Gemini na podstawie tekstu źródła: to interpretacja AI, a nie potwierdzony fakt. Zweryfikowane są tylko dane ze strony i cytaty występujące w tekście.",
+     "verified": {
+      "url": "https://pb.edu.pl/2026/11/18/politechnika-bialostocka-ratuje-supraskie-katakumby-zabezpieczanie-konstrukcji/",
+      "source": "Politechnika Białostocka",
+      "organization_type": "Uczelnia",
+      "published_at": "2026-11-18",
+      "date_source": "metadane strony",
+      "quotes": [
+       "Kluczową rolę w diagnozowaniu stanu technicznego oraz opracowywaniu dedykowanych technologii materiałowych odgrywają specjaliści z Katedry Konstrukcji Budowlanych i Mechaniki Budowli na Wydziale Budownictwa i Nauk o Środowisku PB",
+       "W procesie badawczym wykorzystano zaawansowane metody analityczne, w tym mikroskopię skaningową oraz trójwymiarowy skaning laserowy. Narzędzia te pozwoliły precyzyjnie ocenić geometrię, deformacje oraz mikrostrukturę starych cegieł i zapraw.",
+       "Przed rozpoczęciem renowacji ten obiekt dosłownie składał się do środka – wspomina bp Andrzej. – Teraz wszystkie elementy zostały zabezpieczone i zespojone – można powiedzieć, że to już lita skała.",
+       "Wykonawcy zabezpieczyli wnętrza katakumb i wzmocnili nisze grobowe. Wtedy przystąpiliśmy do odprowadzania wód gruntowych z zewnętrznej strony katakumb"
+      ]
+     },
+     "ai": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "is_initiative": true,
+      "score": 85,
+      "summary": "Politechnika Białostocka prowadzi zaawansowane prace inżynieryjne i konserwatorskie przy ratowaniu XVI-wiecznych katakumb w Supraślu, wykorzystując nowoczesne metody badawcze do stabilizacji konstrukcji zabytku.",
+      "explanation": "Projekt stanowi przykład skutecznego transferu wiedzy akademickiej do praktyki konserwatorskiej. Politechnika Białostocka wdrożyła zaawansowane metody diagnostyczne (skaning laserowy, mikroskopia skaningowa) w celu opracowania technologii naprawczych i stabilizacji konstrukcji zagrożonego zawaleniem obiektu o randze Pomnika Historii. Wysoka ocena wynika z udokumentowanego wdrożenia rozwiązań inżynieryjnych, które realnie zapobiegły zniszczeniu zabytku i są kontynuowane w ramach szerszego planu rewitalizacji.",
+      "uncertainty": "Ocena jest wysoka, jednak opiera się głównie na relacjach medialnych uczelni i beneficjenta, bez wglądu w pełną dokumentację techniczną projektu.",
+      "missing_info": [
+       "Brak szczegółowych danych na temat kosztów projektu oraz dokładnego harmonogramu zakończenia wszystkich etapów prac."
+      ],
+      "credibility": "wysoka",
+      "credibility_reason": "Informacje pochodzą z oficjalnego serwisu informacyjnego Politechniki Białostockiej i zawierają wypowiedzi rektora uczelni oraz przedstawiciela klasztoru.",
+      "tokens": [
+       2156,
+       736
+      ]
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.uw.edu.pl/inteligentny-sensor-kwantowy-z-odpornoscia-na-straty/",
+   "final_url": "https://www.uw.edu.pl/inteligentny-sensor-kwantowy-z-odpornoscia-na-straty/",
+   "title": "Inteligentny sensor kwantowy z odpornością na straty",
+   "published_at": "2026-11-18",
+   "source": {
+    "name": "Uniwersytet Warszawski — Aktualności",
+    "entry_url": "https://www.uw.edu.pl/feed/",
+    "organization_type": "university",
+    "region": "mazowieckie",
+    "discovery_type": "rss",
+    "allowed_prefix": "https://www.uw.edu.pl/",
+    "feed_url": "https://www.uw.edu.pl/feed/",
+    "sitemap_url": "",
+    "origin": "registry"
+   },
+   "excerpt": "Naukowcy z Wydziału Fizyki UW oraz z Centrum Optycznych Technologii Kwantowych przy Centrum Nowych Technologii UW opracowali metodę ultraczułej detekcji mikrofal. Wykorzystując zimne, silnie oddziałujące atomy rydbergowskie jako detektor mikrofal, badacze zaobserwowali, że odpowiednio przygotowane oddziaływania między atomami pozwalają na uodpornienie stanu atomów na straty. Dzięki temu pomiar dostarczył trzykrotnie więcej informacji o badanym polu niż analogiczny, wykonany bez udziału oddziaływań. Wyniki badań zostały opublikowane w czasopiśmie „Nature Communications”. Atomy rydbergowskie to atomy, których jeden elektron po oświetleniu odpowiednio dostrojonymi laserami został wzbudzony do …\n\nStanowi ważny krok w stronę nowej generacji inteligentnych sensorów kwantowych",
+   "analysis": {
+    "potential": 85,
+    "completeness": 100,
+    "path": "rozwoj",
+    "signal": "wysoki",
+    "sector": "IT i sztuczna inteligencja",
+    "stage": "prototype",
+    "priority": 2,
+    "region": "mazowieckie",
+    "data": {
+     "lead": "Naukowcy z UW opracowali metodę ultraczułej detekcji mikrofal z wykorzystaniem atomów rydbergowskich, która dzięki nowatorskiemu wykorzystaniu oddziaływań międzyatomowych zwiększa odporność sensora na straty pomiarowe.",
+     "sector": "IT i sztuczna inteligencja",
+     "stage": "prototype",
+     "stage_label": "Prototyp",
+     "authors": [],
+     "signal": "wysoki",
+     "signal_label": "wysokie",
+     "signal_terms": [],
+     "market": "",
+     "criteria": [],
+     "potential": 85,
+     "known": 4,
+     "total": 4,
+     "completeness": 100,
+     "path": {
+      "id": "rozwoj",
+      "label": "Rozwój",
+      "missing": [
+       "Brak informacji o planach komercjalizacji lub wdrożenia przemysłowego.",
+       "Brak danych na temat kosztów produkcji i skalowalności urządzenia poza warunki laboratoryjne."
+      ],
+      "reasons": [
+       "Etap: Prototyp",
+       "Ocena potencjału 85/100 (Gemini)"
+      ]
+     },
+     "dropped": [],
+     "relevance": {
+      "is_solution": true,
+      "reason": "Projekt stanowi istotny wkład w rozwój metrologii kwantowej. Zespół z UW opracował i teoretycznie uzasadnił metodę, która pozwala trzykrotnie zwiększyć ilość informacji o mierzonym polu mikrofalowym w",
+      "evidence": [
+       "opracowali metodę ultraczułej detekcji mikrofal. Wykorzystując zimne, silnie oddziałujące atomy rydbergowskie jako detektor mikrofal",
+       "pomiar dostarczył trzykrotnie więcej informacji o badanym polu niż analogiczny, wykonany bez udziału oddziaływań",
+       "Wyniki badań zostały opublikowane w czasopiśmie „Nature Communications”",
+       "Stanowi ważny krok w stronę nowej generacji inteligentnych sensorów kwantowych"
+      ],
+      "noise": []
+     },
+     "verdict": {
+      "id": "glowna",
+      "label": "Interesujące",
+      "reason": "Potwierdzona inicjatywa z 18.11.2026; ocena 85/100 (próg 50), wiarygodność: wysoka."
+     },
+     "priority": 2,
+     "priority_reasons": [
+      "Obszar priorytetowy PCI: IT i sztuczna inteligencja"
+     ],
+     "region": {
+      "code": "mazowieckie",
+      "how": "z tekstu: „Warszawskim”"
+     },
+     "innovation_types": [
+      "technologiczna"
+     ],
+     "caveat": "Ocena wygenerowana przez model Gemini na podstawie tekstu źródła: to interpretacja AI, a nie potwierdzony fakt. Zweryfikowane są tylko dane ze strony i cytaty występujące w tekście.",
+     "verified": {
+      "url": "https://www.uw.edu.pl/inteligentny-sensor-kwantowy-z-odpornoscia-na-straty/",
+      "source": "Uniwersytet Warszawski — Aktualności",
+      "organization_type": "Uczelnia",
+      "published_at": "2026-11-18",
+      "date_source": "metadane strony",
+      "quotes": [
+       "opracowali metodę ultraczułej detekcji mikrofal. Wykorzystując zimne, silnie oddziałujące atomy rydbergowskie jako detektor mikrofal",
+       "pomiar dostarczył trzykrotnie więcej informacji o badanym polu niż analogiczny, wykonany bez udziału oddziaływań",
+       "Wyniki badań zostały opublikowane w czasopiśmie „Nature Communications”",
+       "Stanowi ważny krok w stronę nowej generacji inteligentnych sensorów kwantowych"
+      ]
+     },
+     "ai": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "is_initiative": true,
+      "score": 85,
+      "summary": "Naukowcy z UW opracowali metodę ultraczułej detekcji mikrofal z wykorzystaniem atomów rydbergowskich, która dzięki nowatorskiemu wykorzystaniu oddziaływań międzyatomowych zwiększa odporność sensora na straty pomiarowe.",
+      "explanation": "Projekt stanowi istotny wkład w rozwój metrologii kwantowej. Zespół z UW opracował i teoretycznie uzasadnił metodę, która pozwala trzykrotnie zwiększyć ilość informacji o mierzonym polu mikrofalowym w porównaniu do standardowych metod. Wyniki zostały zweryfikowane eksperymentalnie i opublikowane w prestiżowym czasopiśmie Nature Communications. Rozwiązanie ma wysoki potencjał w budowie nowej generacji inteligentnych sensorów kwantowych, choć obecnie znajduje się na etapie badań laboratoryjnych (prototyp/dowód koncepcji).",
+      "uncertainty": "Ocena dotyczy przełomowego odkrycia naukowego, którego praktyczne zastosowanie w warunkach poza laboratoryjnych wymaga dalszych prac rozwojowych.",
+      "missing_info": [
+       "Brak informacji o planach komercjalizacji lub wdrożenia przemysłowego.",
+       "Brak danych na temat kosztów produkcji i skalowalności urządzenia poza warunki laboratoryjne."
+      ],
+      "credibility": "wysoka",
+      "credibility_reason": "Informacja pochodzi z oficjalnego serwisu Uniwersytetu Warszawskiego i odnosi się do publikacji w recenzowanym czasopiśmie naukowym Nature Communications.",
+      "tokens": [
+       1695,
+       659
+      ]
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.gov.pl/web/cyfryzacja/rzad-przyjal-projekt-ustawy-o-europejskim-portfelu-tozsamosci-cyfrowej",
+   "final_url": "https://www.gov.pl/web/cyfryzacja/rzad-przyjal-projekt-ustawy-o-europejskim-portfelu-tozsamosci-cyfrowej",
+   "title": "Rząd przyjął projekt ustawy o Europejskim Portfelu Tożsamości Cyfrowej - Ministerstwo Cyfryzacji - Portal Gov.pl",
+   "published_at": "2026-11-17",
+   "source": {
+    "name": "Ministerstwo Cyfryzacji — Wiadomości",
+    "entry_url": "https://www.gov.pl/web/cyfryzacja/wiadomosci",
+    "organization_type": "agency",
+    "region": "",
+    "discovery_type": "html",
+    "allowed_prefix": "https://www.gov.pl/web/cyfryzacja/",
+    "feed_url": "",
+    "sitemap_url": "",
+    "origin": "registry"
+   },
+   "excerpt": "Rząd przyjął projekt ustawy o Europejskim Portfelu Tożsamości Cyfrowej 17.11.2026 Bezpieczne potwierdzanie tożsamości, przechowywanie dokumentów i korzystanie z usług cyfrowych w całej Unii Europejskiej - to najważniejsze możliwości, jakie zapewni w przyszłości Europejski Portfel Tożsamości Cyfrowej (EPTC). Przyjęty przez rząd projekt ustawy przygotowuje Polskę do wdrożenia tego rozwiązania. Dzięki niemu obywatele docelowo zyskają większą kontrolę nad udostępnianymi danymi, a korzystanie z portfela będzie dobrowolne. Jeden portfel cyfrowy w całej Unii Europejskiej Projekt ustawy dostosowuje polskie przepisy do unijnego rozporządzenia eIDAS2.0. Dzięki Europejskiemu Portfelowi Tożsamości …\n\nMinisterstwo Cyfryzacji i Centralny Ośrodek Informatyki prowadzą już przygotowania techniczne do wdrożenia portfela, który w Polsce będzie częścią ekosystemu aplikacji mObywatel.\n\nWe wrześniu 2026 r. uruchomiono środowisko testowe Sandbox EPTC z demonstracyjną aplikacją mObywatel Europa.",
+   "analysis": {
+    "potential": 85,
+    "completeness": 100,
+    "path": "wdrozenie",
+    "signal": "wysoki",
+    "sector": "IT i sztuczna inteligencja",
+    "stage": "pilot",
+    "priority": 2,
+    "region": "",
+    "data": {
+     "lead": "Przyjęcie projektu ustawy o Europejskim Portfelu Tożsamości Cyfrowej (EPTC), który umożliwi obywatelom bezpieczne korzystanie z usług cyfrowych w UE. Rozwiązanie będzie zintegrowane z aplikacją mObywatel.",
+     "sector": "IT i sztuczna inteligencja",
+     "stage": "pilot",
+     "stage_label": "Pilotaż",
+     "authors": [],
+     "signal": "wysoki",
+     "signal_label": "wysokie",
+     "signal_terms": [],
+     "market": "",
+     "criteria": [],
+     "potential": 85,
+     "known": 4,
+     "total": 4,
+     "completeness": 100,
+     "path": {
+      "id": "wdrozenie",
+      "label": "Wdrożenie",
+      "missing": [
+       "Brak szczegółowego harmonogramu pełnego wdrożenia produkcyjnego dla wszystkich obywateli.",
+       "Brak informacji o budżecie projektu."
+      ],
+      "reasons": [
+       "Etap: Pilotaż",
+       "Ocena potencjału 85/100 (Gemini)"
+      ]
+     },
+     "dropped": [],
+     "relevance": {
+      "is_solution": true,
+      "reason": "Projekt stanowi kluczowy krok w implementacji unijnego rozporządzenia eIDAS2.0 w Polsce. Inicjatywa ma wysoki potencjał wdrożeniowy, poparty pracami technicznymi Ministerstwa Cyfryzacji i Centralnego ",
+      "evidence": [
+       "Przyjęty przez rząd projekt ustawy przygotowuje Polskę do wdrożenia tego rozwiązania.",
+       "Ministerstwo Cyfryzacji i Centralny Ośrodek Informatyki prowadzą już przygotowania techniczne do wdrożenia portfela, który w Polsce będzie częścią ekosystemu aplikacji mObywatel.",
+       "We wrześniu 2026 r. uruchomiono środowisko testowe Sandbox EPTC z demonstracyjną aplikacją mObywatel Europa.",
+       "Projekt ustawy dostosowuje polskie przepisy do unijnego rozporządzenia eIDAS2.0."
+      ],
+      "noise": []
+     },
+     "verdict": {
+      "id": "glowna",
+      "label": "Interesujące",
+      "reason": "Potwierdzona inicjatywa z 17.11.2026; ocena 85/100 (próg 50), wiarygodność: wysoka."
+     },
+     "priority": 2,
+     "priority_reasons": [
+      "Obszar priorytetowy PCI: IT i sztuczna inteligencja"
+     ],
+     "region": {
+      "code": "",
+      "how": "brak wskazania regionu (ogólnopolskie)"
+     },
+     "innovation_types": [
+      "technologiczna",
+      "procesowa"
+     ],
+     "caveat": "Ocena wygenerowana przez model Gemini na podstawie tekstu źródła: to interpretacja AI, a nie potwierdzony fakt. Zweryfikowane są tylko dane ze strony i cytaty występujące w tekście.",
+     "verified": {
+      "url": "https://www.gov.pl/web/cyfryzacja/rzad-przyjal-projekt-ustawy-o-europejskim-portfelu-tozsamosci-cyfrowej",
+      "source": "Ministerstwo Cyfryzacji — Wiadomości",
+      "organization_type": "Agencja publiczna",
+      "published_at": "2026-11-17",
+      "date_source": "metadane strony",
+      "quotes": [
+       "Przyjęty przez rząd projekt ustawy przygotowuje Polskę do wdrożenia tego rozwiązania.",
+       "Ministerstwo Cyfryzacji i Centralny Ośrodek Informatyki prowadzą już przygotowania techniczne do wdrożenia portfela, który w Polsce będzie częścią ekosystemu aplikacji mObywatel.",
+       "We wrześniu 2026 r. uruchomiono środowisko testowe Sandbox EPTC z demonstracyjną aplikacją mObywatel Europa.",
+       "Projekt ustawy dostosowuje polskie przepisy do unijnego rozporządzenia eIDAS2.0."
+      ]
+     },
+     "ai": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "is_initiative": true,
+      "score": 85,
+      "summary": "Przyjęcie projektu ustawy o Europejskim Portfelu Tożsamości Cyfrowej (EPTC), który umożliwi obywatelom bezpieczne korzystanie z usług cyfrowych w UE. Rozwiązanie będzie zintegrowane z aplikacją mObywatel.",
+      "explanation": "Projekt stanowi kluczowy krok w implementacji unijnego rozporządzenia eIDAS2.0 w Polsce. Inicjatywa ma wysoki potencjał wdrożeniowy, poparty pracami technicznymi Ministerstwa Cyfryzacji i Centralnego Ośrodka Informatyki oraz uruchomieniem środowiska testowego (Sandbox EPTC). Rozwiązanie jest skalowalne w skali UE i istotnie wpływa na cyfryzację usług publicznych.",
+      "uncertainty": "Ocena opiera się na założeniu, że proces legislacyjny przebiegnie zgodnie z planem, a testy techniczne zakończą się sukcesem.",
+      "missing_info": [
+       "Brak szczegółowego harmonogramu pełnego wdrożenia produkcyjnego dla wszystkich obywateli.",
+       "Brak informacji o budżecie projektu."
+      ],
+      "credibility": "wysoka",
+      "credibility_reason": "Informacja pochodzi z oficjalnego portalu rządowego Ministerstwa Cyfryzacji (gov.pl).",
+      "tokens": [
+       1516,
+       584
+      ]
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.wroclaw.pl/dla-mieszkanca/jak-mops-pomaga-osobom-w-kryzysie-bezdomnosci",
+   "final_url": "https://www.wroclaw.pl/dla-mieszkanca/jak-mops-pomaga-osobom-w-kryzysie-bezdomnosci",
+   "title": "Streetbus i noclegownie to tylko działania doraźne. Tak MOPS pomaga wyjść z kryzysu bezdomności",
+   "published_at": "2026-11-21",
+   "source": {
+    "name": "Miasto Wrocław",
+    "entry_url": "https://www.wroclaw.pl/dla-mieszkanca/rss/",
+    "organization_type": "local_gov",
+    "region": "dolnośląskie",
+    "discovery_type": "rss",
+    "allowed_prefix": "https://www.wroclaw.pl/",
+    "feed_url": "https://www.wroclaw.pl/dla-mieszkanca/rss/",
+    "sitemap_url": "",
+    "origin": "registry"
+   },
+   "excerpt": "Najważniejsze informacje: (kliknij, aby przejść) “Tacy Sami. Historie bez adresu” to seria podcastów o osobach, które w pewnym momencie swojego życia znalazły się w kryzysie bezdomności. Pochodzą z różnych środowisk, są w różnym wieku i mieli różne doświadczenia, jednak wszyscy kiedyś stracili wszystko i teraz powoli to odzyskują - także dzięki wsparciu MOPS. Zgodzili się opowiedzieć swoją historię, choć nie wszyscy chcieli pokazać twarz. Wszystkie wyemitowane odcinki można obejrzeć tutaj: - odcinek pierwszy - pan Zdzisław, - odcinek drugi - pani Karolina, - odcinek trzeci - pan Mariusz, - odcinek czwarty - pan Adam, - odcinek piąty - pan Marek, - odcinek szósty - pani Anna. Podcast został …\n\nMiejski Ośrodek Pomocy Społecznej prowadzi specjalistyczne programy pomagające w wychodzeniu z kryzysu bezdomności, takie jak “Najpierw Mieszkanie” czy “Droga do domu”.\n\nJak jednak wskazują statystyki, aż 74 proc. osób korzystających z programu “Droga do domu” nie wraca na ulice czy do schronisk.\n\nWrocław już od ponad 10 lat udostępnia mieszkania treningowe podopiecznym. Obecnie jest to przeszło 50 lokali w różnych częściach miasta.\n\nPierwszy filar to zatrudnienie np. we Wrocławskiej Spółdzielni Socjalnej przy remontach, sprzątaniu czy pielęgnacji zieleni.",
+   "analysis": {
+    "potential": 75,
+    "completeness": 100,
+    "path": "wdrozenie",
+    "signal": "wysoki",
+    "sector": "Pomoc społeczna i włączenie",
+    "stage": "in_use",
+    "priority": 0,
+    "region": "dolnośląskie",
+    "data": {
+     "lead": "Wrocławski MOPS realizuje programy „Najpierw Mieszkanie” oraz „Droga do domu”, które wspierają osoby w kryzysie bezdomności poprzez aktywizację zawodową i mieszkania treningowe, osiągając 74% skuteczności w usamodzielnianiu uczestników.",
+     "sector": "Pomoc społeczna i włączenie",
+     "stage": "in_use",
+     "stage_label": "Użytkowane",
+     "authors": [],
+     "signal": "wysoki",
+     "signal_label": "wysokie",
+     "signal_terms": [],
+     "market": "",
+     "criteria": [],
+     "potential": 75,
+     "known": 4,
+     "total": 4,
+     "completeness": 100,
+     "path": {
+      "id": "wdrozenie",
+      "label": "Wdrożenie",
+      "missing": [
+       "Brak szczegółowych danych finansowych dotyczących kosztów utrzymania programu w relacji do oszczędności budżetowych.",
+       "Brak informacji o liczbie osób aktualnie objętych programem w stosunku do całkowitej liczby osób w kryzysie bezdomności w mieście."
+      ],
+      "reasons": [
+       "Etap: Użytkowane",
+       "Ocena potencjału 75/100 (Gemini)"
+      ]
+     },
+     "dropped": [],
+     "relevance": {
+      "is_solution": true,
+      "reason": "Tekst opisuje systemowe, długofalowe podejście do rozwiązywania problemu bezdomności, wykraczające poza doraźną pomoc. Programy łączą wsparcie mieszkaniowe (mieszkania partycypacyjne) z aktywizacją za",
+      "evidence": [
+       "Miejski Ośrodek Pomocy Społecznej prowadzi specjalistyczne programy pomagające w wychodzeniu z kryzysu bezdomności, takie jak “Najpierw Mieszkanie” czy “Droga do domu”.",
+       "Jak jednak wskazują statystyki, aż 74 proc. osób korzystających z programu “Droga do domu” nie wraca na ulice czy do schronisk.",
+       "Wrocław już od ponad 10 lat udostępnia mieszkania treningowe podopiecznym. Obecnie jest to przeszło 50 lokali w różnych częściach miasta.",
+       "Pierwszy filar to zatrudnienie np. we Wrocławskiej Spółdzielni Socjalnej przy remontach, sprzątaniu czy pielęgnacji zieleni."
+      ],
+      "noise": []
+     },
+     "verdict": {
+      "id": "glowna",
+      "label": "Interesujące",
+      "reason": "Potwierdzona inicjatywa z 21.11.2026; ocena 75/100 (próg 50), wiarygodność: wysoka."
+     },
+     "priority": 0,
+     "priority_reasons": [],
+     "region": {
+      "code": "dolnośląskie",
+      "how": "z tekstu: „Wrocław”"
+     },
+     "innovation_types": [
+      "społeczna",
+      "organizacyjna"
+     ],
+     "caveat": "Ocena wygenerowana przez model Gemini na podstawie tekstu źródła: to interpretacja AI, a nie potwierdzony fakt. Zweryfikowane są tylko dane ze strony i cytaty występujące w tekście.",
+     "verified": {
+      "url": "https://www.wroclaw.pl/dla-mieszkanca/jak-mops-pomaga-osobom-w-kryzysie-bezdomnosci",
+      "source": "Miasto Wrocław",
+      "organization_type": "Samorząd",
+      "published_at": "2026-11-21",
+      "date_source": "metadane strony",
+      "quotes": [
+       "Miejski Ośrodek Pomocy Społecznej prowadzi specjalistyczne programy pomagające w wychodzeniu z kryzysu bezdomności, takie jak “Najpierw Mieszkanie” czy “Droga do domu”.",
+       "Jak jednak wskazują statystyki, aż 74 proc. osób korzystających z programu “Droga do domu” nie wraca na ulice czy do schronisk.",
+       "Wrocław już od ponad 10 lat udostępnia mieszkania treningowe podopiecznym. Obecnie jest to przeszło 50 lokali w różnych częściach miasta.",
+       "Pierwszy filar to zatrudnienie np. we Wrocławskiej Spółdzielni Socjalnej przy remontach, sprzątaniu czy pielęgnacji zieleni."
+      ]
+     },
+     "ai": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "is_initiative": true,
+      "score": 75,
+      "summary": "Wrocławski MOPS realizuje programy „Najpierw Mieszkanie” oraz „Droga do domu”, które wspierają osoby w kryzysie bezdomności poprzez aktywizację zawodową i mieszkania treningowe, osiągając 74% skuteczności w usamodzielnianiu uczestników.",
+      "explanation": "Tekst opisuje systemowe, długofalowe podejście do rozwiązywania problemu bezdomności, wykraczające poza doraźną pomoc. Programy łączą wsparcie mieszkaniowe (mieszkania partycypacyjne) z aktywizacją zawodową (Wrocławska Spółdzielnia Socjalna) oraz opieką koordynatorów. Wysoka ocena wynika z udokumentowanej skuteczności (74% sukcesu) oraz długoletniego doświadczenia (ponad 10 lat). Inicjatywa ma charakter społeczny i organizacyjny, jest skalowalna i stanowi przykład dobrych praktyk w samorządzie.",
+      "uncertainty": "Ocena opiera się wyłącznie na danych deklaratywnych przedstawionych przez instytucję prowadzącą program, bez zewnętrznej weryfikacji raportów ewaluacyjnych.",
+      "missing_info": [
+       "Brak szczegółowych danych finansowych dotyczących kosztów utrzymania programu w relacji do oszczędności budżetowych.",
+       "Brak informacji o liczbie osób aktualnie objętych programem w stosunku do całkowitej liczby osób w kryzysie bezdomności w mieście."
+      ],
+      "credibility": "wysoka",
+      "credibility_reason": "Informacje pochodzą z oficjalnego portalu miejskiego Wrocław.pl i są poparte wypowiedziami przedstawiciela MOPS oraz konkretnymi danymi statystycznymi.",
+      "tokens": [
+       2230,
+       718
+      ]
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.pw.edu.pl/aktualnosci/sztuczna-inteligencja-i-inzynieria-w-diagnostyce-tetniakow-srodczaszkowych",
+   "final_url": "https://www.pw.edu.pl/aktualnosci/sztuczna-inteligencja-i-inzynieria-w-diagnostyce-tetniakow-srodczaszkowych",
+   "title": "Sztuczna inteligencja i inżynieria w diagnostyce tętniaków śródczaszkowych. Międzynarodowy wymiar badań naukowca z PW",
+   "published_at": "2026-11-20",
+   "source": {
+    "name": "Politechnika Warszawska — Aktualności",
+    "entry_url": "https://www.pw.edu.pl/aktualnosci",
+    "organization_type": "university",
+    "region": "mazowieckie",
+    "discovery_type": "html",
+    "allowed_prefix": "",
+    "feed_url": "",
+    "sitemap_url": "",
+    "origin": "registry"
+   },
+   "excerpt": "Opublikowano: 20.11.2026 18:08 Sztuczna inteligencja i inżynieria w diagnostyce tętniaków śródczaszkowych. Międzynarodowy wymiar badań naukowca z PW Opracowanie nowych metod diagnostycznych oraz zaleceń dla lekarzy w celu poprawy diagnostyki i planowania leczenia tętniaków śródczaszkowych jest celem projektu badawczego realizowanego z udziałem Politechniki Warszawskiej i Mayo Clinic (USA). Ze strony naszej Uczelni działaniami badawczymi kieruje dr inż. Krystian Jędrzejczak, adiunkt w Zakładzie Intensyfikacji Procesów Przemysłowych Wydziału Inżynierii Chemicznej i Procesowej, kierowanym przez prof. dr. hab. inż. Łukasza Makowskiego. Politechnika Warszawska przeprowadzi badania z …\n\nPolitechnika Warszawska przeprowadzi badania z wykorzystaniem danych udostępnionych przez Mayo Clinic w celu modelowania przepływu krwi w układzie sercowo-naczyniowym, stosując obrazowanie 4D Flow MRI\n\nDr inż. Krystian Jędrzejczak jest specjalistą w zakresie modelowania numerycznego przepływu krwi oraz walidacji eksperymentalnej w oparciu o druk 3D i cyfrową anemometrię obrazową (PIV).",
+   "analysis": {
+    "potential": 75,
+    "completeness": 75,
+    "path": "rozwoj",
+    "signal": "sredni",
+    "sector": "Zdrowie i medycyna",
+    "stage": "prototype",
+    "priority": 2,
+    "region": "mazowieckie",
+    "data": {
+     "lead": "Projekt badawczy Politechniki Warszawskiej i Mayo Clinic dotyczący wykorzystania AI i modelowania numerycznego (4D Flow MRI) do poprawy diagnostyki i planowania leczenia tętniaków śródczaszkowych.",
+     "sector": "Zdrowie i medycyna",
+     "stage": "prototype",
+     "stage_label": "Prototyp",
+     "authors": [],
+     "signal": "sredni",
+     "signal_label": "średnie",
+     "signal_terms": [],
+     "market": "",
+     "criteria": [],
+     "potential": 75,
+     "known": 3,
+     "total": 4,
+     "completeness": 75,
+     "path": {
+      "id": "rozwoj",
+      "label": "Rozwój",
+      "missing": [
+       "Brak informacji o konkretnych wskaźnikach sukcesu (KPI) projektu.",
+       "Brak harmonogramu wdrożenia wyników badań do praktyki klinicznej."
+      ],
+      "reasons": [
+       "Etap: Prototyp",
+       "Ocena potencjału 75/100 (Gemini)"
+      ]
+     },
+     "dropped": [],
+     "relevance": {
+      "is_solution": true,
+      "reason": "Projekt łączy inżynierię chemiczną i procesową z medycyną, wykorzystując zaawansowane modelowanie przepływu krwi i dane kliniczne z Mayo Clinic. Wysoki potencjał innowacyjny wynika z zastosowania nowo",
+      "evidence": [
+       "Opracowanie nowych metod diagnostycznych oraz zaleceń dla lekarzy w celu poprawy diagnostyki i planowania leczenia tętniaków śródczaszkowych jest celem projektu badawczego",
+       "Politechnika Warszawska przeprowadzi badania z wykorzystaniem danych udostępnionych przez Mayo Clinic w celu modelowania przepływu krwi w układzie sercowo-naczyniowym, stosując obrazowanie 4D Flow MRI",
+       "Dr inż. Krystian Jędrzejczak jest specjalistą w zakresie modelowania numerycznego przepływu krwi oraz walidacji eksperymentalnej w oparciu o druk 3D i cyfrową anemometrię obrazową (PIV)."
+      ],
+      "noise": []
+     },
+     "verdict": {
+      "id": "glowna",
+      "label": "Interesujące",
+      "reason": "Potwierdzona inicjatywa z 20.11.2026; ocena 75/100 (próg 50), wiarygodność: wysoka."
+     },
+     "priority": 2,
+     "priority_reasons": [
+      "Obszar priorytetowy PCI: Zdrowie i medycyna"
+     ],
+     "region": {
+      "code": "mazowieckie",
+      "how": "z tekstu: „Warszawskiej”"
+     },
+     "innovation_types": [
+      "technologiczna",
+      "procesowa"
+     ],
+     "caveat": "Ocena wygenerowana przez model Gemini na podstawie tekstu źródła: to interpretacja AI, a nie potwierdzony fakt. Zweryfikowane są tylko dane ze strony i cytaty występujące w tekście.",
+     "verified": {
+      "url": "https://www.pw.edu.pl/aktualnosci/sztuczna-inteligencja-i-inzynieria-w-diagnostyce-tetniakow-srodczaszkowych",
+      "source": "Politechnika Warszawska — Aktualności",
+      "organization_type": "Uczelnia",
+      "published_at": "2026-11-20",
+      "date_source": "metadane strony",
+      "quotes": [
+       "Opracowanie nowych metod diagnostycznych oraz zaleceń dla lekarzy w celu poprawy diagnostyki i planowania leczenia tętniaków śródczaszkowych jest celem projektu badawczego",
+       "Politechnika Warszawska przeprowadzi badania z wykorzystaniem danych udostępnionych przez Mayo Clinic w celu modelowania przepływu krwi w układzie sercowo-naczyniowym, stosując obrazowanie 4D Flow MRI",
+       "Dr inż. Krystian Jędrzejczak jest specjalistą w zakresie modelowania numerycznego przepływu krwi oraz walidacji eksperymentalnej w oparciu o druk 3D i cyfrową anemometrię obrazową (PIV)."
+      ]
+     },
+     "ai": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "is_initiative": true,
+      "score": 75,
+      "summary": "Projekt badawczy Politechniki Warszawskiej i Mayo Clinic dotyczący wykorzystania AI i modelowania numerycznego (4D Flow MRI) do poprawy diagnostyki i planowania leczenia tętniaków śródczaszkowych.",
+      "explanation": "Projekt łączy inżynierię chemiczną i procesową z medycyną, wykorzystując zaawansowane modelowanie przepływu krwi i dane kliniczne z Mayo Clinic. Wysoki potencjał innowacyjny wynika z zastosowania nowoczesnych metod obrazowania 4D Flow MRI oraz AI w diagnostyce krytycznych schorzeń naczyniowych. Współpraca międzynarodowa i dostęp do unikalnych zbiorów danych zwiększają wiarygodność i szansę na wdrożenie kliniczne opracowywanych metod.",
+      "uncertainty": "Ocena dotyczy etapu badawczego, więc ostateczny sukces wdrożeniowy zależy od wyników walidacji klinicznej modelu.",
+      "missing_info": [
+       "Brak informacji o konkretnych wskaźnikach sukcesu (KPI) projektu.",
+       "Brak harmonogramu wdrożenia wyników badań do praktyki klinicznej."
+      ],
+      "credibility": "wysoka",
+      "credibility_reason": "Informacja pochodzi z oficjalnego serwisu informacyjnego Politechniki Warszawskiej i wskazuje konkretnych naukowców oraz partnerów instytucjonalnych.",
+      "tokens": [
+       1343,
+       657
+      ]
+     }
+    }
+   }
+  },
+  {
+   "url": "https://ibe.edu.pl/pl/aktualnosci/4054-warszawa-znow-stanie-sie-swiatowa-stolica-poswiadczen-cyfrowych",
+   "final_url": "https://ibe.edu.pl/pl/aktualnosci/4054-warszawa-znow-stanie-sie-swiatowa-stolica-poswiadczen-cyfrowych",
+   "title": "Warszawa znów stanie się światową stolicą poświadczeń cyfrowych",
+   "published_at": "2026-11-19",
+   "source": {
+    "name": "Instytut Badań Edukacyjnych",
+    "entry_url": "https://ibe.edu.pl/pl/aktualnosci",
+    "organization_type": "research",
+    "region": "",
+    "discovery_type": "html",
+    "allowed_prefix": "https://ibe.edu.pl/pl/aktualnosci/",
+    "feed_url": "",
+    "sitemap_url": "",
+    "origin": "registry"
+   },
+   "excerpt": "Konferencję “Warsaw Microcredentials Summit: From Vision to Action” organizuje Instytut Badań Edukacyjnych - Państwowy Instytut Badawczy. Przez dwa dni eksperci z całego świata będą rozmawiać o mikropoświadczeniach w sześciu blokach tematycznych: oświata, szkolnictwo wyższe, rynek pracy, technologie, polityki publiczne oraz jakość i standardy. Prelekcje, panele dyskusyjne i warsztaty będą odbywać się równolegle. Dlaczego „From Vision to Action”? Tegoroczna edycja będzie okazją do porównania doświadczeń różnych krajów we wdrażaniu mikropoświadczeń, oceny efektów tworzonych systemów i standardów oraz sformułowania rekomendacji na przyszłość. Chcemy podzielić się z uczestnikami postępami, …\n\nKrajowy System Mikropoświadczeń, tworzony w IBE PIB, jest testowany w biznesie, na rynku pracy, w szkolnictwie wyższym i w oświacie.\n\nAplikacja Odznaka+ zyskała wyszukiwarkę poświadczeń, a jej model danych automatycznie mapuje poświadczenie do standardu wybranego przez użytkownika.\n\nOdznaka+ jest zgodna ze standardem W3C Verifiable Credentials i gotowa na przyjęcie Europejskiego Portfela Tożsamości Cyfrowej (EUDI Wallet).\n\nOpowiemy o pilotażu, który właśnie prowadzimy w szkołach ponadpodstawowych. To zupełnie świeże doświadczenia, związane z nowym przedmiotem – edukacją obywatelską",
+   "analysis": {
+    "potential": 75,
+    "completeness": 100,
+    "path": "wdrozenie",
+    "signal": "wysoki",
+    "sector": "Edukacja",
+    "stage": "pilot",
+    "priority": 0,
+    "region": "mazowieckie",
+    "data": {
+     "lead": "IBE rozwija Krajowy System Mikropoświadczeń oraz aplikację Odznaka+, integrując je z europejskimi standardami cyfrowych portfeli. Projekt obejmuje pilotaże w szkolnictwie i na rynku pracy, dążąc do pełnej uznawalności poświadczeń w UE.",
+     "sector": "Edukacja",
+     "stage": "pilot",
+     "stage_label": "Pilotaż",
+     "authors": [],
+     "signal": "wysoki",
+     "signal_label": "wysokie",
+     "signal_terms": [],
+     "market": "",
+     "criteria": [],
+     "potential": 75,
+     "known": 4,
+     "total": 4,
+     "completeness": 100,
+     "path": {
+      "id": "wdrozenie",
+      "label": "Wdrożenie",
+      "missing": [
+       "Brak szczegółowych danych ilościowych dotyczących skali pilotażu (liczba szkół, uczniów).",
+       "Brak informacji o konkretnych wskaźnikach efektywności (KPI) osiągniętych w trakcie trwania projektu."
+      ],
+      "reasons": [
+       "Etap: Pilotaż",
+       "Ocena potencjału 75/100 (Gemini)"
+      ]
+     },
+     "dropped": [],
+     "relevance": {
+      "is_solution": true,
+      "reason": "Tekst opisuje zaawansowany projekt systemowy realizowany przez IBE PIB, obejmujący tworzenie Krajowego Systemu Mikropoświadczeń oraz rozwój aplikacji Odznaka+. Innowacja polega na cyfryzacji poświadcz",
+      "evidence": [
+       "Krajowy System Mikropoświadczeń, tworzony w IBE PIB, jest testowany w biznesie, na rynku pracy, w szkolnictwie wyższym i w oświacie.",
+       "Aplikacja Odznaka+ zyskała wyszukiwarkę poświadczeń, a jej model danych automatycznie mapuje poświadczenie do standardu wybranego przez użytkownika.",
+       "Odznaka+ jest zgodna ze standardem W3C Verifiable Credentials i gotowa na przyjęcie Europejskiego Portfela Tożsamości Cyfrowej (EUDI Wallet).",
+       "Opowiemy o pilotażu, który właśnie prowadzimy w szkołach ponadpodstawowych. To zupełnie świeże doświadczenia, związane z nowym przedmiotem – edukacją obywatelską"
+      ],
+      "noise": []
+     },
+     "verdict": {
+      "id": "glowna",
+      "label": "Interesujące",
+      "reason": "Potwierdzona inicjatywa z 19.11.2026; ocena 75/100 (próg 50), wiarygodność: wysoka."
+     },
+     "priority": 0,
+     "priority_reasons": [],
+     "region": {
+      "code": "mazowieckie",
+      "how": "z tekstu: „Warszawa”"
+     },
+     "innovation_types": [
+      "technologiczna",
+      "procesowa"
+     ],
+     "caveat": "Ocena wygenerowana przez model Gemini na podstawie tekstu źródła: to interpretacja AI, a nie potwierdzony fakt. Zweryfikowane są tylko dane ze strony i cytaty występujące w tekście.",
+     "verified": {
+      "url": "https://ibe.edu.pl/pl/aktualnosci/4054-warszawa-znow-stanie-sie-swiatowa-stolica-poswiadczen-cyfrowych",
+      "source": "Instytut Badań Edukacyjnych",
+      "organization_type": "Instytut badawczy",
+      "published_at": "2026-11-19",
+      "date_source": "metadane strony",
+      "quotes": [
+       "Krajowy System Mikropoświadczeń, tworzony w IBE PIB, jest testowany w biznesie, na rynku pracy, w szkolnictwie wyższym i w oświacie.",
+       "Aplikacja Odznaka+ zyskała wyszukiwarkę poświadczeń, a jej model danych automatycznie mapuje poświadczenie do standardu wybranego przez użytkownika.",
+       "Odznaka+ jest zgodna ze standardem W3C Verifiable Credentials i gotowa na przyjęcie Europejskiego Portfela Tożsamości Cyfrowej (EUDI Wallet).",
+       "Opowiemy o pilotażu, który właśnie prowadzimy w szkołach ponadpodstawowych. To zupełnie świeże doświadczenia, związane z nowym przedmiotem – edukacją obywatelską"
+      ]
+     },
+     "ai": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "is_initiative": true,
+      "score": 75,
+      "summary": "IBE rozwija Krajowy System Mikropoświadczeń oraz aplikację Odznaka+, integrując je z europejskimi standardami cyfrowych portfeli. Projekt obejmuje pilotaże w szkolnictwie i na rynku pracy, dążąc do pełnej uznawalności poświadczeń w UE.",
+      "explanation": "Tekst opisuje zaawansowany projekt systemowy realizowany przez IBE PIB, obejmujący tworzenie Krajowego Systemu Mikropoświadczeń oraz rozwój aplikacji Odznaka+. Innowacja polega na cyfryzacji poświadczeń umiejętności, ich standaryzacji oraz integracji z europejskimi portfelami tożsamości (EUDI Wallet). Projekt jest w fazie pilotażu w różnych sektorach, w tym w szkołach ponadpodstawowych, co wskazuje na realne wdrożenie i skalowalność rozwiązania.",
+      "uncertainty": "Ocena dotyczy projektu systemowego, którego pełna skuteczność wdrożeniowa w skali kraju będzie zależeć od szerokiej adopcji przez instytucje edukacyjne i pracodawców.",
+      "missing_info": [
+       "Brak szczegółowych danych ilościowych dotyczących skali pilotażu (liczba szkół, uczniów).",
+       "Brak informacji o konkretnych wskaźnikach efektywności (KPI) osiągniętych w trakcie trwania projektu."
+      ],
+      "credibility": "wysoka",
+      "credibility_reason": "Źródłem jest oficjalna strona Instytutu Badań Edukacyjnych (IBE PIB), państwowej jednostki badawczej.",
+      "tokens": [
+       1239,
+       693
+      ]
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.frse.org.pl/aktualnosci/europe-goes-local-co-sie-zmienia-w-gminie-kiedy-mlodzi-maja-glos",
+   "final_url": "https://www.frse.org.pl/aktualnosci/europe-goes-local-co-sie-zmienia-w-gminie-kiedy-mlodzi-maja-glos",
+   "title": "Europe Goes Local. Co się zmienia w gminie, kiedy młodzi mają głos?",
+   "published_at": "2026-11-19",
+   "source": {
+    "name": "Fundacja Rozwoju Systemu Edukacji",
+    "entry_url": "https://www.frse.org.pl/aktualnosci",
+    "organization_type": "agency",
+    "region": "",
+    "discovery_type": "html",
+    "allowed_prefix": "https://www.frse.org.pl/aktualnosci/",
+    "feed_url": "",
+    "sitemap_url": "",
+    "origin": "registry"
+   },
+   "excerpt": "Data publikacji: 19.11.2026 r. Europe Goes Local (EGL) to europejska platforma współpracy na rzecz jakości lokalnej pracy z młodzieżą. W Polsce Fundacja Rozwoju Systemu Edukacji (FRSE) połączyła mentoring dla samorządów ze szkoleniami, seminariami i wizytami studyjnymi. Przez niespełna rok dziesięć samorządów przy wsparciu mentorów rozpoznawało potrzeby młodych mieszkańców i wdrażało rozwiązania dostosowane do swoich miejscowości. W pilotażu uczestniczyły: Gdańsk, Legionowo, Miedzichowo, Mińsk Mazowiecki, Piekary Śląskie, Racibórz, Rzeszów, Starachowice, Świdwin i Święciechowa. Konferencję otworzył Tomasz Krześniak, zastępca dyrektora generalnego FRSE. Podkreślił rolę pracy z młodzieżą w …\n\nGmina przygotowała jego zasady z mentorką EGL i przeznaczyła po trzy tysiące złotych na trzy inicjatywy. Młodzi zgłaszali pomysły, głosowali i realizowali zwycięskie projekty.\n\nPotrzebę jej stworzenia zgłosiła Młodzieżowa Rada Konsultacyjna, a potwierdziła ją miejska diagnoza. Mentoring pomógł dopracować pomysł i znaleźć lokalną organizację, która podjęła się prowadzenia przestrzeni.\n\nW Starachowicach zapytano młodzież o zdrowie psychiczne, edukację i pracę, także sezonową. Wnioski z tych rozmów mają pomóc w planowaniu rozwoju miasta do 2035 r.",
+   "analysis": {
+    "potential": 75,
+    "completeness": 100,
+    "path": "wdrozenie",
+    "signal": "wysoki",
+    "sector": "Administracja i samorząd",
+    "stage": "in_use",
+    "priority": 0,
+    "region": "łódzkie",
+    "data": {
+     "lead": "Europe Goes Local to program mentoringowy wspierający samorządy w partycypacji młodzieży. Projekt obejmuje wdrożenia lokalnych rozwiązań, takich jak budżety partycypacyjne czy centra aktywności, oparte na diagnozie potrzeb młodych mieszkańców.",
+     "sector": "Administracja i samorząd",
+     "stage": "in_use",
+     "stage_label": "Użytkowane",
+     "authors": [],
+     "signal": "wysoki",
+     "signal_label": "wysokie",
+     "signal_terms": [],
+     "market": "",
+     "criteria": [],
+     "potential": 75,
+     "known": 4,
+     "total": 4,
+     "completeness": 100,
+     "path": {
+      "id": "wdrozenie",
+      "label": "Wdrożenie",
+      "missing": [
+       "Brak szczegółowych danych o długofalowej trwałości finansowej wdrożonych rozwiązań po zakończeniu wsparcia mentorskiego.",
+       "Brak informacji o mierzalnych wskaźnikach wpływu (KPI) dla wszystkich dziesięciu samorządów uczestniczących w pilotażu."
+      ],
+      "reasons": [
+       "Etap: Użytkowane",
+       "Ocena potencjału 75/100 (Gemini)"
+      ]
+     },
+     "dropped": [],
+     "relevance": {
+      "is_solution": true,
+      "reason": "Program jest dobrze udokumentowany, posiada konkretne przykłady wdrożeń (np. Legio #BAZA w Legionowie, budżet partycypacyjny w Święciechowie) oraz wsparcie instytucjonalne (FRSE, MEN). Wysoka ocena wy",
+      "evidence": [
+       "Przez niespełna rok dziesięć samorządów przy wsparciu mentorów rozpoznawało potrzeby młodych mieszkańców i wdrażało rozwiązania dostosowane do swoich miejscowości.",
+       "Gmina przygotowała jego zasady z mentorką EGL i przeznaczyła po trzy tysiące złotych na trzy inicjatywy. Młodzi zgłaszali pomysły, głosowali i realizowali zwycięskie projekty.",
+       "Potrzebę jej stworzenia zgłosiła Młodzieżowa Rada Konsultacyjna, a potwierdziła ją miejska diagnoza. Mentoring pomógł dopracować pomysł i znaleźć lokalną organizację, która podjęła się prowadzenia przestrzeni.",
+       "W Starachowicach zapytano młodzież o zdrowie psychiczne, edukację i pracę, także sezonową. Wnioski z tych rozmów mają pomóc w planowaniu rozwoju miasta do 2035 r."
+      ],
+      "noise": []
+     },
+     "verdict": {
+      "id": "glowna",
+      "label": "Interesujące",
+      "reason": "Potwierdzona inicjatywa z 19.11.2026; ocena 75/100 (próg 50), wiarygodność: wysoka."
+     },
+     "priority": 0,
+     "priority_reasons": [],
+     "region": {
+      "code": "łódzkie",
+      "how": "z tekstu: „łodzi”"
+     },
+     "innovation_types": [
+      "społeczna",
+      "organizacyjna"
+     ],
+     "caveat": "Ocena wygenerowana przez model Gemini na podstawie tekstu źródła: to interpretacja AI, a nie potwierdzony fakt. Zweryfikowane są tylko dane ze strony i cytaty występujące w tekście.",
+     "verified": {
+      "url": "https://www.frse.org.pl/aktualnosci/europe-goes-local-co-sie-zmienia-w-gminie-kiedy-mlodzi-maja-glos",
+      "source": "Fundacja Rozwoju Systemu Edukacji",
+      "organization_type": "Agencja publiczna",
+      "published_at": "2026-11-19",
+      "date_source": "metadane strony",
+      "quotes": [
+       "Przez niespełna rok dziesięć samorządów przy wsparciu mentorów rozpoznawało potrzeby młodych mieszkańców i wdrażało rozwiązania dostosowane do swoich miejscowości.",
+       "Gmina przygotowała jego zasady z mentorką EGL i przeznaczyła po trzy tysiące złotych na trzy inicjatywy. Młodzi zgłaszali pomysły, głosowali i realizowali zwycięskie projekty.",
+       "Potrzebę jej stworzenia zgłosiła Młodzieżowa Rada Konsultacyjna, a potwierdziła ją miejska diagnoza. Mentoring pomógł dopracować pomysł i znaleźć lokalną organizację, która podjęła się prowadzenia przestrzeni.",
+       "W Starachowicach zapytano młodzież o zdrowie psychiczne, edukację i pracę, także sezonową. Wnioski z tych rozmów mają pomóc w planowaniu rozwoju miasta do 2035 r."
+      ]
+     },
+     "ai": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "is_initiative": true,
+      "score": 75,
+      "summary": "Europe Goes Local to program mentoringowy wspierający samorządy w partycypacji młodzieży. Projekt obejmuje wdrożenia lokalnych rozwiązań, takich jak budżety partycypacyjne czy centra aktywności, oparte na diagnozie potrzeb młodych mieszkańców.",
+      "explanation": "Program jest dobrze udokumentowany, posiada konkretne przykłady wdrożeń (np. Legio #BAZA w Legionowie, budżet partycypacyjny w Święciechowie) oraz wsparcie instytucjonalne (FRSE, MEN). Wysoka ocena wynika z systemowego podejścia do partycypacji młodzieży, łączenia mentoringu z praktycznymi narzędziami oraz skalowalności modelu na inne gminy. Inicjatywa promuje trwałe zmiany w zarządzaniu lokalnym poprzez włączanie młodych w procesy decyzyjne.",
+      "uncertainty": "Ocena opiera się na relacji z konferencji podsumowującej, co może sugerować pewną idealizację sukcesów programu w porównaniu do pełnych raportów ewaluacyjnych.",
+      "missing_info": [
+       "Brak szczegółowych danych o długofalowej trwałości finansowej wdrożonych rozwiązań po zakończeniu wsparcia mentorskiego.",
+       "Brak informacji o mierzalnych wskaźnikach wpływu (KPI) dla wszystkich dziesięciu samorządów uczestniczących w pilotażu."
+      ],
+      "credibility": "wysoka",
+      "credibility_reason": "Źródłem jest oficjalna strona Fundacji Rozwoju Systemu Edukacji (agencja publiczna), tekst zawiera konkretne nazwy samorządów, nazwiska urzędników oraz opisy zrealizowanych projektów.",
+      "tokens": [
+       2222,
+       760
+      ]
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.agh.edu.pl/aktualnosci/detail/fort-krakow-polaczyl-bylych-wojskowych-z-innowatorami",
+   "final_url": "https://www.agh.edu.pl/aktualnosci/detail/fort-krakow-polaczyl-bylych-wojskowych-z-innowatorami",
+   "title": "FORT Kraków połączył byłych wojskowych z innowatorami",
+   "published_at": "2026-11-19",
+   "source": {
+    "name": "AGH — Aktualności",
+    "entry_url": "https://www.agh.edu.pl/aktualnosci",
+    "organization_type": "university",
+    "region": "małopolskie",
+    "discovery_type": "html",
+    "allowed_prefix": "",
+    "feed_url": "",
+    "sitemap_url": "",
+    "origin": "registry"
+   },
+   "excerpt": "Grupa 16 weteranów, rezerwistów i byłych żołnierzy oraz 15 zespołów technologicznych i indywidualnych innowatorów weźmie udział w dwóch programach FORT Kraków. Wspólna inauguracja programu „Trzecia Linia” oraz FORT Defence & Dual-Use Incubator odbyła się w Akademii Górniczo-Hutniczej 16 i 17 listopada 2026 r. „Trzecia Linia” przygotowuje osoby z doświadczeniem wojskowym do nowych ról zawodowych w sektorze defence i dual-use, a FORT Defence & Dual-Use Incubator wspiera zespoły w weryfikacji rzeczywistych potrzeb użytkowników, konfrontowaniu technologii z warunkami operacyjnymi oraz wyznaczaniu kolejnych kroków na drodze do ich wdrożenia. FORT Kraków wprowadził na rynek pilotażową, autorską …\n\nFORT Kraków wprowadził na rynek pilotażową, autorską formułę, w której program rozwoju zawodowego dla osób z doświadczeniem wojskowym i inkubator technologii mają wspólną część warsztatową.\n\nW pilotażu FORT Defence & Dual-Use Incubator bierze udział 15 zespołów rozwijających technologie obronne i rozwiązania, które mogą służyć zarówno wojsku, jak i użytkownikom cywilnym.\n\nBudowa nowoczesnego ekosystemu innowacji obronnych wymaga współpracy administracji, wojska, przemysłu, nauki, inwestorów i przedsiębiorców, a doświadczeni żołnierze są jednym z jego najcenniejszych ogniw.",
+   "analysis": {
+    "potential": 75,
+    "completeness": 75,
+    "path": "rozwoj",
+    "signal": "sredni",
+    "sector": "Lotnictwo i kosmos",
+    "stage": "pilot",
+    "priority": 2,
+    "region": "małopolskie",
+    "data": {
+     "lead": "FORT Kraków to pilotażowy program łączący inkubator technologii dual-use z akceleracją zawodową weteranów. Inicjatywa AGH wspiera rozwój innowacji obronnych poprzez konfrontację rozwiązań technologicznych z praktycznym doświadczeniem wojskowym.",
+     "sector": "Lotnictwo i kosmos",
+     "stage": "pilot",
+     "stage_label": "Pilotaż",
+     "authors": [],
+     "signal": "sredni",
+     "signal_label": "średnie",
+     "signal_terms": [],
+     "market": "",
+     "criteria": [],
+     "potential": 75,
+     "known": 3,
+     "total": 4,
+     "completeness": 75,
+     "path": {
+      "id": "rozwoj",
+      "label": "Rozwój",
+      "missing": [
+       "Brak szczegółowych danych na temat konkretnych technologii rozwijanych przez 15 zespołów.",
+       "Brak informacji o mierzalnych wskaźnikach sukcesu (KPI) dla pilotażu poza liczbą uczestników."
+      ],
+      "reasons": [
+       "Etap: Pilotaż",
+       "Ocena potencjału 75/100 (Gemini)"
+      ]
+     },
+     "dropped": [],
+     "relevance": {
+      "is_solution": true,
+      "reason": "Program stanowi nowatorskie podejście do ekosystemu innowacji obronnych, integrując wiedzę praktyczną byłych żołnierzy z procesem tworzenia technologii dual-use. Wysoka ocena wynika z zaangażowania kl",
+      "evidence": [
+       "FORT Kraków wprowadził na rynek pilotażową, autorską formułę, w której program rozwoju zawodowego dla osób z doświadczeniem wojskowym i inkubator technologii mają wspólną część warsztatową.",
+       "W pilotażu FORT Defence & Dual-Use Incubator bierze udział 15 zespołów rozwijających technologie obronne i rozwiązania, które mogą służyć zarówno wojsku, jak i użytkownikom cywilnym.",
+       "Budowa nowoczesnego ekosystemu innowacji obronnych wymaga współpracy administracji, wojska, przemysłu, nauki, inwestorów i przedsiębiorców, a doświadczeni żołnierze są jednym z jego najcenniejszych ogniw."
+      ],
+      "noise": []
+     },
+     "verdict": {
+      "id": "glowna",
+      "label": "Interesujące",
+      "reason": "Potwierdzona inicjatywa z 19.11.2026; ocena 75/100 (próg 50), wiarygodność: wysoka."
+     },
+     "priority": 2,
+     "priority_reasons": [
+      "Obszar priorytetowy PCI: Lotnictwo i kosmos"
+     ],
+     "region": {
+      "code": "małopolskie",
+      "how": "z tekstu: „Kraków”"
+     },
+     "innovation_types": [
+      "organizacyjna",
+      "procesowa"
+     ],
+     "caveat": "Ocena wygenerowana przez model Gemini na podstawie tekstu źródła: to interpretacja AI, a nie potwierdzony fakt. Zweryfikowane są tylko dane ze strony i cytaty występujące w tekście.",
+     "verified": {
+      "url": "https://www.agh.edu.pl/aktualnosci/detail/fort-krakow-polaczyl-bylych-wojskowych-z-innowatorami",
+      "source": "AGH — Aktualności",
+      "organization_type": "Uczelnia",
+      "published_at": "2026-11-19",
+      "date_source": "metadane strony",
+      "quotes": [
+       "FORT Kraków wprowadził na rynek pilotażową, autorską formułę, w której program rozwoju zawodowego dla osób z doświadczeniem wojskowym i inkubator technologii mają wspólną część warsztatową.",
+       "W pilotażu FORT Defence & Dual-Use Incubator bierze udział 15 zespołów rozwijających technologie obronne i rozwiązania, które mogą służyć zarówno wojsku, jak i użytkownikom cywilnym.",
+       "Budowa nowoczesnego ekosystemu innowacji obronnych wymaga współpracy administracji, wojska, przemysłu, nauki, inwestorów i przedsiębiorców, a doświadczeni żołnierze są jednym z jego najcenniejszych ogniw."
+      ]
+     },
+     "ai": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "is_initiative": true,
+      "score": 75,
+      "summary": "FORT Kraków to pilotażowy program łączący inkubator technologii dual-use z akceleracją zawodową weteranów. Inicjatywa AGH wspiera rozwój innowacji obronnych poprzez konfrontację rozwiązań technologicznych z praktycznym doświadczeniem wojskowym.",
+      "explanation": "Program stanowi nowatorskie podejście do ekosystemu innowacji obronnych, integrując wiedzę praktyczną byłych żołnierzy z procesem tworzenia technologii dual-use. Wysoka ocena wynika z zaangażowania kluczowych interesariuszy (MON, AGH, inwestorzy) oraz konkretnego modelu wdrożeniowego (inkubacja, warsztaty, coaching). Inicjatywa ma duży potencjał skalowania w sektorze obronnym, choć obecnie znajduje się w fazie pilotażowej.",
+      "uncertainty": "Ocena opiera się na założeniu, że pilotażowa formuła warsztatowa przełoży się na realne wdrożenia rynkowe, co wymaga weryfikacji po zakończeniu cyklu inkubacji.",
+      "missing_info": [
+       "Brak szczegółowych danych na temat konkretnych technologii rozwijanych przez 15 zespołów.",
+       "Brak informacji o mierzalnych wskaźnikach sukcesu (KPI) dla pilotażu poza liczbą uczestników."
+      ],
+      "credibility": "wysoka",
+      "credibility_reason": "Informacja pochodzi z oficjalnego serwisu informacyjnego AGH, zawiera nazwiska ekspertów, partnerów strategicznych oraz odniesienia do instytucji państwowych (MON).",
+      "tokens": [
+       2076,
+       698
+      ]
+     }
+    }
+   }
+  },
+  {
+   "url": "https://funduszeeuropejskie.gov.pl/aktualnosci/305-niebezpiecznych-miejsc-mniej-na-polskich-drogach",
+   "final_url": "https://funduszeeuropejskie.gov.pl/aktualnosci/305-niebezpiecznych-miejsc-mniej-na-polskich-drogach/",
+   "title": "Portal Funduszy Europejskich",
+   "published_at": "2026-11-20",
+   "source": {
+    "name": "Fundusze Europejskie — portal",
+    "entry_url": "https://funduszeeuropejskie.gov.pl/aktualnosci/",
+    "organization_type": "agency",
+    "region": "",
+    "discovery_type": "html",
+    "allowed_prefix": "https://funduszeeuropejskie.gov.pl/aktualnosci/",
+    "feed_url": "",
+    "sitemap_url": "",
+    "origin": "registry"
+   },
+   "excerpt": "Niebezpieczne skrzyżowania, słabo widoczne przejścia dla pieszych czy odcinki dróg, na których szczególnie łatwo o wypadek – we wszystkich przypadkach potrzebne były pilne zmiany. Z pomocą przyszły pieniądze z Unii Europejskiej. Efekt? Dzięki finansowaniu z KPO zlikwidowano 305 niebezpiecznych miejsc na drogach, a także wybudowano 15 obwodnic. To nie koniec, bo Fundusze Europejskie także działają w tym zakresie wspierając m.in budowę infrastruktury dla pieszych i rowerzystów oraz zakup nowoczesnego sprzętu dla policji. Droga dla pieszych i rowerów na DK 91 w Radomsku, źródło: GDDKiA Zmiany są potrzebne, choć statystyki stopniowo się poprawiają. Według Europejskiej Rady Bezpieczeństwa …\n\nOd grudnia 2025 roku tranzyt omija centrum Nowego Korczyna dzięki obwodnicy o długości około 3,5 km.\n\nW czerwcu 2026 roku zakończono przebudowę ponad 5 km trasy. Powstały rondo, chodniki, ścieżka rowerowa i siedem zatok autobusowych.\n\nDzięki Funduszom Europejskim policja otrzymała 600 laserowych mierników prędkości z rejestracją obrazu oraz 100 nowych, oznakowanych radiowozów.",
+   "analysis": {
+    "potential": 65,
+    "completeness": 100,
+    "path": "wdrozenie",
+    "signal": "wysoki",
+    "sector": "Transport i mobilność",
+    "stage": "in_use",
+    "priority": 0,
+    "region": "świętokrzyskie",
+    "data": {
+     "lead": "Artykuł opisuje wdrożenia infrastrukturalne (obwodnice, modernizacje dróg) oraz zakup nowoczesnego sprzętu dla policji, finansowane z Funduszy Europejskich i KPO, mające na celu poprawę bezpieczeństwa ruchu drogowego w Polsce.",
+     "sector": "Transport i mobilność",
+     "stage": "in_use",
+     "stage_label": "Użytkowane",
+     "authors": [],
+     "signal": "wysoki",
+     "signal_label": "wysokie",
+     "signal_terms": [],
+     "market": "",
+     "criteria": [],
+     "potential": 65,
+     "known": 4,
+     "total": 4,
+     "completeness": 100,
+     "path": {
+      "id": "wdrozenie",
+      "label": "Wdrożenie",
+      "missing": [
+       "Brak szczegółowych danych technicznych dotyczących innowacyjności zastosowanych rozwiązań inżynieryjnych.",
+       "Brak informacji o długofalowej strategii utrzymania wdrożonych systemów."
+      ],
+      "reasons": [
+       "Etap: Użytkowane",
+       "Ocena potencjału 65/100 (Gemini)"
+      ]
+     },
+     "dropped": [],
+     "relevance": {
+      "is_solution": true,
+      "reason": "Tekst dokumentuje konkretne wdrożenia (305 zlikwidowanych niebezpiecznych miejsc, 15 obwodnic, modernizacje dróg jak DW 744) oraz zakupy sprzętu dla policji (mierniki, radiowozy, drony). Inicjatywa ma",
+      "evidence": [
+       "Dzięki finansowaniu z KPO zlikwidowano 305 niebezpiecznych miejsc na drogach, a także wybudowano 15 obwodnic.",
+       "Od grudnia 2025 roku tranzyt omija centrum Nowego Korczyna dzięki obwodnicy o długości około 3,5 km.",
+       "W czerwcu 2026 roku zakończono przebudowę ponad 5 km trasy. Powstały rondo, chodniki, ścieżka rowerowa i siedem zatok autobusowych.",
+       "Dzięki Funduszom Europejskim policja otrzymała 600 laserowych mierników prędkości z rejestracją obrazu oraz 100 nowych, oznakowanych radiowozów."
+      ],
+      "noise": []
+     },
+     "verdict": {
+      "id": "glowna",
+      "label": "Interesujące",
+      "reason": "Potwierdzona inicjatywa z 20.11.2026; ocena 65/100 (próg 50), wiarygodność: wysoka."
+     },
+     "priority": 0,
+     "priority_reasons": [],
+     "region": {
+      "code": "świętokrzyskie",
+      "how": "z tekstu: „świętokrzyskim”"
+     },
+     "innovation_types": [
+      "procesowa",
+      "organizacyjna"
+     ],
+     "caveat": "Ocena wygenerowana przez model Gemini na podstawie tekstu źródła: to interpretacja AI, a nie potwierdzony fakt. Zweryfikowane są tylko dane ze strony i cytaty występujące w tekście.",
+     "verified": {
+      "url": "https://funduszeeuropejskie.gov.pl/aktualnosci/305-niebezpiecznych-miejsc-mniej-na-polskich-drogach/",
+      "source": "Fundusze Europejskie — portal",
+      "organization_type": "Agencja publiczna",
+      "published_at": "2026-11-20",
+      "date_source": "metadane strony",
+      "quotes": [
+       "Dzięki finansowaniu z KPO zlikwidowano 305 niebezpiecznych miejsc na drogach, a także wybudowano 15 obwodnic.",
+       "Od grudnia 2025 roku tranzyt omija centrum Nowego Korczyna dzięki obwodnicy o długości około 3,5 km.",
+       "W czerwcu 2026 roku zakończono przebudowę ponad 5 km trasy. Powstały rondo, chodniki, ścieżka rowerowa i siedem zatok autobusowych.",
+       "Dzięki Funduszom Europejskim policja otrzymała 600 laserowych mierników prędkości z rejestracją obrazu oraz 100 nowych, oznakowanych radiowozów."
+      ]
+     },
+     "ai": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "is_initiative": true,
+      "score": 65,
+      "summary": "Artykuł opisuje wdrożenia infrastrukturalne (obwodnice, modernizacje dróg) oraz zakup nowoczesnego sprzętu dla policji, finansowane z Funduszy Europejskich i KPO, mające na celu poprawę bezpieczeństwa ruchu drogowego w Polsce.",
+      "explanation": "Tekst dokumentuje konkretne wdrożenia (305 zlikwidowanych niebezpiecznych miejsc, 15 obwodnic, modernizacje dróg jak DW 744) oraz zakupy sprzętu dla policji (mierniki, radiowozy, drony). Inicjatywa ma wysoki potencjał skalowalności i udokumentowane efekty w postaci poprawy statystyk bezpieczeństwa. Ocena jest obniżona, gdyż tekst ma charakter informacyjno-promocyjny, a nie techniczny opis innowacji, jednak skala działań i ich wpływ na infrastrukturę publiczną są znaczące.",
+      "uncertainty": "Ocena dotyczy zbioru inwestycji publicznych, co utrudnia jednoznaczną ocenę nowatorstwa pojedynczego rozwiązania.",
+      "missing_info": [
+       "Brak szczegółowych danych technicznych dotyczących innowacyjności zastosowanych rozwiązań inżynieryjnych.",
+       "Brak informacji o długofalowej strategii utrzymania wdrożonych systemów."
+      ],
+      "credibility": "wysoka",
+      "credibility_reason": "Źródłem jest oficjalny portal rządowy Funduszy Europejskich, podający konkretne dane liczbowe i przykłady inwestycji.",
+      "tokens": [
+       2025,
+       667
+      ]
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.gov.pl/web/rozwoj-technologia/gospodarka-cyfrowa",
+   "final_url": "https://www.gov.pl/web/rozwoj-technologia/gospodarka-cyfrowa",
+   "title": "Gospodarka cyfrowa - Ministerstwo Rozwoju i Technologii - Portal Gov.pl",
+   "published_at": "2026-11-20",
+   "source": {
+    "name": "Ministerstwo Rozwoju i Technologii — Aktualności",
+    "entry_url": "https://www.gov.pl/web/rozwoj-technologia/wiadomosci",
+    "organization_type": "agency",
+    "region": "",
+    "discovery_type": "html",
+    "allowed_prefix": "https://www.gov.pl/web/rozwoj-technologia/",
+    "feed_url": "",
+    "sitemap_url": "",
+    "origin": "registry"
+   },
+   "excerpt": "Gospodarka cyfrowa - 20.11.2026Jak skutecznie chronić systemy sterowania, urządzenia przemysłowe i procesy technologiczne przed cyberzagrożeniami? Gdzie kończą się standardowe praktyki IT, a zaczynają specyficzne wymagania środowisk OT? Poznaj odpowiedzi na te pytania podczas bezpłatnego webinaru Ministerstwa Rozwoju i Technologii, który odbędzie się 25 listopada 2026 r. o godz. 11:00. - 27.10.2026Ministerstwo Rozwoju i Technologii zaprasza przedsiębiorców na bezpłatny webinar poświęcony praktycznym aspektom cyberbezpieczeństwa w firmie. Spotkanie odbędzie się 28 października 2026 r. o godz. 11:00. - 20.10.2026Jak przygotować firmę na nowe obowiązki w zakresie cyberbezpieczeństwa? Temu …\n\nW sierpniu 2026 r. Polska uruchomiła krajową instancję Systemu Technicznego SDG (Single Digital Gateway). Wdrożenie zostało przeprowadzone w ramach realizacji projektu \"Elektronizacja umów o pracę oraz usprawnienie usług cyfrowych dla przedsiębiorców\"",
+   "analysis": {
+    "potential": 65,
+    "completeness": 25,
+    "path": "wdrozenie",
+    "signal": "niski",
+    "sector": "Administracja i samorząd",
+    "stage": "in_use",
+    "priority": 0,
+    "region": "łódzkie",
+    "data": {
+     "lead": "Uruchomienie krajowej instancji Systemu Technicznego SDG (Single Digital Gateway) przez MRiT oraz Sieć Badawczą Łukasiewicz - PIT w ramach projektu cyfryzacji usług dla przedsiębiorców.",
+     "sector": "Administracja i samorząd",
+     "stage": "in_use",
+     "stage_label": "Użytkowane",
+     "authors": [],
+     "signal": "niski",
+     "signal_label": "niskie",
+     "signal_terms": [],
+     "market": "",
+     "criteria": [],
+     "potential": 65,
+     "known": 1,
+     "total": 4,
+     "completeness": 25,
+     "path": {
+      "id": "wdrozenie",
+      "label": "Wdrożenie",
+      "missing": [
+       "Brak szczegółowych danych na temat liczby użytkowników systemu lub mierzalnych efektów wdrożenia poza samym faktem uruchomienia."
+      ],
+      "reasons": [
+       "Etap: Użytkowane",
+       "Ocena potencjału 65/100 (Gemini)"
+      ]
+     },
+     "dropped": [],
+     "relevance": {
+      "is_solution": true,
+      "reason": "Tekst opisuje wdrożenie krajowej instancji Systemu Technicznego SDG, co stanowi konkretne osiągnięcie technologiczne i procesowe w administracji publicznej. Projekt jest finansowany ze środków unijnyc",
+      "evidence": [
+       "W sierpniu 2026 r. Polska uruchomiła krajową instancję Systemu Technicznego SDG (Single Digital Gateway). Wdrożenie zostało przeprowadzone w ramach realizacji projektu \"Elektronizacja umów o pracę oraz usprawnienie usług cyfrowych dla przedsiębiorców\""
+      ],
+      "noise": []
+     },
+     "verdict": {
+      "id": "glowna",
+      "label": "Interesujące",
+      "reason": "Potwierdzona inicjatywa z 20.11.2026; ocena 65/100 (próg 50), wiarygodność: wysoka."
+     },
+     "priority": 0,
+     "priority_reasons": [],
+     "region": {
+      "code": "łódzkie",
+      "how": "z tekstu: „Łodzi”"
+     },
+     "innovation_types": [
+      "technologiczna",
+      "procesowa"
+     ],
+     "caveat": "Ocena wygenerowana przez model Gemini na podstawie tekstu źródła: to interpretacja AI, a nie potwierdzony fakt. Zweryfikowane są tylko dane ze strony i cytaty występujące w tekście.",
+     "verified": {
+      "url": "https://www.gov.pl/web/rozwoj-technologia/gospodarka-cyfrowa",
+      "source": "Ministerstwo Rozwoju i Technologii — Aktualności",
+      "organization_type": "Agencja publiczna",
+      "published_at": "2026-11-20",
+      "date_source": "metadane strony",
+      "quotes": [
+       "W sierpniu 2026 r. Polska uruchomiła krajową instancję Systemu Technicznego SDG (Single Digital Gateway). Wdrożenie zostało przeprowadzone w ramach realizacji projektu \"Elektronizacja umów o pracę oraz usprawnienie usług cyfrowych dla przedsiębiorców\""
+      ]
+     },
+     "ai": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "is_initiative": true,
+      "score": 65,
+      "summary": "Uruchomienie krajowej instancji Systemu Technicznego SDG (Single Digital Gateway) przez MRiT oraz Sieć Badawczą Łukasiewicz - PIT w ramach projektu cyfryzacji usług dla przedsiębiorców.",
+      "explanation": "Tekst opisuje wdrożenie krajowej instancji Systemu Technicznego SDG, co stanowi konkretne osiągnięcie technologiczne i procesowe w administracji publicznej. Projekt jest finansowany ze środków unijnych i realizowany w partnerstwie z jednostką naukową, co podnosi jego wiarygodność. Pozostałe wpisy w tekście to zapowiedzi webinarów, które nie stanowią innowacji, dlatego ocena dotyczy wyłącznie wdrożenia systemu SDG.",
+      "uncertainty": "Ocena dotyczy tylko jednego z wymienionych w tekście wydarzeń, gdyż pozostałe wpisy są jedynie zapowiedziami szkoleń.",
+      "missing_info": [
+       "Brak szczegółowych danych na temat liczby użytkowników systemu lub mierzalnych efektów wdrożenia poza samym faktem uruchomienia."
+      ],
+      "credibility": "wysoka",
+      "credibility_reason": "Informacja pochodzi z oficjalnego portalu rządowego gov.pl i dotyczy działań Ministerstwa Rozwoju i Technologii.",
+      "tokens": [
+       1477,
+       521
+      ]
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.uw.edu.pl/zloto-dla-studentow-uw-w-miedzynarodowym-konkursie-igem/",
+   "final_url": "https://www.uw.edu.pl/zloto-dla-studentow-uw-w-miedzynarodowym-konkursie-igem/",
+   "title": "Złoto dla studentów UW w międzynarodowym konkursie iGEM",
+   "published_at": "2026-11-20",
+   "source": {
+    "name": "Uniwersytet Warszawski — Aktualności",
+    "entry_url": "https://www.uw.edu.pl/feed/",
+    "organization_type": "university",
+    "region": "mazowieckie",
+    "discovery_type": "rss",
+    "allowed_prefix": "https://www.uw.edu.pl/",
+    "feed_url": "https://www.uw.edu.pl/feed/",
+    "sitemap_url": "",
+    "origin": "registry"
+   },
+   "excerpt": "Interdyscyplinarny zespół współtworzony przez studentów Uniwersytetu Warszawskiego zdobył złoty medal w międzynarodowym konkursie biologii syntetycznej iGEM 2026. Drużyna opracowała narzędzie bioinformatyczne, które wykorzystuje uczenie maszynowe do projektowania i optymalizacji fragmentów DNA odpowiedzialnych za regulację ekspresji genów. Wyniki konkursu ogłoszono podczas iGEM Grand Jamboree w Paryżu. Interdyscyplinarny zespół iGEM Warsaw (UW-Poland 2026), współtworzony przez studentów Uniwersytetu Warszawskiego, Polsko-Japońskiej Akademii Technik Komputerowych, Akademii Sztuk Pięknych w Warszawie oraz szwedzkiego Karolinska Institutet, zdobył złoty medal w międzynarodowym konkursie …\n\nZespół zaprezentował projekt HYPPE (Hyperbolic Promoter Programming Engine) – narzędzie bioinformatyczne wykorzystujące uczenie maszynowe do projektowania i optymalizacji promotorów\n\nOpracowane rozwiązanie pozwala przewidywać aktywność promotorów grzybów strzępkowych oraz generować ich sekwencje o określonej sile działania.\n\nW przyszłości może znaleźć zastosowanie m.in. w rozwoju biologicznych metod ochrony roślin.",
+   "analysis": {
+    "potential": 65,
+    "completeness": 100,
+    "path": "rozwoj",
+    "signal": "wysoki",
+    "sector": "Zdrowie i medycyna",
+    "stage": "prototype",
+    "priority": 2,
+    "region": "mazowieckie",
+    "data": {
+     "lead": "Studenci UW opracowali narzędzie bioinformatyczne HYPPE wykorzystujące uczenie maszynowe do projektowania promotorów DNA, zdobywając złoty medal w konkursie iGEM 2026.",
+     "sector": "Zdrowie i medycyna",
+     "stage": "prototype",
+     "stage_label": "Prototyp",
+     "authors": [],
+     "signal": "wysoki",
+     "signal_label": "wysokie",
+     "signal_terms": [],
+     "market": "",
+     "criteria": [],
+     "potential": 65,
+     "known": 4,
+     "total": 4,
+     "completeness": 100,
+     "path": {
+      "id": "rozwoj",
+      "label": "Rozwój",
+      "missing": [
+       "Brak szczegółowych danych na temat wydajności modelu w porównaniu do istniejących rozwiązań.",
+       "Brak informacji o statusie własności intelektualnej projektu."
+      ],
+      "reasons": [
+       "Etap: Prototyp",
+       "Ocena potencjału 65/100 (Gemini)"
+      ]
+     },
+     "dropped": [],
+     "relevance": {
+      "is_solution": true,
+      "reason": "Projekt HYPPE to innowacyjne narzędzie bioinformatyczne łączące biologię syntetyczną z uczeniem maszynowym. Rozwiązanie ma potencjał aplikacyjny w ochronie roślin poprzez optymalizację ekspresji genów",
+      "evidence": [
+       "Drużyna opracowała narzędzie bioinformatyczne, które wykorzystuje uczenie maszynowe do projektowania i optymalizacji fragmentów DNA odpowiedzialnych za regulację ekspresji genów.",
+       "Zespół zaprezentował projekt HYPPE (Hyperbolic Promoter Programming Engine) – narzędzie bioinformatyczne wykorzystujące uczenie maszynowe do projektowania i optymalizacji promotorów",
+       "Opracowane rozwiązanie pozwala przewidywać aktywność promotorów grzybów strzępkowych oraz generować ich sekwencje o określonej sile działania.",
+       "W przyszłości może znaleźć zastosowanie m.in. w rozwoju biologicznych metod ochrony roślin."
+      ],
+      "noise": []
+     },
+     "verdict": {
+      "id": "glowna",
+      "label": "Interesujące",
+      "reason": "Potwierdzona inicjatywa z 20.11.2026; ocena 65/100 (próg 50), wiarygodność: wysoka."
+     },
+     "priority": 2,
+     "priority_reasons": [
+      "Obszar priorytetowy PCI: Zdrowie i medycyna"
+     ],
+     "region": {
+      "code": "mazowieckie",
+      "how": "z tekstu: „Warszawskiego”"
+     },
+     "innovation_types": [
+      "technologiczna",
+      "edukacyjna"
+     ],
+     "caveat": "Ocena wygenerowana przez model Gemini na podstawie tekstu źródła: to interpretacja AI, a nie potwierdzony fakt. Zweryfikowane są tylko dane ze strony i cytaty występujące w tekście.",
+     "verified": {
+      "url": "https://www.uw.edu.pl/zloto-dla-studentow-uw-w-miedzynarodowym-konkursie-igem/",
+      "source": "Uniwersytet Warszawski — Aktualności",
+      "organization_type": "Uczelnia",
+      "published_at": "2026-11-20",
+      "date_source": "metadane strony",
+      "quotes": [
+       "Drużyna opracowała narzędzie bioinformatyczne, które wykorzystuje uczenie maszynowe do projektowania i optymalizacji fragmentów DNA odpowiedzialnych za regulację ekspresji genów.",
+       "Zespół zaprezentował projekt HYPPE (Hyperbolic Promoter Programming Engine) – narzędzie bioinformatyczne wykorzystujące uczenie maszynowe do projektowania i optymalizacji promotorów",
+       "Opracowane rozwiązanie pozwala przewidywać aktywność promotorów grzybów strzępkowych oraz generować ich sekwencje o określonej sile działania.",
+       "W przyszłości może znaleźć zastosowanie m.in. w rozwoju biologicznych metod ochrony roślin."
+      ]
+     },
+     "ai": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "is_initiative": true,
+      "score": 65,
+      "summary": "Studenci UW opracowali narzędzie bioinformatyczne HYPPE wykorzystujące uczenie maszynowe do projektowania promotorów DNA, zdobywając złoty medal w konkursie iGEM 2026.",
+      "explanation": "Projekt HYPPE to innowacyjne narzędzie bioinformatyczne łączące biologię syntetyczną z uczeniem maszynowym. Rozwiązanie ma potencjał aplikacyjny w ochronie roślin poprzez optymalizację ekspresji genów u grzybów. Wysoka ocena wynika z interdyscyplinarnego charakteru projektu, udokumentowanego sukcesu międzynarodowego oraz planów dalszej weryfikacji eksperymentalnej. Inicjatywa ma również wymiar edukacyjny poprzez wprowadzenie nowego kursu na Wydziale Biologii UW.",
+      "uncertainty": "Ocena potencjału wdrożeniowego jest obarczona niepewnością, gdyż projekt znajduje się obecnie na etapie akademickiego prototypu i wymaga dalszej weryfikacji laboratoryjnej.",
+      "missing_info": [
+       "Brak szczegółowych danych na temat wydajności modelu w porównaniu do istniejących rozwiązań.",
+       "Brak informacji o statusie własności intelektualnej projektu."
+      ],
+      "credibility": "wysoka",
+      "credibility_reason": "Informacja pochodzi z oficjalnego serwisu informacyjnego Uniwersytetu Warszawskiego i dotyczy weryfikowalnego sukcesu w międzynarodowym konkursie.",
+      "tokens": [
+       1229,
+       679
+      ]
+     }
+    }
+   }
+  },
+  {
+   "url": "https://pg.edu.pl/aktualnosci/2026-11/skuteczniejsze-i-bardziej-przyjazne-srodowisku-metody-usuwania-farmaceutykow",
+   "final_url": "https://pg.edu.pl/aktualnosci/2026-11/skuteczniejsze-i-bardziej-przyjazne-srodowisku-metody-usuwania-farmaceutykow",
+   "title": "Skuteczniejsze i bardziej przyjazne środowisku metody usuwania farmaceutyków | Politechnika Gdańska",
+   "published_at": "2026-11-20",
+   "source": {
+    "name": "Politechnika Gdańska — Aktualności",
+    "entry_url": "https://pg.edu.pl/aktualnosci",
+    "organization_type": "university",
+    "region": "pomorskie",
+    "discovery_type": "html",
+    "allowed_prefix": "",
+    "feed_url": "",
+    "sitemap_url": "",
+    "origin": "registry"
+   },
+   "excerpt": "Skuteczniejsze i bardziej przyjazne środowisku metody usuwania farmaceutyków Badania dr inż. Elvany Çako, przeprowadzone w ramach rozprawy doktorskiej, koncentrują się na syntezie i opracowywaniu fotokatalizatorów przeznaczonych do rozkładu zanieczyszczeń farmaceutycznych obecnych w wodzie, w tym składników popularnych leków przeciwbólowych i przeciwgorączkowych. – Otrzymane przeze mnie fotokatalizatory na bazie grafitowego azotku węgla wykazały wysoką skuteczność w usuwaniu wybranych mikrozanieczyszczeń, w tym karbamazepiny, paracetamolu i ibuprofenu, w stosunkowo krótkim czasie. Charakteryzowały się również bardzo dobrą stabilnością i możliwością wielokrotnego wykorzystania – mówi dr inż. …\n\nWyniki te wskazują na ich potencjał w opracowywaniu skutecznych i przyjaznych środowisku metod usuwania zanieczyszczeń.",
+   "analysis": {
+    "potential": 65,
+    "completeness": 75,
+    "path": "rozwoj",
+    "signal": "sredni",
+    "sector": "Energia i środowisko",
+    "stage": "prototype",
+    "priority": 0,
+    "region": "pomorskie",
+    "data": {
+     "lead": "Badania dr inż. Elvany Çako z Politechniki Gdańskiej nad nowymi fotokatalizatorami na bazie grafitowego azotku węgla, które skutecznie usuwają mikrozanieczyszczenia farmaceutyczne z wody.",
+     "sector": "Energia i środowisko",
+     "stage": "prototype",
+     "stage_label": "Prototyp",
+     "authors": [],
+     "signal": "sredni",
+     "signal_label": "średnie",
+     "signal_terms": [],
+     "market": "",
+     "criteria": [],
+     "potential": 65,
+     "known": 3,
+     "total": 4,
+     "completeness": 75,
+     "path": {
+      "id": "rozwoj",
+      "label": "Rozwój",
+      "missing": [
+       "Brak informacji o skali testów (czy wykraczają poza laboratorium)",
+       "Brak danych o kosztach produkcji fotokatalizatorów",
+       "Brak informacji o planach komercjalizacji lub wdrożenia przemysłowego"
+      ],
+      "reasons": [
+       "Etap: Prototyp",
+       "Ocena potencjału 65/100 (Gemini)"
+      ]
+     },
+     "dropped": [],
+     "relevance": {
+      "is_solution": true,
+      "reason": "Tekst opisuje innowacyjne rozwiązanie technologiczne w postaci fotokatalizatorów do degradacji zanieczyszczeń farmaceutycznych. Rozwiązanie wykazuje wysoką skuteczność i stabilność, co potwierdzono w ",
+      "evidence": [
+       "Otrzymane przeze mnie fotokatalizatory na bazie grafitowego azotku węgla wykazały wysoką skuteczność w usuwaniu wybranych mikrozanieczyszczeń, w tym karbamazepiny, paracetamolu i ibuprofenu",
+       "Charakteryzowały się również bardzo dobrą stabilnością i możliwością wielokrotnego wykorzystania",
+       "Wyniki te wskazują na ich potencjał w opracowywaniu skutecznych i przyjaznych środowisku metod usuwania zanieczyszczeń."
+      ],
+      "noise": []
+     },
+     "verdict": {
+      "id": "glowna",
+      "label": "Interesujące",
+      "reason": "Potwierdzona inicjatywa z 20.11.2026; ocena 65/100 (próg 50), wiarygodność: wysoka."
+     },
+     "priority": 0,
+     "priority_reasons": [],
+     "region": {
+      "code": "pomorskie",
+      "how": "z tekstu: „Gdańska”"
+     },
+     "innovation_types": [
+      "technologiczna"
+     ],
+     "caveat": "Ocena wygenerowana przez model Gemini na podstawie tekstu źródła: to interpretacja AI, a nie potwierdzony fakt. Zweryfikowane są tylko dane ze strony i cytaty występujące w tekście.",
+     "verified": {
+      "url": "https://pg.edu.pl/aktualnosci/2026-11/skuteczniejsze-i-bardziej-przyjazne-srodowisku-metody-usuwania-farmaceutykow",
+      "source": "Politechnika Gdańska — Aktualności",
+      "organization_type": "Uczelnia",
+      "published_at": "2026-11-20",
+      "date_source": "metadane strony",
+      "quotes": [
+       "Otrzymane przeze mnie fotokatalizatory na bazie grafitowego azotku węgla wykazały wysoką skuteczność w usuwaniu wybranych mikrozanieczyszczeń, w tym karbamazepiny, paracetamolu i ibuprofenu",
+       "Charakteryzowały się również bardzo dobrą stabilnością i możliwością wielokrotnego wykorzystania",
+       "Wyniki te wskazują na ich potencjał w opracowywaniu skutecznych i przyjaznych środowisku metod usuwania zanieczyszczeń."
+      ]
+     },
+     "ai": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "is_initiative": true,
+      "score": 65,
+      "summary": "Badania dr inż. Elvany Çako z Politechniki Gdańskiej nad nowymi fotokatalizatorami na bazie grafitowego azotku węgla, które skutecznie usuwają mikrozanieczyszczenia farmaceutyczne z wody.",
+      "explanation": "Tekst opisuje innowacyjne rozwiązanie technologiczne w postaci fotokatalizatorów do degradacji zanieczyszczeń farmaceutycznych. Rozwiązanie wykazuje wysoką skuteczność i stabilność, co potwierdzono w badaniach laboratoryjnych w ramach rozprawy doktorskiej. Potencjał wdrożeniowy jest wysoki w kontekście ochrony środowiska, jednak brak informacji o testach w skali technicznej lub pilotażowej poza laboratorium.",
+      "uncertainty": "Ocena dotyczy wyników badań laboratoryjnych, których skalowalność w warunkach rzeczywistych oczyszczalni ścieków nie została jeszcze zweryfikowana.",
+      "missing_info": [
+       "Brak informacji o skali testów (czy wykraczają poza laboratorium)",
+       "Brak danych o kosztach produkcji fotokatalizatorów",
+       "Brak informacji o planach komercjalizacji lub wdrożenia przemysłowego"
+      ],
+      "credibility": "wysoka",
+      "credibility_reason": "Informacja pochodzi z oficjalnego serwisu aktualności Politechniki Gdańskiej i dotyczy udokumentowanej rozprawy doktorskiej.",
+      "tokens": [
+       1173,
+       597
+      ]
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.polsl.pl/ps_aktualnosci/politechnika-slaska-strategicznym-partnerem-budowy-ai-gigafactory/",
+   "final_url": "https://www.polsl.pl/ps_aktualnosci/politechnika-slaska-strategicznym-partnerem-budowy-ai-gigafactory/",
+   "title": "Politechnika Śląska | Politechnika Śląska strategicznym partnerem budowy AI Gigafactory",
+   "published_at": "2026-11-19",
+   "source": {
+    "name": "Politechnika Śląska — Aktualności",
+    "entry_url": "https://www.polsl.pl/feed/",
+    "organization_type": "university",
+    "region": "śląskie",
+    "discovery_type": "rss",
+    "allowed_prefix": "https://www.polsl.pl/",
+    "feed_url": "https://www.polsl.pl/feed/",
+    "sitemap_url": "",
+    "origin": "registry"
+   },
+   "excerpt": "Politechnika Śląska strategicznym partnerem budowy AI Gigafactory Politechnika Śląska została strategicznym partnerem naukowym i badawczo-rozwojowym przy projekcie DL AI Gigafactory Poland, zakładającym budowę na Śląsku gigafabryki sztucznej inteligencji. Projekt jest odpowiedzią na inicjatywę Komisji Europejskiej, która zakłada powstanie kilku gigafabryk sztucznej inteligencji w Europie. Polska zadeklarowała udział w tym przedsięwzięciu. Jak podkreśla Rektor Politechniki Śląskiej prof. Marek Pawełczyk, zaproszenie Uczelni przez inwestora - DL Invest Group - do współpracy jest dużym wyróżnieniem, a jednocześnie szansą na wzmocnienie pozycji naukowej i technologicznej zarówno Uczelni, jak i …\n\nPierwsza faza ma obejmować 30 MW mocy IT i około 25 tys. akceleratorów (H100-equivalent). Jej koszt szacowany jest na około 1,5 mld EUR.\n\nUmowa tak naprawdę jest uzależniona w dużym zakresie od rozstrzygnięcia konkursu unijnego EuroHPC. Zakładam, że aplikacja zostanie złożona w lutym, a w 2027 roku nastąpi rozstrzygnięcie konkursu.",
+   "analysis": {
+    "potential": 65,
+    "completeness": 75,
+    "path": "rozwoj",
+    "signal": "sredni",
+    "sector": "IT i sztuczna inteligencja",
+    "stage": "idea",
+    "priority": 2,
+    "region": "śląskie",
+    "data": {
+     "lead": "Politechnika Śląska została partnerem naukowym projektu DL AI Gigafactory Poland, mającego na celu budowę infrastruktury obliczeniowej AI/HPC na Śląsku. Inwestycja o wartości 1,5 mld EUR czeka na rozstrzygnięcie konkursu EuroHPC.",
+     "sector": "IT i sztuczna inteligencja",
+     "stage": "idea",
+     "stage_label": "Pomysł",
+     "authors": [],
+     "signal": "sredni",
+     "signal_label": "średnie",
+     "signal_terms": [],
+     "market": "",
+     "criteria": [],
+     "potential": 65,
+     "known": 3,
+     "total": 4,
+     "completeness": 75,
+     "path": {
+      "id": "rozwoj",
+      "label": "Rozwój",
+      "missing": [
+       "Brak informacji o konkretnych technologiach AI, które będą rozwijane poza ogólnym wskazaniem na HPC.",
+       "Brak potwierdzenia zabezpieczenia wkładu własnego inwestora poza deklaracjami."
+      ],
+      "reasons": [
+       "Etap: Pomysł",
+       "Ocena potencjału 65/100 (Gemini)"
+      ]
+     },
+     "dropped": [],
+     "relevance": {
+      "is_solution": true,
+      "reason": "Projekt dotyczy budowy zaawansowanej infrastruktury obliczeniowej (AI/HPC) o dużej skali, co stanowi istotną innowację infrastrukturalną dla polskiej nauki i przemysłu. Politechnika Śląska pełni rolę ",
+      "evidence": [
+       "Politechnika Śląska została strategicznym partnerem naukowym i badawczo-rozwojowym przy projekcie DL AI Gigafactory Poland, zakładającym budowę na Śląsku gigafabryki sztucznej inteligencji.",
+       "Pierwsza faza ma obejmować 30 MW mocy IT i około 25 tys. akceleratorów (H100-equivalent). Jej koszt szacowany jest na około 1,5 mld EUR.",
+       "Umowa tak naprawdę jest uzależniona w dużym zakresie od rozstrzygnięcia konkursu unijnego EuroHPC. Zakładam, że aplikacja zostanie złożona w lutym, a w 2027 roku nastąpi rozstrzygnięcie konkursu."
+      ],
+      "noise": []
+     },
+     "verdict": {
+      "id": "glowna",
+      "label": "Interesujące",
+      "reason": "Potwierdzona inicjatywa z 19.11.2026; ocena 65/100 (próg 50), wiarygodność: wysoka."
+     },
+     "priority": 2,
+     "priority_reasons": [
+      "Obszar priorytetowy PCI: IT i sztuczna inteligencja"
+     ],
+     "region": {
+      "code": "śląskie",
+      "how": "z tekstu: „Śląska”"
+     },
+     "innovation_types": [
+      "technologiczna",
+      "organizacyjna"
+     ],
+     "caveat": "Ocena wygenerowana przez model Gemini na podstawie tekstu źródła: to interpretacja AI, a nie potwierdzony fakt. Zweryfikowane są tylko dane ze strony i cytaty występujące w tekście.",
+     "verified": {
+      "url": "https://www.polsl.pl/ps_aktualnosci/politechnika-slaska-strategicznym-partnerem-budowy-ai-gigafactory/",
+      "source": "Politechnika Śląska — Aktualności",
+      "organization_type": "Uczelnia",
+      "published_at": "2026-11-19",
+      "date_source": "metadane strony",
+      "quotes": [
+       "Politechnika Śląska została strategicznym partnerem naukowym i badawczo-rozwojowym przy projekcie DL AI Gigafactory Poland, zakładającym budowę na Śląsku gigafabryki sztucznej inteligencji.",
+       "Pierwsza faza ma obejmować 30 MW mocy IT i około 25 tys. akceleratorów (H100-equivalent). Jej koszt szacowany jest na około 1,5 mld EUR.",
+       "Umowa tak naprawdę jest uzależniona w dużym zakresie od rozstrzygnięcia konkursu unijnego EuroHPC. Zakładam, że aplikacja zostanie złożona w lutym, a w 2027 roku nastąpi rozstrzygnięcie konkursu."
+      ]
+     },
+     "ai": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "is_initiative": true,
+      "score": 65,
+      "summary": "Politechnika Śląska została partnerem naukowym projektu DL AI Gigafactory Poland, mającego na celu budowę infrastruktury obliczeniowej AI/HPC na Śląsku. Inwestycja o wartości 1,5 mld EUR czeka na rozstrzygnięcie konkursu EuroHPC.",
+      "explanation": "Projekt dotyczy budowy zaawansowanej infrastruktury obliczeniowej (AI/HPC) o dużej skali, co stanowi istotną innowację infrastrukturalną dla polskiej nauki i przemysłu. Politechnika Śląska pełni rolę strategicznego partnera badawczo-rozwojowego. Wysoki potencjał wynika z zaangażowania dużego inwestora prywatnego oraz wsparcia dla sektora produkcyjnego. Ocena jest umiarkowana, ponieważ realizacja projektu jest ściśle uzależniona od zewnętrznego finansowania w ramach konkursu EuroHPC, a sama infrastruktura jest dopiero w fazie przygotowawczej.",
+      "uncertainty": "Realizacja projektu jest obarczona wysokim ryzykiem, gdyż zależy od decyzji Komisji Europejskiej w konkursie EuroHPC, co może wpłynąć na zmianę skali lub całkowite wstrzymanie inwestycji.",
+      "missing_info": [
+       "Brak informacji o konkretnych technologiach AI, które będą rozwijane poza ogólnym wskazaniem na HPC.",
+       "Brak potwierdzenia zabezpieczenia wkładu własnego inwestora poza deklaracjami."
+      ],
+      "credibility": "wysoka",
+      "credibility_reason": "Informacja pochodzi z oficjalnego serwisu informacyjnego Politechniki Śląskiej i zawiera konkretne dane dotyczące parametrów technicznych oraz finansowych projektu.",
+      "tokens": [
+       1941,
+       712
+      ]
+     }
+    }
+   }
+  },
+  {
+   "url": "https://pg.edu.pl/aktualnosci/2026-11/diamentowe-elektrody-w-walce-z-wiecznymi-chemikaliami",
+   "final_url": "https://pg.edu.pl/aktualnosci/2026-11/diamentowe-elektrody-w-walce-z-wiecznymi-chemikaliami",
+   "title": "Diamentowe elektrody w walce z „wiecznymi chemikaliami” | Politechnika Gdańska",
+   "published_at": "2026-11-19",
+   "source": {
+    "name": "Politechnika Gdańska — Aktualności",
+    "entry_url": "https://pg.edu.pl/aktualnosci",
+    "organization_type": "university",
+    "region": "pomorskie",
+    "discovery_type": "html",
+    "allowed_prefix": "",
+    "feed_url": "",
+    "sitemap_url": "",
+    "origin": "registry"
+   },
+   "excerpt": "Diamentowe elektrody w walce z „wiecznymi chemikaliami” Naukowcy z Politechniki Gdańskiej i Uniwersytetu Mariborskiego opracują nowy materiał hybrydowy, który ma wychwytywać z wody związki PFAS, tzw. wieczne chemikalia, i od razu rozkładać je przy pomocy światła i prądu elektrycznego. Narodowe Centrum Nauki przyznało na realizację badań ponad 1,6 mln zł (konkurs OPUS 30+LAP/Weave). PFAS to bardzo liczna rodzina syntetycznych związków. Odpychają one wodę i tłuszcz, są odporne na wysoką temperaturę. Można je znaleźć m.in. w patelniach z nieprzywierającą powłoką, kurtkach przeciwdeszczowych, opakowaniach na żywność, czy kosmetykach. Ich największa zaleta, czyli trwałość, jest też największym …\n\nWedług przeglądu literatury, który zrobiliśmy przy pisaniu wniosku, nikt jednak dotąd systematycznie nie połączył tych dwóch materiałów w jedną hybrydową elektrodę do fotoelektrochemicznego niszczenia PFAS.",
+   "analysis": {
+    "potential": 65,
+    "completeness": 50,
+    "path": "rozwoj",
+    "signal": "sredni",
+    "sector": "Energia i środowisko",
+    "stage": "prototype",
+    "priority": 0,
+    "region": "pomorskie",
+    "data": {
+     "lead": "Projekt badawczy Politechniki Gdańskiej i Uniwersytetu Mariborskiego mający na celu opracowanie hybrydowej elektrody (diamentowo-polimerowej) do skutecznego wychwytywania i fotoelektrochemicznego rozkładu trwałych zanieczyszczeń PFAS w wodzie.",
+     "sector": "Energia i środowisko",
+     "stage": "prototype",
+     "stage_label": "Prototyp",
+     "authors": [],
+     "signal": "sredni",
+     "signal_label": "średnie",
+     "signal_terms": [],
+     "market": "",
+     "criteria": [],
+     "potential": 65,
+     "known": 2,
+     "total": 4,
+     "completeness": 50,
+     "path": {
+      "id": "rozwoj",
+      "label": "Rozwój",
+      "missing": [
+       "Brak informacji o przewidywanej wydajności procesu w skali technicznej.",
+       "Brak danych o kosztach produkcji jednostkowej elektrody w porównaniu do obecnych metod."
+      ],
+      "reasons": [
+       "Etap: Prototyp",
+       "Ocena potencjału 65/100 (Gemini)"
+      ]
+     },
+     "dropped": [],
+     "relevance": {
+      "is_solution": true,
+      "reason": "Projekt dotyczy nowatorskiego podejścia do usuwania PFAS poprzez połączenie sorpcji i fotokatalizy w jednej elektrodzie. Rozwiązanie ma potencjał wyeliminowania problemu odpadów wtórnych (zużytych fil",
+      "evidence": [
+       "Naukowcy z Politechniki Gdańskiej i Uniwersytetu Mariborskiego opracują nowy materiał hybrydowy, który ma wychwytywać z wody związki PFAS, tzw. wieczne chemikalia, i od razu rozkładać je przy pomocy światła i prądu elektrycznego.",
+       "Według przeglądu literatury, który zrobiliśmy przy pisaniu wniosku, nikt jednak dotąd systematycznie nie połączył tych dwóch materiałów w jedną hybrydową elektrodę do fotoelektrochemicznego niszczenia PFAS."
+      ],
+      "noise": []
+     },
+     "verdict": {
+      "id": "glowna",
+      "label": "Interesujące",
+      "reason": "Potwierdzona inicjatywa z 19.11.2026; ocena 65/100 (próg 50), wiarygodność: wysoka."
+     },
+     "priority": 0,
+     "priority_reasons": [],
+     "region": {
+      "code": "pomorskie",
+      "how": "z tekstu: „Gdańska”"
+     },
+     "innovation_types": [
+      "technologiczna"
+     ],
+     "caveat": "Ocena wygenerowana przez model Gemini na podstawie tekstu źródła: to interpretacja AI, a nie potwierdzony fakt. Zweryfikowane są tylko dane ze strony i cytaty występujące w tekście.",
+     "verified": {
+      "url": "https://pg.edu.pl/aktualnosci/2026-11/diamentowe-elektrody-w-walce-z-wiecznymi-chemikaliami",
+      "source": "Politechnika Gdańska — Aktualności",
+      "organization_type": "Uczelnia",
+      "published_at": "2026-11-19",
+      "date_source": "metadane strony",
+      "quotes": [
+       "Naukowcy z Politechniki Gdańskiej i Uniwersytetu Mariborskiego opracują nowy materiał hybrydowy, który ma wychwytywać z wody związki PFAS, tzw. wieczne chemikalia, i od razu rozkładać je przy pomocy światła i prądu elektrycznego.",
+       "Według przeglądu literatury, który zrobiliśmy przy pisaniu wniosku, nikt jednak dotąd systematycznie nie połączył tych dwóch materiałów w jedną hybrydową elektrodę do fotoelektrochemicznego niszczenia PFAS."
+      ]
+     },
+     "ai": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "is_initiative": true,
+      "score": 65,
+      "summary": "Projekt badawczy Politechniki Gdańskiej i Uniwersytetu Mariborskiego mający na celu opracowanie hybrydowej elektrody (diamentowo-polimerowej) do skutecznego wychwytywania i fotoelektrochemicznego rozkładu trwałych zanieczyszczeń PFAS w wodzie.",
+      "explanation": "Projekt dotyczy nowatorskiego podejścia do usuwania PFAS poprzez połączenie sorpcji i fotokatalizy w jednej elektrodzie. Rozwiązanie ma potencjał wyeliminowania problemu odpadów wtórnych (zużytych filtrów) przy niższym zużyciu energii niż spalanie. Projekt jest na etapie badań podstawowych (finansowanie NCN), co ogranicza ocenę gotowości wdrożeniowej, ale wysoka innowacyjność materiałowa uzasadnia wysoką punktację.",
+      "uncertainty": "Ocena opiera się na założeniach badawczych projektu, a skuteczność rozwiązania w warunkach rzeczywistych nie została jeszcze potwierdzona.",
+      "missing_info": [
+       "Brak informacji o przewidywanej wydajności procesu w skali technicznej.",
+       "Brak danych o kosztach produkcji jednostkowej elektrody w porównaniu do obecnych metod."
+      ],
+      "credibility": "wysoka",
+      "credibility_reason": "Informacja pochodzi z oficjalnego serwisu uczelni publicznej i odnosi się do konkretnego projektu finansowanego przez NCN.",
+      "tokens": [
+       1882,
+       616
+      ]
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.stalowawola.pl/pl/aktualnosci/2878-28-milionow-zlotych-na-zielono-blekitna-przemiane.html",
+   "final_url": "https://www.stalowawola.pl/pl/aktualnosci/2878-28-milionow-zlotych-na-zielono-blekitna-przemiane.html",
+   "title": "28 milionów złotych na zielono-błękitną przemianę",
+   "published_at": "2026-11-17",
+   "source": {
+    "name": "Miasto Stalowa Wola",
+    "entry_url": "https://www.stalowawola.pl/pl/rss/aktualnosci.xml",
+    "organization_type": "local_gov",
+    "region": "podkarpackie",
+    "discovery_type": "rss",
+    "allowed_prefix": "https://www.stalowawola.pl/",
+    "feed_url": "https://www.stalowawola.pl/pl/rss/aktualnosci.xml",
+    "sitemap_url": "",
+    "origin": "registry"
+   },
+   "excerpt": "28 milionów złotych na zielono-błękitną przemianę Czwarte miejsce w Polsce, dziesięć zadań i jeden wielki plan: wielka, zielona przemiana Stalowej Woli. Na ten cel miasto pozyskało ponad 28 mln zł dofinansowania z programu Fundusze Europejskie dla Polski Wschodniej na adaptację do zmian klimatu. Miejsce konferencji nie było przypadkowe. Plac przy kościele św. Floriana, otoczony biblioteką, pocztą, ZUS-em i sądem, to jeden z najważniejszych punktów na mapie miasta. Tędy codziennie przechodzą tysiące mieszkańców, którzy załatwiają sprawy urzędowe, odbierają przesyłki albo wypożyczają książki. Prezydent Miasta Stalowej Woli Lucjusz Nadbereżny, wraz z wiceprzewodniczącą Rady Miejskiej Karoliną …\n\nW praktyce oznacza to ponad 28 mln zł dofinansowania na dziesięć zadań, których wspólnym mianownikiem jest zielono-błękitna infrastruktura.\n\nNajważniejszym i największym zadaniem jest przebudowa przestrzeni centralnej Stalowej Woli. Projekt jest wart ponad 25,5 mln zł, a dofinansowanie wyniesie ponad 15 mln zł.\n\nTe rozwiązania wypracowano podczas szerokich konsultacji społecznych, gotowy jest program funkcjonalno-użytkowy, a przetarg zostanie ogłoszony w formule „zaprojektuj i wybuduj”.",
+   "analysis": {
+    "potential": 65,
+    "completeness": 100,
+    "path": "wdrozenie",
+    "signal": "wysoki",
+    "sector": "Energia i środowisko",
+    "stage": "pilot",
+    "priority": 1,
+    "region": "podkarpackie",
+    "data": {
+     "lead": "Stalowa Wola realizuje projekt zielono-błękitnej infrastruktury o wartości 28 mln zł, obejmujący 10 zadań adaptacyjnych do zmian klimatu, w tym przebudowę przestrzeni miejskich, systemy retencji wody i ogrody społeczne.",
+     "sector": "Energia i środowisko",
+     "stage": "pilot",
+     "stage_label": "Pilotaż",
+     "authors": [],
+     "signal": "wysoki",
+     "signal_label": "wysokie",
+     "signal_terms": [],
+     "market": "",
+     "criteria": [],
+     "potential": 65,
+     "known": 4,
+     "total": 4,
+     "completeness": 100,
+     "path": {
+      "id": "wdrozenie",
+      "label": "Wdrożenie",
+      "missing": [
+       "Brak szczegółowych harmonogramów dla wszystkich 10 zadań (poza ogólną informacją o zakończeniu prac w 2027 r. dla wybranych inwestycji).",
+       "Brak informacji o konkretnych technologiach retencyjnych poza ogólnym opisem niecki filtracyjnej."
+      ],
+      "reasons": [
+       "Etap: Pilotaż",
+       "Ocena potencjału 65/100 (Gemini)"
+      ]
+     },
+     "dropped": [],
+     "relevance": {
+      "is_solution": true,
+      "reason": "Projekt jest dobrze udokumentowany, posiada zabezpieczone finansowanie z programu Fundusze Europejskie dla Polski Wschodniej i obejmuje konkretne lokalizacje oraz zakres prac (np. kaskadowy system odw",
+      "evidence": [
+       "Na ten cel miasto pozyskało ponad 28 mln zł dofinansowania z programu Fundusze Europejskie dla Polski Wschodniej na adaptację do zmian klimatu.",
+       "W praktyce oznacza to ponad 28 mln zł dofinansowania na dziesięć zadań, których wspólnym mianownikiem jest zielono-błękitna infrastruktura.",
+       "Najważniejszym i największym zadaniem jest przebudowa przestrzeni centralnej Stalowej Woli. Projekt jest wart ponad 25,5 mln zł, a dofinansowanie wyniesie ponad 15 mln zł.",
+       "Te rozwiązania wypracowano podczas szerokich konsultacji społecznych, gotowy jest program funkcjonalno-użytkowy, a przetarg zostanie ogłoszony w formule „zaprojektuj i wybuduj”."
+      ],
+      "noise": []
+     },
+     "verdict": {
+      "id": "glowna",
+      "label": "Interesujące",
+      "reason": "Potwierdzona inicjatywa z 17.11.2026; ocena 65/100 (próg 50), wiarygodność: wysoka."
+     },
+     "priority": 1,
+     "priority_reasons": [
+      "Województwo priorytetowe: podkarpackie"
+     ],
+     "region": {
+      "code": "podkarpackie",
+      "how": "z tekstu: „Stalowej Woli”"
+     },
+     "innovation_types": [
+      "technologiczna",
+      "organizacyjna"
+     ],
+     "caveat": "Ocena wygenerowana przez model Gemini na podstawie tekstu źródła: to interpretacja AI, a nie potwierdzony fakt. Zweryfikowane są tylko dane ze strony i cytaty występujące w tekście.",
+     "verified": {
+      "url": "https://www.stalowawola.pl/pl/aktualnosci/2878-28-milionow-zlotych-na-zielono-blekitna-przemiane.html",
+      "source": "Miasto Stalowa Wola",
+      "organization_type": "Samorząd",
+      "published_at": "2026-11-17",
+      "date_source": "metadane strony",
+      "quotes": [
+       "Na ten cel miasto pozyskało ponad 28 mln zł dofinansowania z programu Fundusze Europejskie dla Polski Wschodniej na adaptację do zmian klimatu.",
+       "W praktyce oznacza to ponad 28 mln zł dofinansowania na dziesięć zadań, których wspólnym mianownikiem jest zielono-błękitna infrastruktura.",
+       "Najważniejszym i największym zadaniem jest przebudowa przestrzeni centralnej Stalowej Woli. Projekt jest wart ponad 25,5 mln zł, a dofinansowanie wyniesie ponad 15 mln zł.",
+       "Te rozwiązania wypracowano podczas szerokich konsultacji społecznych, gotowy jest program funkcjonalno-użytkowy, a przetarg zostanie ogłoszony w formule „zaprojektuj i wybuduj”."
+      ]
+     },
+     "ai": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "is_initiative": true,
+      "score": 65,
+      "summary": "Stalowa Wola realizuje projekt zielono-błękitnej infrastruktury o wartości 28 mln zł, obejmujący 10 zadań adaptacyjnych do zmian klimatu, w tym przebudowę przestrzeni miejskich, systemy retencji wody i ogrody społeczne.",
+      "explanation": "Projekt jest dobrze udokumentowany, posiada zabezpieczone finansowanie z programu Fundusze Europejskie dla Polski Wschodniej i obejmuje konkretne lokalizacje oraz zakres prac (np. kaskadowy system odwodnienia, odbetonowanie placów). Wysoka ocena wynika z kompleksowości podejścia do adaptacji klimatycznej miasta oraz partycypacyjnego charakteru planowania. Inicjatywa jest w fazie przygotowawczej (przetargi w formule zaprojektuj i wybuduj), co ogranicza ocenę w porównaniu do wdrożonych już rozwiązań.",
+      "uncertainty": "Ocena opiera się na planach inwestycyjnych, których ostateczny kształt i skuteczność będą zależeć od wyników przetargów oraz procesu wykonawczego.",
+      "missing_info": [
+       "Brak szczegółowych harmonogramów dla wszystkich 10 zadań (poza ogólną informacją o zakończeniu prac w 2027 r. dla wybranych inwestycji).",
+       "Brak informacji o konkretnych technologiach retencyjnych poza ogólnym opisem niecki filtracyjnej."
+      ],
+      "credibility": "wysoka",
+      "credibility_reason": "Informacja pochodzi z oficjalnego serwisu samorządowego miasta Stalowa Wola i zawiera konkretne dane finansowe oraz źródło finansowania.",
+      "tokens": [
+       2293,
+       724
+      ]
+     }
+    }
+   }
+  }
+ ]
+}
