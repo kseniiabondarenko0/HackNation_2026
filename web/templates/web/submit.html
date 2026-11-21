@@ -1,0 +1,7 @@
+{% extends "web/base.html" %}{% block content %}
+<h1>Zgłoś innowację</h1><div class="muted">Opisz rozwiązanie albo podaj adres strony. Zgłoszenie przechodzi przez tę samą analizę co publikacje zbierane automatycznie.</div>
+<form method="post" class="card">{% csrf_token %}{{ form.non_field_errors }}
+{% for f in form %}<p><label><strong>{{ f.label }}</strong><br>{{ f }}</label>{% if f.errors %}<br><span class="err">{{ f.errors|join:" " }}</span>{% endif %}</p>{% endfor %}
+<button>Zgłoś i przeanalizuj</button></form>
+<style>textarea,form input[type=url],form input[type=text]{width:100%}textarea{font:inherit;border:1px solid #cad6dc;border-radius:7px;padding:8px 12px}</style>
+{% endblock %}
