@@ -1,8 +1,8 @@
-{% extends "web/base.html" %}{% block content %}
-<h1>Zgłoś innowację</h1><div class="muted">Zgłosić rozwiązanie może szkoła, uczelnia, samorząd, inna instytucja publiczna, firma prywatna, organizacja pozarządowa lub osoba prywatna. Opisz rozwiązanie albo podaj adres strony — zgłoszenie przejdzie tę samą analizę co publikacje zbierane automatycznie. <a href="{% url 'for_whom' %}">Dla kogo jest Radar?</a></div>
+{% extends "web/base.html" %}{% block crumb %}Nowa inicjatywa{% endblock %}{% block pagetitle %}Zgłoś innowację{% endblock %}{% block title %}Zgłoś innowację — Radar Innowacji{% endblock %}{% block content %}
+<p class="lead-p">Zgłosić rozwiązanie może szkoła, uczelnia, samorząd, inna instytucja publiczna, firma prywatna, organizacja pozarządowa lub osoba prywatna. Opisz rozwiązanie albo podaj adres strony — zgłoszenie przejdzie tę samą analizę co publikacje zbierane automatycznie. <a href="{% url 'for_whom' %}">Dla kogo jest Radar?</a></p>
 <form method="post" class="card">{% csrf_token %}{{ form.non_field_errors }}
 {% for f in form %}{% if f.name == "strona_www" %}<p class="hp" aria-hidden="true"><label>{{ f.label }} {{ f }}</label></p>{% elif f.field.widget.input_type == "checkbox" %}<p><label>{{ f }} {{ f.label }}</label>{% if f.errors %}<br><span class="err">{{ f.errors|join:" " }}</span>{% endif %}</p>{% else %}<p><label><strong>{{ f.label }}</strong><br>{{ f }}</label>{% if f.errors %}<br><span class="err">{{ f.errors|join:" " }}</span>{% endif %}</p>{% endif %}{% endfor %}
 <p class="muted">Dane osobowe są opcjonalne. Zapisujemy je tylko za zgodą; imię i nazwisko pokazujemy publicznie tylko, jeśli zaznaczysz tę opcję; kontakt widzi wyłącznie zespół. Szczegóły: <a href="{% url 'about' %}">O systemie → RODO</a>.</p>
 <button>Zgłoś i przeanalizuj</button></form>
-<style>textarea,form input[type=url],form input[type=text]{width:100%}textarea{font:inherit;border:1px solid #cad6dc;border-radius:7px;padding:8px 12px}.hp{position:absolute;left:-9999px}</style>
+
 {% endblock %}

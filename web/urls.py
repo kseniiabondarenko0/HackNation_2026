@@ -2,7 +2,8 @@ from django.urls import path
 from django.views.generic import TemplateView
 from . import views, views_needs
 urlpatterns = [
-    path("", views.radar, name="radar"),
+    path("", views.overview, name="overview"),
+    path("inicjatywy/", views.radar, name="radar"),
     path("a/<int:pk>/", views.detail, name="detail"),
     path("a/<int:pk>/ocena/", views.review, name="review"),
     path("a/<int:pk>/dalej/", views.handling, name="handling"),

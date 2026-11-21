@@ -1,7 +1,48 @@
-<!doctype html><html lang="pl"><head><meta charset="utf-8"><title>{% block title %}Radar Innowacji{% endblock %}</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<style>
-*{box-sizing:border-box}body{font:15px/1.6 system-ui,sans-serif;margin:0;background:#f4f6f8;color:#182d3b}header{background:#123e52;color:white;padding:18px max(20px,calc((100vw - 1100px)/2));display:flex;gap:28px;align-items:center;flex-wrap:wrap}header a{color:#d9eef4;text-decoration:none;margin-right:18px}header strong{font-size:19px}main{max-width:1100px;margin:28px auto;padding:0 20px}h1{font-size:28px;margin:0 0 6px}h2{font-size:20px}.card,.metric{background:white;border:1px solid #dee5e9;border-radius:12px;padding:20px;margin:14px 0}.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}.metric strong{display:block;font-size:26px}.muted{color:#627482;font-size:13px}.err{color:#a52b36}.badge{display:inline-block;background:#e5eef2;padding:3px 9px;border-radius:20px;font-size:12px}.ok{background:#e4f2e9;color:#236142}.warn{background:#fff0d7;color:#815014}.bad{background:#fbe5e7;color:#8c2632}.bar{background:#164e65;height:12px;border-radius:6px}textarea{font:inherit;border:1px solid #cad6dc;border-radius:7px;padding:8px 12px;width:100%;min-height:60px}.btn-ok{background:#236142}.btn-bad{background:#8c2632}.row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}a{color:#12617d}input,select,button,.button{font:inherit;border:1px solid #cad6dc;border-radius:7px;padding:8px 12px}input{min-width:180px}button,.button{background:#164e65;color:white;text-decoration:none;cursor:pointer}.filters{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0}.article-text{max-width:850px;overflow-wrap:anywhere}.article-text p{margin:0 0 18px}.meta{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:10px;border-bottom:1px solid #e5ebef;vertical-align:top}th{font-size:12px;color:#627482}footer{margin:35px 0;color:#627482;font-size:12px}.notice{background:#e7f2f7;padding:12px 18px;border-radius:8px;margin-bottom:14px}.pagination{display:flex;gap:16px;align-items:center;margin:20px 0}.table-wrap{overflow-x:auto}code{overflow-wrap:anywhere}
-</style></head><body><header><strong>Radar Innowacji</strong><nav><a href="{% url 'radar' %}">Publikacje</a><a href="{% url 'submit' %}">Zgłoś innowację</a><a href="{% url 'needs' %}">Szukam rozwiązania</a><a href="{% url 'sources' %}">Źródła</a><a href="{% url 'effectiveness' %}">Skuteczność</a><a href="{% url 'runs' %}">Historia zbierania</a><a href="{% url 'for_whom' %}">Dla kogo</a><a href="{% url 'about' %}">O systemie</a><a href="/admin/">Zarządzanie</a></nav></header><main>
-{% for message in messages %}<div class="notice">{{ message }}</div>{% endfor %}
-{% block content %}{% endblock %}<footer>V0.1 · Automatyczne zbieranie publikacji z publicznych źródeł. Daty i godziny: Europe/Warsaw.</footer></main></body></html>
+{% load static web_extras %}<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}Radar Innowacji{% endblock %}</title>
+<link rel="icon" href="{% static 'web/favicon.svg' %}" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<script>try{var t=localStorage.getItem('ri-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="{% static 'web/radar.css' %}">
+</head><body>
+{% include "web/_icons.html" %}
+<a class="skip" href="#main">Przejdź do treści</a>
+{% with page=request.resolver_match.url_name %}
+<div class="app">
+<aside class="sidebar" aria-label="Nawigacja główna">
+<a class="brand" href="{% url 'overview' %}" aria-label="Radar Innowacji, strona główna">{% include "web/_logo.html" %}</a>
+<nav class="nav">
+<a href="{% url 'overview' %}"{% if page == 'overview' %} aria-current="page"{% endif %}>{% icon "grid" %}Przegląd</a>
+<a href="{% url 'radar' %}"{% if page == 'radar' or page == 'detail' %} aria-current="page"{% endif %}>{% icon "list" %}Inicjatywy</a>
+<a href="{% url 'submit' %}"{% if page == 'submit' %} aria-current="page"{% endif %}>{% icon "plus" %}Zgłoś innowację</a>
+<a href="{% url 'needs' %}"{% if page == 'needs' or page == 'need_detail' or page == 'need_submit' %} aria-current="page"{% endif %}>{% icon "search" %}Szukam rozwiązania</a>
+<a href="{% url 'sources' %}"{% if page == 'sources' or page == 'runs' %} aria-current="page"{% endif %}>{% icon "doc" %}Źródła</a>
+<a href="{% url 'effectiveness' %}"{% if page == 'effectiveness' %} aria-current="page"{% endif %}>{% icon "check" %}Skuteczność</a>
+</nav>
+<div class="side-foot">
+<button class="btn btn-sm" id="theme" type="button" aria-pressed="false">{% icon "moon" %}<span>Ciemny motyw</span></button>
+<a href="{% url 'about' %}">O systemie</a>
+<a href="{% url 'for_whom' %}">Dla kogo</a>
+<a href="{% url 'runs' %}">Historia zbierania</a>
+<a href="/admin/">Zarządzanie</a>
+<span class="mono muted">Podkarpackie Centrum Innowacji</span>
+<span class="mono muted">HackNation 2026</span>
+</div>
+</aside>
+<div>
+<header class="topbar"><div><div class="crumb mono">{% block crumb %}Radar{% endblock %}</div><h1>{% block pagetitle %}Radar Innowacji{% endblock %}</h1></div>
+<span class="proto mono">Prototyp V0.2 · publiczne źródła</span></header>
+<main id="main" tabindex="-1">
+{% for message in messages %}<div class="flash" role="status">{% icon "check" %}<span>{{ message }}</span></div>{% endfor %}
+{% block content %}{% endblock %}
+<footer class="site"><span>V0.2 · automatyczne zbieranie publikacji z publicznych źródeł</span><span>Daty i godziny: Europe/Warsaw</span></footer>
+</main></div></div>
+{% endwith %}
+<script>(function(){var r=document.documentElement,b=document.getElementById('theme');if(!b)return;
+function apply(t,save){r.setAttribute('data-theme',t);var d=t==='dark';b.setAttribute('aria-pressed',d);b.querySelector('span').textContent=d?'Jasny motyw':'Ciemny motyw';if(save){try{localStorage.setItem('ri-theme',t)}catch(e){}}}
+var t=null;try{t=localStorage.getItem('ri-theme')}catch(e){}
+if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+apply(t,false);b.onclick=function(){apply(r.getAttribute('data-theme')==='dark'?'light':'dark',true)};})();</script>
+</body></html>

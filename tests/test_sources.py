@@ -54,6 +54,13 @@ class ProbeTests(TestCase):
         self.assertEqual(r["sitemap_url"], "https://park.example.pl/sitemap.xml")
         self.assertGreater(r["score"], 0)
 
+    def test_feed_as_entry_url(self):
+        # regression: an RSS entry_url with an XML declaration used to crash the HTML parser
+        r = sourcefinder.probe_site("https://park.example.pl/feed/", getter=getter, robots=robots)
+        self.assertTrue(r["ok"], r["errors"])
+        self.assertEqual((r["discovery_type"], r["entry_url"]), ("rss", "https://park.example.pl/feed/"))
+        self.assertEqual(r["allowed_prefix"], "https://park.example.pl/")
+
     def test_html_listing_found_from_home_page_after_404(self):
         r = sourcefinder.probe_site("https://uczelnia.example.pl/stara-strona", getter=getter, robots=robots)
         self.assertTrue(r["ok"], r["errors"])

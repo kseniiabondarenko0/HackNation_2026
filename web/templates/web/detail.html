@@ -1,1 +1,23 @@
-{% extends "web/base.html" %}{% block content %}<a href="{% url 'radar' %}">← Publikacje</a><article class="card"><div class="muted">{{ a.source.name }}</div><h1>{{ a.title|default:"Publikacja" }}</h1><p><a href="{{ a.final_url|default:a.original_url }}" target="_blank" rel="noopener noreferrer">Otwórz oryginalny materiał ↗</a></p><div class="meta muted"><span>Opublikowano: {{ a.published_at|date:"d.m.Y"|default:"brak potwierdzonej daty" }}</span><span>Wykryto: {{ a.first_seen_at|date:"d.m.Y H:i" }}</span><span>Pobrano: {{ a.fetched_at|date:"d.m.Y H:i" }}</span></div>{% if a.error %}<p class="err">Ostatnia ponowna kontrola: {{ a.error }}. Pokazujemy wcześniej zapisany tekst.</p>{% endif %}{% if a.duplicate_of_id %}<p class="notice">Ten materiał ma ten sam tekst co <a href="{% url 'detail' a.duplicate_of_id %}">wcześniejsza publikacja</a>.</p>{% endif %}{% include "web/_submission.html" %}{% include "web/_review.html" %}{% include "web/_analysis.html" %}{% include "web/_matching.html" %}<hr><div class="article-text">{{ a.text|linebreaks }}</div></article>{% endblock %}
+{% extends "web/base.html" %}{% load web_extras %}{% block title %}{{ a.title|default:"Publikacja" }} — Radar Innowacji{% endblock %}{% block crumb %}Inicjatywy / Szczegóły{% endblock %}{% block pagetitle %}Szczegóły inicjatywy{% endblock %}{% block content %}
+<section class="view">
+<a class="btn btn-sm" style="align-self:flex-start" href="{% url 'radar' %}">{% icon "back" %}Wróć do katalogu</a>
+<div class="dhead"><div style="display:flex;gap:8px;flex-wrap:wrap">{% if an %}<span class="tag mono">{{ an.sector|default:"Bez sektora" }}</span>{% endif %}<span class="badge b-ok">{% icon "check" %}Źródło: {{ a.source.name }}</span>{% if an.review_status == "zatwierdzony" %}<span class="badge b-ok">{% icon "check" %}Zatwierdzone przez eksperta</span>{% elif an.review_status == "odrzucony" %}<span class="badge b-err">{% icon "x" %}Odrzucone przez eksperta</span>{% endif %}</div>
+<h2 class="dtitle">{{ a.title|default:"Publikacja" }}</h2>
+<p class="muted">{{ a.source.name }}{% if an %} · {{ an.region|default:"ogólnopolskie" }}{% endif %}</p>
+<p class="mono muted">{{ a.pk|refno }} · wykryto {{ a.first_seen_at|date:"d.m.Y" }}</p></div>
+{% if a.error %}<p class="err">Ostatnia ponowna kontrola: {{ a.error }}. Pokazujemy wcześniej zapisany tekst.</p>{% endif %}
+{% if a.duplicate_of_id %}<p class="notice">Ten materiał ma ten sam tekst co <a href="{% url 'detail' a.duplicate_of_id %}">wcześniejsza publikacja</a>.</p>{% endif %}
+{% include "web/_submission.html" %}
+<div class="cols">
+<div class="panel facts"><div class="panel-h"><h2>Potwierdzone informacje</h2><span class="badge b-ok">{% icon "check" %}Ze źródła</span></div>
+<dl class="facts"><dt>Źródło</dt><dd>{{ a.source.name }}</dd><dt>Typ instytucji</dt><dd>{{ a.source.get_organization_type_display }}</dd><dt>Opublikowano</dt><dd>{{ a.published_at|date:"d.m.Y"|default:"brak potwierdzonej daty" }}</dd><dt>Wykryto</dt><dd>{{ a.first_seen_at|date:"d.m.Y H:i" }}</dd><dt>Pobrano</dt><dd>{{ a.fetched_at|date:"d.m.Y H:i" }}</dd>{% if d %}<dt>Autorzy</dt><dd>{% if d.authors %}{{ d.authors|join:", " }} <span class="muted">(wymienieni publicznie w tekście)</span>{% else %}<span class="muted">brak danych</span>{% endif %}</dd>{% endif %}</dl>
+<hr class="hr"><h3>Źródło informacji</h3>
+<div class="srcs"><div class="src"><span class="num">1</span><div><strong>{{ a.source.name }}</strong><br><span class="mono muted">{{ a.final_url|default:a.original_url|truncatechars:60 }}</span></div><a class="btn btn-sm" href="{{ a.final_url|default:a.original_url }}" target="_blank" rel="noopener noreferrer">Otwórz {% icon "arrow" %}</a></div></div></div>
+{% include "web/_analysis.html" %}
+</div>
+{% include "web/_rubric.html" %}
+{% include "web/_review.html" %}
+{% include "web/_matching.html" %}
+<section class="card text-panel"><h2>Treść zebrana ze źródła</h2><div class="article-text">{{ a.text|linebreaks }}</div></section>
+</section>
+{% endblock %}

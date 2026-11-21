@@ -5,6 +5,16 @@ from collection.models import Source
 from collection.sourcefinder import DATA, apply_probe, probe_site
 
 
+def _probe(url):
+    """probe_site, but an unexpected error on one page is reported instead of aborting the whole run."""
+    try:
+        return probe_site(url)
+    except Exception as exc:  # noqa: BLE001 - keep checking the remaining sources
+        return {"input": url, "ok": False, "errors": [f"{type(exc).__name__}: {exc}"[:200]], "entry_url": "",
+                "discovery_type": "html", "allowed_prefix": "", "feed_url": "", "sitemap_url": "",
+                "robots_allowed": None, "article_links": 0, "sample": []}
+
+
 class Command(BaseCommand):
     help = ("Check sources: robots.txt, reachable page, RSS/sitemap and a news listing with >=3 links. "
             "--registry checks collection/data/sources.json (with --write it saves the result there); "
@@ -24,7 +34,7 @@ class Command(BaseCommand):
             qs = qs.filter(pk__in=o["source"])
         ok = failed = 0
         for source in qs.order_by("pk"):
-            report = probe_site(source.entry_url)
+            report = _probe(source.entry_url)
             apply_probe(source, report)
             if report["ok"] and source.origin == "registry" and source.status == "candidate" and not source.reviewed_at:
                 Source.objects.filter(pk=source.pk).update(status="active", enabled=True, next_run_at=timezone.now())
@@ -39,7 +49,7 @@ class Command(BaseCommand):
         for entry in entries:
             if o["only_unverified"] and entry.get("verified"):
                 continue
-            report = probe_site(entry["entry_url"])
+            report = _probe(entry["entry_url"])
             self._line(entry["name"], report)
             ok, failed = ok + report["ok"], failed + (not report["ok"])
             if not o["write"]:

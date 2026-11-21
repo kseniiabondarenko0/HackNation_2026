@@ -1,5 +1,5 @@
-{% extends "web/base.html" %}{% block title %}Dla kogo — Radar Innowacji{% endblock %}{% block content %}
-<h1>Dla kogo jest Radar Innowacji</h1><div class="muted">Z radaru korzystają bez zakładania konta instytucje publiczne, szkoły, firmy prywatne i osoby prywatne. Decyzje ekspertów (zatwierdzanie, etapy wdrożenia, źródła) wymagają konta zespołu prowadzącego radar.</div>
+{% extends "web/base.html" %}{% block crumb %}Informacje{% endblock %}{% block pagetitle %}Dla kogo jest Radar{% endblock %}{% block title %}Dla kogo — Radar Innowacji{% endblock %}{% block content %}
+<p class="lead-p">Z radaru korzystają bez zakładania konta instytucje publiczne, szkoły, firmy prywatne i osoby prywatne. Decyzje ekspertów (zatwierdzanie, etapy wdrożenia, źródła) wymagają konta zespołu prowadzącego radar.</p>
 <div class="table-wrap"><table><thead><tr><th>Kto</th><th>Co może zrobić</th><th>Gdzie</th></tr></thead><tbody>
 <tr><td>Szkoła, przedszkole</td><td>Zgłosić własne rozwiązanie (np. metodę nauczania), znaleźć sprawdzone pomysły innych szkół, opisać potrzebę.</td><td><a href="{% url 'submit' %}">Zgłoś innowację</a> · <a href="{% url 'need_submit' %}">Zgłoś potrzebę</a></td></tr>
 <tr><td>Uczelnia, instytut badawczy</td><td>Zgłosić wynik badań; publikacje z aktualności uczelni radar zbiera sam. Znaleźć partnerów i odbiorców.</td><td><a href="{% url 'submit' %}">Zgłoś innowację</a> · <a href="{% url 'radar' %}">Radar</a></td></tr>

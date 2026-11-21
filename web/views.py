@@ -22,6 +22,8 @@ from matching.models import Recipient
 from matching.similar import similar
 from .forms import SubmitForm
 
+CATALOG_PAGE = 24
+
 
 TABS = {**VERDICTS, "zatwierdzone": "Zatwierdzone przez eksperta", "wszystkie": "Wszystkie"}
 
@@ -58,6 +60,36 @@ def _actor_filter(qs, actor):
     return qs
 
 
+def _qs_url(params, **changes):
+    """Current query string with some keys replaced/removed (and paging reset)."""
+    p = params.copy()
+    p.pop("page", None)
+    for key, value in changes.items():
+        if value:
+            p[key] = value
+        else:
+            p.pop(key, None)
+    encoded = p.urlencode()
+    return "?" + encoded if encoded else "?"
+
+
+def overview(request):
+    """'Przegląd': headline numbers and the newest cards of the main list."""
+    main = Article.objects.select_related("source", "analysis", "submission").filter(
+        status="fetched", duplicate_of__isnull=True).filter(_tab_q("glowna"))
+    total = main.count()
+    scored = main.filter(analysis__potential__isnull=False).count()
+    high = main.filter(analysis__potential__gte=70).count()
+    rows = [r for r in main.filter(analysis__isnull=False).order_by().values("analysis__sector")
+            .annotate(n=Count("pk")).order_by("-n") if r["analysis__sector"]][:6]
+    top = rows[0]["n"] if rows else 1
+    return render(request, "web/overview.html", {
+        "latest": list(main.order_by("-first_seen_at", "-pk")[:3]), "total": total, "scored": scored,
+        "high": high, "mid_low": scored - high, "unscored": total - scored,
+        "approved": Analysis.objects.filter(review_status="zatwierdzony").count(),
+        "sectors": [{"label": r["analysis__sector"], "n": r["n"], "pct": round(100 * r["n"] / top)} for r in rows]})
+
+
 def radar(request):
     qs = Article.objects.select_related("source", "analysis", "submission").filter(status="fetched", duplicate_of__isnull=True)
     selected = request.GET.get("source", "")
@@ -81,17 +113,27 @@ def radar(request):
         qs = qs.filter(analysis__path=path)
     if signal in SIGNALS:
         qs = qs.filter(analysis__signal=signal)
+    sector = request.GET.get("sektor", "")[:80]
+    sector_rows = [r for r in qs.filter(analysis__isnull=False).order_by().values("analysis__sector")
+                   .annotate(n=Count("pk")).order_by("-n", "analysis__sector") if r["analysis__sector"]]
+    if sector:
+        qs = qs.filter(analysis__sector=sector)
     if sort == "potencjal":
         qs = qs.order_by(F("analysis__potential").desc(nulls_last=True), "-first_seen_at")
     elif sort == "priorytet":
         qs = qs.order_by(F("analysis__priority").desc(nulls_last=True),
                          F("analysis__potential").desc(nulls_last=True), "-first_seen_at")
-    page = Paginator(qs, 25).get_page(request.GET.get("page"))
+    page = Paginator(qs, CATALOG_PAGE).get_page(request.GET.get("page"))
     params = request.GET.copy()
     params.pop("page", None)
     tab_params = params.copy()
     tab_params.pop("widok", None)
+    layout = "tabela" if request.GET.get("uklad") == "tabela" else "karty"
     return render(request, "web/radar.html", {
+        "layout": layout, "sector": sector, "sector_all_url": _qs_url(request.GET, sektor=""),
+        "sector_chips": [{"label": r["analysis__sector"], "n": r["n"], "active": r["analysis__sector"] == sector,
+                          "url": _qs_url(request.GET, sektor=r["analysis__sector"])} for r in sector_rows],
+        "layout_cards_url": _qs_url(request.GET, uklad=""), "layout_table_url": _qs_url(request.GET, uklad="tabela"),
         "articles": page, "sources": Source.objects.all(), "q": query,
         "selected_source": selected, "total": page.paginator.count,
         "paths": PATHS.items(), "signals": SIGNALS.items(), "path": path, "signal": signal, "sort": sort,

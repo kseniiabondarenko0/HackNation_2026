@@ -43,6 +43,15 @@ Docker automatycznie wykonuje migracje i `seed_sources`, zachowuje ustawienia is
 - `analysis/regions.py`: 16 województw, wykrywanie z tekstu, `Source.region`, `Analysis.region`, filtr `woj` (radar, eksport), `PRIORITY_REGION`, +1 pkt dopasowania za to samo województwo, wybór województwa w formularzach. `VERSION = "5"`; klucz cache zawiera region źródła.
 - Użytkownicy: `Source.ORG` + firma prywatna / NGO / osoba prywatna; `collection.Submission` (kto zgłasza, województwo, autor i kontakt za zgodą); filtr `kto`; typ odbiorcy „Osoba prywatna”; honeypot; strona „Dla kogo”. 128 testów.
 
+## 2026-11-21 (noc) — design z makiety
+
+- Interfejs przeniesiony na neo-brutalistyczny system z `radar-innowacji-makiety.html`: `web/static/web/radar.css` (tokeny, jasny/ciemny motyw, przełącznik w sidebarze), `base.html` (sidebar + topbar), ikony `_icons.html`, logo `_logo.html`, partiale `_card.html`, `_score.html`, `_rubric.html`, tagi `web/templatetags/web_extras.py`.
+- Nowa strona „Przegląd” pod `/` (`views.overview`); katalog przeniesiony na `/inicjatywy/` (nazwa URL `radar` bez zmian), filtr sektora (`?sektor=`), układ karty/tabela (`?uklad=tabela`).
+- Karta inicjatywy: panel „Potwierdzone informacje” (fakty ze źródła) obok „Interpretacja systemu” (przerywana ramka = szacunek), rubryka z cytatami w osobnej sekcji. „Brak danych” ma własny wygląd (nie „niski wynik”).
+- Odstępstwa od makiety: brak osobnej strony „Analiza AI” (analiza jest w karcie), brak plakietki „dane przykładowe” (dane są prawdziwe), etykiety „szacunek systemu” zamiast „szacunek AI” (backend `rules` nie jest AI).
+- Naprawiono `about.html`: blok RODO trafiał do `<title>` i był zdublikowany.
+- Po `git pull` wymagane `python manage.py migrate` (brak kolumny `analysis_analysis.verdict` w starej bazie).
+
 ## Następne kroki
 
 1. Backend `ollama` w `analysis/service.py` BACKENDS (finalize() już odrzuca niezweryfikowane cytaty); sprawdzić na Macu.
@@ -50,3 +59,9 @@ Docker automatycznie wykonuje migracje i `seed_sources`, zachowuje ustawienia is
 3. „Podobne rozwiązania” w karcie (ponowne użycie `analysis/search.py`), profile odbiorców, strona „O systemie”.
 
 Ograniczenia: reguły to słowa kluczowe — sygnały, nie werdykt. Zbieranie obejmuje tylko skonfigurowane źródła, nie cały internet. V0.1 nie nazywa zwykłych wiadomości potwierdzonymi innowacjami.
+
+## 2026-11-21 (wieczór) — rozszerzenie rejestru źródeł
+- `collection/data/sources.json`: 137 wpisów (było 42), 96 zweryfikowanych przez `probe_sources --registry --write` na prawdziwej sieci (RSS 32, HTML 64); 41 czeka jako kandydaci (robots.txt blokuje / 403–503 / brak listy aktualności / timeout) — powód w polu `note`.
+- Naprawa: `probe_site` obsługuje `entry_url` będący kanałem RSS (wcześniej wyjątek lxml przerywał cały przebieg); `probe_sources` nie przerywa przebiegu przy błędzie jednej strony. Test regresji `test_feed_as_entry_url`.
+- Cztery adresy z listy kandydatów były błędne (brak DNS) i zostały poprawione po wyszukaniu: WUP Rzeszów, UM Tarnobrzeg, Kuratorium Oświaty w Rzeszowie, IZTECH.
+- Weryfikacja = strona odpowiada, robots.txt pozwala, jest RSS lub lista ≥3 artykułów. To nie ocena jakości źródła.

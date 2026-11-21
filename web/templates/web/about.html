@@ -1,14 +1,5 @@
-{% extends "web/base.html" %}{% block title %}O systemie · Radar Innowacji<section class="card"><h2>Ochrona danych osobowych (RODO)</h2>
-<ul><li>Przetwarzamy wyłącznie treści opublikowane publicznie przez instytucje. Imiona i nazwiska autorów pokazujemy tylko, gdy są wymienione w tekście źródła, wraz z linkiem do oryginału; nie łączymy ich z innymi danymi.</li>
-<li>Zgłaszać mogą też osoby prywatne i firmy. Imię i nazwisko autora oraz kontakt są opcjonalne i zapisywane tylko za zgodą; nazwisko pokazujemy publicznie wyłącznie, gdy autor to zaznaczy.</li>
-<li>Kontakt podany przy zgłoszeniu potrzeby zapisujemy tylko po zaznaczeniu zgody (art. 6 ust. 1 lit. a RODO) i pokazujemy wyłącznie zalogowanemu zespołowi.</li>
-<li>Eksport (<code>/api/innowacje.*</code>) nie zawiera autorów ani kontaktów.</li>
-<li>Formularze publiczne mają ukryte pole przeciw automatom; każde zgłoszenie przechodzi filtr i decyzję eksperta, zanim trafi do zatwierdzonych.</li>
-<li>Decyzje ekspertów i etapy obsługi zapisujemy z nazwą konta i datą (rozliczalność).</li>
-<li>Usunięcie danych: administrator usuwa publikację, zgłoszenie lub potrzebę w panelu zarządzania; nie przechowujemy kopii poza bazą.</li>
-<li>Strona nie używa ciasteczek analitycznych ani śledzenia; jedyne ciasteczka to sesja i ochrona CSRF.</li></ul></section>
-{% endblock %}{% block content %}
-<h1>O systemie</h1>
+{% extends "web/base.html" %}{% block crumb %}Informacje{% endblock %}{% block pagetitle %}O systemie{% endblock %}{% block title %}O systemie · Radar Innowacji{% endblock %}{% block content %}
+
 <p>Radar Innowacji wyszukuje w publicznych źródłach opisy rozwiązań (technicznych, edukacyjnych, organizacyjnych), porządkuje je w karty, ocenia według jawnej rubryki, sugeruje ścieżkę dalszego rozwoju, pokazuje podobne rozwiązania i kandydatów na odbiorców. Każdy wynik ma uzasadnienie, które da się sprawdzić w tekście źródła.</p>
 
 <section class="card"><h2>Źródła danych</h2>

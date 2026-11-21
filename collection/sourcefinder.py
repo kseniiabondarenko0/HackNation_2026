@@ -214,6 +214,22 @@ def infer_prefix(listing_url, page):
     return own, [u for u in links if u.startswith(own)]
 
 
+def _feed_links(final, body):
+    """(prefix, links) when `body` is a feed whose items share one host, else ("", [])."""
+    links = [e.get("link") for e in feedparser.parse(body).entries if e.get("link")]
+    hosts = Counter(urlsplit(urljoin(final, l)).netloc for l in links)
+    if not hosts or hosts.most_common(1)[0][1] < 3:
+        return "", []
+    prefix = f"{urlsplit(final).scheme}://{hosts.most_common(1)[0][0]}/"
+    src = SimpleNamespace(entry_url=final, allowed_prefix=prefix, discovery_type="rss")
+    return prefix, [u for u, _ in discover_rss(body, src)]
+
+
+def _looks_like_feed(page):
+    head = (page.decode("utf-8", "ignore") if isinstance(page, bytes) else page)[:600].lower()
+    return "<rss" in head or "<feed" in head or "<rdf:rdf" in head
+
+
 def probe_site(url, getter=None, robots=None):
     """Check that a site can be monitored politely and propose its collector configuration."""
     getter, robots = getter or safe_get, robots or robots_info
@@ -242,6 +258,14 @@ def probe_site(url, getter=None, robots=None):
             report["errors"].append(f"{candidate}: {exc}")
     if page is None:
         return report
+    if _looks_like_feed(page):  # entry_url is itself a feed
+        prefix, found = _feed_links(page_url, page)
+        if len(found) >= 3:
+            report.update(ok=True, entry_url=page_url, feed_url=page_url, discovery_type="rss", allowed_prefix=prefix,
+                          article_links=len(found), sample=found[:3], score=relevance(" ".join(found)))
+        else:
+            report["errors"].append("kanał RSS ma za mało linków do artykułów")
+        return report
     title, feeds, news, text = _page_info(page_url, page)
     report["title"] = clean_title(title, host_of(page_url))
     report["score"] = relevance(f"{title} {text}")
@@ -253,18 +277,11 @@ def probe_site(url, getter=None, robots=None):
         except FetchError as exc:
             report["errors"].append(f"feed: {exc}")
             continue
-        entries = feedparser.parse(body).entries
-        links = [e.get("link") for e in entries if e.get("link")]
-        hosts = Counter(urlsplit(urljoin(final, l)).netloc for l in links)
-        if hosts and hosts.most_common(1)[0][1] >= 3:
-            host = hosts.most_common(1)[0][0]
-            prefix = f"{urlsplit(final).scheme}://{host}/"
-            src = SimpleNamespace(entry_url=final, allowed_prefix=prefix, discovery_type="rss")
-            found = [u for u, _ in discover_rss(body, src)]
-            if len(found) >= 3:
-                report.update(ok=True, entry_url=final, feed_url=final, discovery_type="rss",
-                              allowed_prefix=prefix, article_links=len(found), sample=found[:3])
-                return report
+        prefix, found = _feed_links(final, body)
+        if len(found) >= 3:
+            report.update(ok=True, entry_url=final, feed_url=final, discovery_type="rss",
+                          allowed_prefix=prefix, article_links=len(found), sample=found[:3])
+            return report
     # 2) HTML news listing: the page itself, or a "news" link found on it
     listings = ([page_url] if _is_listing(page_url) else []) + news[:3]
     for listing_url in listings:

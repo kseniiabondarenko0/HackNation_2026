@@ -1,0 +1,20 @@
+{% load web_extras %}{% with an=a.analysis %}<article class="card init" style="--cc:{{ an.sector|sector_color }}">
+<div class="row"><span class="tag mono">{{ an.sector|default:"Bez sektora" }}</span><span class="mono muted">{{ a.pk|refno }}</span></div>
+<h3><a href="{% url 'detail' a.pk %}">{{ a.title|default:a.original_url|truncatechars:140 }}</a></h3>
+<div class="meta"><span><strong>{{ a.source.name }}</strong></span><span class="mono muted">{% if an %}{{ an.region|default:"ogólnopolskie" }} · {% endif %}{{ a.published_at|date:"d.m.Y"|default:"brak daty" }}</span></div>
+<p class="desc">{{ a.text|truncatechars:240 }}</p>
+{% if an %}<div class="rmeta">
+<span class="badge {% if an.signal == 'wysoki' or an.signal == 'sredni' %}b-ok{% endif %}">Sygnały: {{ an.data.signal_label }}</span>
+<span class="badge">Etap: {{ an.data.stage_label }}</span>
+<span class="badge{% if an.completeness < 40 %} b-none{% endif %}">Dowody: {{ an.completeness }}%</span>
+{% if a.submission %}<span class="badge">Zgłoszenie: {{ a.submission.get_submitter_type_display }}</span>{% endif %}
+{% if an.data.path %}<span class="badge b-warn">Ścieżka: {{ an.data.path.label }}</span>{% endif %}
+{% if an.priority %}<span class="badge b-ok" title="{{ an.data.priority_reasons|join:'; ' }}">Priorytet PCI +{{ an.priority }}</span>{% endif %}
+{% if an.review_status == "zatwierdzony" %}<span class="badge b-ok">{% icon "check" %}Zatwierdzone przez eksperta</span>{% elif an.review_status == "odrzucony" %}<span class="badge b-err">{% icon "x" %}Odrzucone przez eksperta</span>{% endif %}
+{% if an.handling != "brak" %}<span class="badge b-warn">Dalej: {{ an.get_handling_display }}</span>{% endif %}
+</div>
+{% if an.review_status == "odrzucony" and an.review_note %}<p class="why">Ekspert: {{ an.review_note }}</p>{% endif %}
+{% if an.data.verdict and an.verdict != "glowna" %}<p class="why">{{ an.data.verdict.label }}: {{ an.data.verdict.reason }}</p>{% endif %}
+{% else %}<div class="rmeta"><span class="badge b-none">Oczekuje na analizę</span></div>{% endif %}
+<hr class="hr">{% score an.potential %}
+<a class="btn" href="{% url 'detail' a.pk %}">Zobacz szczegóły {% icon "arrow" %}</a></article>{% endwith %}
