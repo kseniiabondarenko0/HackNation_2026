@@ -69,6 +69,8 @@ docker compose exec web python manage.py test tests --noinput
 docker compose exec web python manage.py check
 ```
 
+Sprawdzenie wszystkich linków (strony serwisu i adresy zewnętrzne; serwer musi działać): `python scripts/check_links.py http://127.0.0.1:8000 --out raport_linkow.txt`.
+
 `--all` pomija termin następnego sprawdzenia, ale respektuje blokadę trwającego przebiegu. Niedawno pobrane artykuły nie są ponownie ściągane. Znane artykuły trafiają do ponownej kontroli po 24 godzinach.
 
 Aby zatrzymać: `docker compose stop`. Aby wrócić: `docker compose up -d`. Komputer i Docker muszą działać, aby zbieranie odbywało się automatycznie. Dane są w trwałym wolumenie `radar-data`.

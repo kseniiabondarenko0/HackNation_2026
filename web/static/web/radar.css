@@ -312,3 +312,9 @@ form.card:not(.toolbar) button{align-self:flex-start}
 .tb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
 .toolbar .btn{min-height:50px}
 .inp select{text-overflow:ellipsis}
+
+/* Porównywanie: pasek pod listą i pole wyboru przy tytule */
+.cmp-bar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:40px 0 8px}
+.cmp{display:inline-flex;align-items:center;gap:8px;font-size:13px;white-space:nowrap;cursor:pointer}
+.cmp input{width:18px;height:18px;margin:0;accent-color:var(--ink);cursor:pointer}
+.tbl-wrap + .cmp-bar{margin-top:24px}
