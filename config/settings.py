@@ -24,7 +24,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Collector limits (our own settings, tunable after first measurements)
 COLLECT = {"MAX_DISCOVERY_PAGES": 10, "MAX_NEW_PER_RUN": 20, "CONNECT_TIMEOUT": 5, "READ_TIMEOUT": 10,
-           "MAX_BYTES": 2_000_000, "DELAY_S": 1.0, "MIN_TEXT_CHARS": 300,
+           "MAX_BYTES": 2_000_000, "DELAY_S": float(os.environ.get("COLLECT_DELAY_S", "1.0")), "MIN_TEXT_CHARS": 300,
            "USER_AGENT": "RadarInnowacji-hackathon/0.1",
            "MAX_LINKS_PER_RUN": 200, "MAX_ATTEMPTS": 3,
            "RECHECK_HOURS": 24, "MAX_RUN_SECONDS": 180, "LEASE_SECONDS": 600}
