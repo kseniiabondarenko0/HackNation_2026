@@ -323,7 +323,7 @@ class CommandAndCounterTests(RetentionBase):
 
     def test_maybe_cleanup_throttle(self):
         with mock.patch.object(retention, "cleanup", return_value={}) as run:
-            retention._last_run[0] = 0.0
+            retention._last_run[0] = float("-inf")             # not 0.0: time.monotonic() can be tiny on a freshly booted machine
             retention.maybe_cleanup()
             retention.maybe_cleanup()
             self.assertEqual(run.call_count, 1)
@@ -332,6 +332,7 @@ class CommandAndCounterTests(RetentionBase):
 
     def test_collection_cycle_runs_the_cleanup(self):
         with mock.patch("analysis.retention.maybe_cleanup", return_value={"old": 0}) as hook, \
-                mock.patch("analysis.service.analyze_pending"):
+                mock.patch("analysis.service.analyze_pending"), \
+                mock.patch("collection.sourcefinder.maybe_run_discovery", return_value=None):   # no real network in tests
             call_command("collect_sources", "--once", stdout=StringIO())
         hook.assert_called_once()

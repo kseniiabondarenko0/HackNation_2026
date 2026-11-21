@@ -22,6 +22,13 @@ if not TESTING:  # tests must never pick up a real key
     _load_env(BASE_DIR / ".env")
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "dev-only-change-me")
 DEBUG = os.environ.get("DJANGO_DEBUG", "1") == "1"
+if not DEBUG and not TESTING:
+    if SECRET_KEY in ("", "dev-only-change-me"):
+        from django.core.exceptions import ImproperlyConfigured
+        raise ImproperlyConfigured("Ustaw własny DJANGO_SECRET_KEY w .env (wymagany przy DJANGO_DEBUG=0).")
+    if SECRET_KEY == "change-me":
+        import warnings
+        warnings.warn("DJANGO_SECRET_KEY ma wartość przykładową 'change-me': zmień ją przed publicznym wdrożeniem.")
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 INSTALLED_APPS = ["django.contrib.admin", "django.contrib.auth", "django.contrib.contenttypes",
     "django.contrib.sessions", "django.contrib.messages", "django.contrib.staticfiles", "collection", "analysis", "matching", "web"]

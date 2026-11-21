@@ -8,3 +8,4 @@ staticfiles/
 .tmp_x/
 archive/
 .DS_Store
+.idea/

@@ -32,11 +32,11 @@
 </aside>
 <div>
 <header class="topbar"><div><div class="crumb mono">{% block crumb %}Radar{% endblock %}</div><h1>{% block pagetitle %}Radar Innowacji{% endblock %}</h1></div>
-<span class="proto mono">Prototyp V0.2 · publiczne źródła</span></header>
+<span class="proto mono">MVP · publiczne źródła</span></header>
 <main id="main" tabindex="-1">
 {% for message in messages %}<div class="flash" role="status">{% icon "check" %}<span>{{ message }}</span></div>{% endfor %}
 {% block content %}{% endblock %}
-<footer class="site"><span>V0.2 · automatyczne zbieranie publikacji z publicznych źródeł</span><span>Daty i godziny: Europe/Warsaw</span></footer>
+<footer class="site"><span>Radar Innowacji · automatyczne zbieranie publikacji z publicznych źródeł</span><span>Daty i godziny: Europe/Warsaw</span></footer>
 </main></div></div>
 {% endwith %}
 <script>(function(){var r=document.documentElement,b=document.getElementById('theme');if(!b)return;

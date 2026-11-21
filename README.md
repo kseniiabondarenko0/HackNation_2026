@@ -1,8 +1,20 @@
-# Radar Innowacji — V0.1: automatyczny kolektor
+# Radar Innowacji
 
-Licencja: EUPL-1.2 (plik `LICENSE`).
+**HackNation 2026 · zadanie Podkarpackiego Centrum Innowacji · zespół Zhivchiki · licencja EUPL-1.2 (`LICENSE`)**
 
-Działający etap zbierania publikacji z publicznych stron. Kolektor sam odnajduje adresy na skonfigurowanych stronach, pobiera tekst, zapisuje wyniki i powtarza sprawdzenie według harmonogramu. V0.1 zbiera publikacje; analiza AI i ocena potencjału innowacji są następnym etapem.
+Radar odnajduje w publicznych źródłach (strony szkół, uczelni, samorządów i instytucji publicznych) opisy istniejących rozwiązań, zapisuje je w czytelnej karcie, ocenia ich potencjał według jasnych kryteriów i podpowiada dalszą ścieżkę: rozwój, transfer, komercjalizację albo wdrożenie. Każda karta rozdziela **dane potwierdzone** (adres, data, cytaty znalezione w tekście) od **szacunku AI** (ocena, etap, uzasadnienie, braki, niepewność). Całość działa za **0 PLN**: Gemini (darmowy limit) z awaryjnym Groq (darmowy plan), bez płatnych API.
+
+**Najkrótsza droga do pokazu (ok. 2 minuty):**
+
+```bash
+python -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
+python manage.py migrate && python manage.py seed_sources && python manage.py load_demo
+python manage.py runserver     # http://127.0.0.1:8000/ — zestaw demonstracyjny jest od razu widoczny
+```
+
+Z Dockerem: `cp .env.example .env`, ustaw `DJANGO_SECRET_KEY`, potem `docker compose up -d --build --wait` (szczegóły niżej). Klucze `GEMINI_API_KEY` / `GROQ_API_KEY` są opcjonalne: bez nich pokaz działa na zestawie demonstracyjnym, a nowe publikacje czekają w kolejce.
+
+**Gdzie czego szukać:** `/` przegląd · `/inicjatywy/` katalog z filtrami · `/a/<id>/` karta · `/porownaj/` porównanie 2–4 pozycji · `/potrzeby/` „Szukam rozwiązania” · `/skutecznosc/` mierniki · `/zrodla/` rejestr źródeł · `/o-systemie/` założenia, ograniczenia, RODO · `/api/innowacje.json` eksport. Testy: `python manage.py test tests --noinput`.
 
 ## Co potrafi (zgodnie z oficjalnym FAQ)
 
@@ -79,7 +91,7 @@ Na świeżej bazie strona jest pusta, dopóki kolektor nie pobierze publikacji, 
 - Unikalność URL i identycznego tekstu, osobne daty publikacji/odkrycia/pobrania.
 - `lastmod` sitemap nie jest datą publikacji.
 - Pobieranie nie używa płatnego API. Nie jest to indeks całego internetu: działa w zakresie skonfigurowanych źródeł.
-- PDF, skany, strony wymagające logowania/JS i semantyczne łączenie podobnych projektów pozostają poza V0.1.
+- PDF, skany, strony wymagające logowania/JS i semantyczne łączenie podobnych projektów pozostają poza zakresem MVP.
 - Ochrona URL to podstawowa warstwa dla lokalnego narzędzia; publiczne wdrożenie wymaga dodatkowej kontroli sieci, w tym ochrony przed DNS rebinding.
 
 ## Lokalnie bez kontenerów

@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.paginator import Paginator
 from django.db.models import Count, F, Q, Max
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.views.decorators.http import require_POST
@@ -290,6 +290,15 @@ def request_scan(request, pk):
         Source.objects.filter(pk=pk).update(next_run_at=timezone.now())
         messages.success(request, "Zlecono sprawdzenie w kolejnym cyklu kolektora.")
     return redirect("sources")
+
+
+def robots(request):
+    return HttpResponse("User-agent: *\nDisallow: /admin/\nAllow: /\n", content_type="text/plain; charset=utf-8")
+
+
+def favicon(request):
+    from django.templatetags.static import static
+    return redirect(static("web/favicon.svg"), permanent=True)
 
 
 def health(request):

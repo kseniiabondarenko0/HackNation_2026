@@ -1,6 +1,6 @@
 # DECISIONS
 - Django + SQLite (WAL): team stack (Python), zero setup; Postgres after hackathon.
-- LLM behind adapter (ollama / openai_compat / rules); demo must run without LLM.
+- LLM za adapterem (`analysis/llm.py`): Gemini free → Groq free; pokaz działa bez żywego AI dzięki zestawowi demonstracyjnemu. Backend `ollama` porzucony (zero kosztów, brak GPU na serwerze).
 - Similarity via TF-IDF in base (task asks for duplicate-work reduction).
 - Manual submission form in base (task: "zgłaszanie lub wykrywanie").
 
@@ -30,3 +30,6 @@
 - Analiza AI nigdy nie jest zastępowana wynikiem regułowym (tryb bez klucza): demo zostaje nietknięte.
 - Aktualność zamiast wieku: co 14 dni kontrola strony źródłowej potwierdzonych pozycji; 3 błędy z rzędu → „Do weryfikacji”, bez usuwania (`analysis/currency.py`).
 - TRL tylko jako szacunek AI z tekstu (null, gdy nie dotyczy); obszar wyliczany z sektora, bez dodatkowego wywołania AI.
+
+## Twardnienie (2026-11-22)
+- `DJANGO_DEBUG=0` bez własnego `DJANGO_SECRET_KEY` kończy się błędem startu (wartość `change-me` tylko ostrzega, żeby nie zablokować pokazu). `/robots.txt` blokuje wyłącznie `/admin/`.
