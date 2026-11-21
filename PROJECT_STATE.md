@@ -12,8 +12,19 @@ Docker automatycznie wykonuje migracje i `seed_sources`, zachowuje ustawienia is
 - Worker w tle pobrał 19 publikacji (PWr: 8, UR: 11). Powtórny przebieg nie dodał duplikatów; końcowo brak błędów artykułów.
 - Wyniki końcowego uruchomienia zapisane w `docs/V0_1_VERIFICATION.md`.
 
-## Następny etap V0.2
+## V0.2 (w toku) — zrobione
 
-Adapter lokalnego AI, schemat analizy, potwierdzenia cytatów, ocena i ścieżka rozwoju. Następnie podobne rozwiązania, forma zgłoszenia i kandydaci odbiorców według priorytetów planu.
+- `analysis/`: analiza regułowa po polsku (bez LLM): sektor, etap, autorzy, sygnały innowacyjności, rubryka 5 kryteriów (0–3 lub „brak danych”) z cytatami weryfikowanymi w tekście, potencjał i kompletność dowodów osobno, ścieżka (rozwój/transfer/komercjalizacja/wdrożenie) z uzasadnieniem i brakami. Wyniki w cache (klucz: wersja + backend + hash tekstu).
+- Worker analizuje nowe publikacje po każdym cyklu; ręcznie: `python manage.py analyze [--force]`.
+- UI: blok analizy w karcie, filtry (ścieżka, sygnały), sortowanie po potencjale.
+- Wyszukiwanie po zapytaniu: `/api/szukaj/?q=...&n=5` (TF-IDF z prefiksami, bez zewnętrznych usług), zwraca artykuły + podsumowanie analizy.
+- Formularz „Zgłoś innowację” (`/zglos/`): wklejony opis albo URL (pobierany przez `safe_get`), ten sam potok analizy, deduplikacja.
+- 52 testy offline przechodzą (python 3.10, Django 5.2).
 
-V0.1 nie nazywa zwykłych zebranych wiadomości potwierdzonymi innowacjami. Ollama nie jest wymagana do uruchomienia kolektora; jej działanie/benchmark nie należą do weryfikacji tej wersji.
+## Następne kroki
+
+1. Backend `ollama` w `analysis/service.py` BACKENDS (finalize() już odrzuca niezweryfikowane cytaty); sprawdzić na Macu.
+2. Więcej źródeł (cel 4–6).
+3. „Podobne rozwiązania” w karcie (ponowne użycie `analysis/search.py`), profile odbiorców, strona „O systemie”.
+
+Ograniczenia: reguły to słowa kluczowe — sygnały, nie werdykt. Zbieranie obejmuje tylko skonfigurowane źródła, nie cały internet. V0.1 nie nazywa zwykłych wiadomości potwierdzonymi innowacjami.

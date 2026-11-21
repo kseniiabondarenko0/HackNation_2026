@@ -38,6 +38,11 @@ class Command(BaseCommand):
                             self.stdout.write(f"{source.name}: {stats}" + (f" ERROR: {source.last_error}" if source.last_error else ""))
                         except Exception:
                             logger.exception("Unexpected source failure: %s", source.pk)
+                    try:
+                        from analysis.service import analyze_pending
+                        analyze_pending()
+                    except Exception:
+                        logger.exception("Analysis step failed; collection continues")
                 except OperationalError:
                     if options["once"]:
                         raise

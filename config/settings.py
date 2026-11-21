@@ -5,7 +5,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "dev-only-change-me")
 DEBUG = os.environ.get("DJANGO_DEBUG", "1") == "1"
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 INSTALLED_APPS = ["django.contrib.admin", "django.contrib.auth", "django.contrib.contenttypes",
-    "django.contrib.sessions", "django.contrib.messages", "django.contrib.staticfiles", "collection", "web"]
+    "django.contrib.sessions", "django.contrib.messages", "django.contrib.staticfiles", "collection", "analysis", "web"]
 MIDDLEWARE = ["django.middleware.security.SecurityMiddleware", "whitenoise.middleware.WhiteNoiseMiddleware", "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware", "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware", "django.contrib.messages.middleware.MessageMiddleware"]
@@ -28,3 +28,6 @@ COLLECT = {"MAX_DISCOVERY_PAGES": 10, "MAX_NEW_PER_RUN": 20, "CONNECT_TIMEOUT": 
            "USER_AGENT": "RadarInnowacji-hackathon/0.1",
            "MAX_LINKS_PER_RUN": 200, "MAX_ATTEMPTS": 3,
            "RECHECK_HOURS": 24, "MAX_RUN_SECONDS": 180, "LEASE_SECONDS": 600}
+# Analysis: backend registry lives in analysis/service.py; "rules" works without any LLM.
+ANALYSIS = {"BACKEND": os.environ.get("ANALYSIS_BACKEND", "rules"),
+            "WEIGHTS": {"problem": 1, "dowody": 2, "wyniki": 2, "przenosnosc": 1, "gotowosc": 1}}
