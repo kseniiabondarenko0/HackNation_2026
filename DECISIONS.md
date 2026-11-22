@@ -1,4 +1,7 @@
 # DECISIONS
+- **Weryfikacja 22.11.2026:** Gemini sprawdzony trzema rzeczywistymi wywołaniami (dwa rozwiązania + zwykła wiadomość), bez płatnej taryfy. Klucz tylko w lokalnym `.env`. Wyniki i ograniczenia próby w `PROJECT_STATE.md`.
+- Błędny kształt JSON jest błędem odpowiedzi modelu, nigdy podstawą do odrzucenia innowacji. Zmiana tekstu wycofuje bieżącą ocenę i dowody; zachowujemy ostatni snapshot w `_previous`. Powrót źródła może odblokować kartę wstrzymaną kontrolą aktualności.
+- Analiza AI działa małymi porcjami pomiędzy źródłami, żeby wynik nie czekał na pełny obieg rejestru.
 - Django + SQLite (WAL): team stack (Python), zero setup; Postgres after hackathon.
 - LLM za adapterem (`analysis/llm.py`): Gemini free → Groq free; pokaz działa bez żywego AI dzięki zestawowi demonstracyjnemu. Backend `ollama` porzucony (zero kosztów, brak GPU na serwerze).
 - Similarity via TF-IDF in base (task asks for duplicate-work reduction).

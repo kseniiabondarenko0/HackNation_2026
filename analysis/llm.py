@@ -26,6 +26,7 @@ def complete_json(system, prompt, schema):
     for provider in chain():
         try:
             raw, usage = provider.generate_json(system, prompt, schema)
+            llmbase.validate_json(raw, schema)
         except LLMError as exc:
             if exc.kind in ARTICLE_ERRORS:
                 article_error = exc

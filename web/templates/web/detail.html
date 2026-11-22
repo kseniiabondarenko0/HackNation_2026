@@ -8,6 +8,9 @@
 {% if a.error %}<p class="err">Ostatnia ponowna kontrola: {{ a.error }}. Pokazujemy wcześniej zapisany tekst.</p>{% endif %}
 {% if a.duplicate_of_id %}<p class="notice">Ten materiał ma ten sam tekst co <a href="{% url 'detail' a.duplicate_of_id %}">wcześniejsza publikacja</a>.</p>{% endif %}
 {% include "web/_submission.html" %}
+{% if a.status == 'fetched' and a.text and not a.duplicate_of_id %}
+<section class="card transfer-callout"><div><span class="tag mono">Od odkrycia do zastosowania</span><h2>Czy ta innowacja sprawdzi się u was?</h2><p>Opisz cel, zasoby i ograniczenia organizacji. Zobacz bariery, pytania do autora i propozycję pierwszego pilotażu, z cytatami ze źródła.</p></div><a class="btn btn-primary" href="{% url 'transfer' a.pk %}">Sprawdź u nas {% icon "arrow" %}</a></section>
+{% endif %}
 {% if d.demo %}<p class="notice"><strong>Zestaw demonstracyjny.</strong> To rzeczywista publikacja (link źródłowy poniżej). Ocena AI jest <strong>wstępna</strong> — to szacunek systemu, nie decyzja człowieka. Pokazujemy skrócony fragment tekstu; pełną treść otwiera link do źródła. Zbieranie i analiza AI działają niezależnie od tego zestawu.</p>{% endif %}
 <div class="cols">
 <div class="panel facts"><div class="panel-h"><h2>Potwierdzone informacje</h2><span class="badge b-ok">{% icon "check" %}Ze źródła</span></div>

@@ -1,0 +1,17 @@
+{% extends "web/base.html" %}{% load web_extras %}
+{% block title %}Scenariusz dla was — Radar Innowacji{% endblock %}
+{% block crumb %}Inicjatywy / Sprawdź u nas / Wynik{% endblock %}
+{% block pagetitle %}Scenariusz dla was{% endblock %}
+{% block content %}
+<div class="row"><a class="btn btn-sm" href="{% url 'detail' a.pk %}">{% icon "back" %}Karta innowacji</a><a class="btn btn-primary" href="{% url 'transfer' a.pk %}?from={{ report.pk }}">Zmień warunki i przelicz {% icon "arrow" %}</a></div>
+<section class="card"><span class="tag mono">{{ organization }} · {{ report.created_at|date:"d.m.Y H:i" }}</span><h2>{{ a.title }}</h2><dl class="facts"><dt>Wasz cel</dt><dd>{{ profile.goal }}</dd><dt>Wasze zasoby</dt><dd>{{ profile.resources }}</dd><dt>Wasze ograniczenia</dt><dd>{{ profile.constraints }}</dd></dl></section>
+{% if current %}
+<section class="card transfer-conclusion"><span class="badge b-warn">Wstępna ocena AI</span><h2>{{ verdict }}</h2><p>{{ ai.reason }}</p><p class="muted">To propozycja do omówienia z autorem i zespołem. Nie potwierdza wykonalności, kosztów, bezpieczeństwa ani zgody na wykorzystanie rozwiązania. Koszt i harmonogram wymagają potwierdzenia z autorem — ten scenariusz ich nie wycenia.</p></section>
+<div class="cols">
+<section class="panel"><div class="panel-h"><h2>Co rzeczywiście opisano</h2><span class="badge b-ok">Cytaty ze źródła</span></div><p class="muted">Sprawdziliśmy obecność tych fragmentów w tekście. Ich obecność nie potwierdza niezależnie opisanych wyników.</p>{% for q in quotes %}<blockquote class="transfer-quote">{{ q }}</blockquote>{% endfor %}<a href="{{ a.final_url|default:a.original_url }}" target="_blank" rel="noopener noreferrer">{{ a.source.name }} — otwórz źródło {% icon "arrow" %}</a>{% if report.data.source_truncated %}<p class="muted">Analiza obejmuje początkowy fragment tekstu ({{ report.data.source_chars }} znaków), a nie całą publikację.</p>{% endif %}</section>
+<section class="panel"><div class="panel-h"><h2>Bariery w waszych warunkach</h2><span class="badge b-warn">Wnioski AI</span></div><ul>{% for item in ai.blockers %}<li>{{ item }}</li>{% endfor %}</ul><h3>O co zapytać przed decyzją</h3><ul>{% for item in ai.questions %}<li>{{ item }}</li>{% endfor %}</ul></section>
+</div>
+<div class="cols"><section class="panel"><div class="panel-h"><h2>Jak zacząć mały pilotaż</h2><span class="badge b-warn">Propozycja AI</span></div><ol>{% for step in ai.steps %}<li>{{ step }}</li>{% endfor %}</ol></section><section class="panel"><div class="panel-h"><h2>Co zmierzyć</h2><span class="badge b-warn">Propozycja AI</span></div><ul>{% for metric in ai.metrics %}<li>{{ metric }}</li>{% endfor %}</ul><p class="muted">Wartości docelowe ustalcie z autorem po sprawdzeniu warunków. Wyników ze źródła nie można automatycznie przenieść na waszą organizację.</p></section></div>
+<p class="mono muted">Zapisany wynik · {{ report.data.provider }} / {{ report.data.model }} · ponowne otwarcie bez nowego zapytania AI</p>
+{% else %}<section class="card"><h2>Źródło zmieniło się od tej analizy</h2><p>Poprzednie cytaty i rekomendacje zostały wycofane z widoku. Wasze odpowiedzi są zachowane. Przelicz scenariusz na aktualnym tekście.</p><a class="btn btn-primary" href="{% url 'transfer' a.pk %}?from={{ report.pk }}">Przelicz na aktualnym źródle</a></section>{% endif %}
+{% endblock %}

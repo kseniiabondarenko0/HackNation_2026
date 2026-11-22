@@ -1,4 +1,5 @@
 from django.db import models
+import uuid
 
 
 class Analysis(models.Model):
@@ -57,3 +58,23 @@ class LLMState(models.Model):
 
     def __str__(self):
         return f"{self.provider}: {self.last_error or 'ok'}"
+
+
+class TransferScenario(models.Model):
+    """Private to the browser session; caches one organisation scenario for one source version."""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    article = models.ForeignKey("collection.Article", on_delete=models.CASCADE, related_name="transfer_scenarios")
+    owner = models.CharField(max_length=64)
+    input_key = models.CharField(max_length=64)
+    source_hash = models.CharField(max_length=64)
+    profile = models.JSONField(default=dict)
+    data = models.JSONField(default=dict)
+    status = models.CharField(max_length=10, default="pending")  # pending / ready / error
+    error_kind = models.CharField(max_length=20, blank=True)
+    locked_until = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["owner", "input_key"], name="unique_transfer_scenario")]
+        indexes = [models.Index(fields=["owner", "created_at"], name="transfer_owner_created")]

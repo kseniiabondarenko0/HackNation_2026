@@ -180,3 +180,28 @@ def parse_json(text):
     if not isinstance(value, dict):
         raise LLMError("bad_response", "oczekiwano obiektu JSON")
     return value
+
+
+def validate_json(value, schema, path="response"):
+    """Validate provider JSON before it reaches the article pipeline (also in Groq JSON mode).
+
+    Error messages contain field names only, never source text or credentials.
+    """
+    if value is None and schema.get("nullable"):
+        return
+    kind = schema["type"]
+    expected = {"OBJECT": dict, "ARRAY": list, "STRING": str, "BOOLEAN": bool, "INTEGER": int}[kind]
+    if type(value) is not expected:
+        raise LLMError("bad_response", f"{path}: oczekiwano typu {kind.lower()}")
+    if "enum" in schema and value not in schema["enum"]:
+        raise LLMError("bad_response", f"{path}: wartość spoza dozwolonej listy")
+    if kind == "OBJECT":
+        for field in schema.get("required", []):
+            if field not in value:
+                raise LLMError("bad_response", f"{path}: brak pola {field}")
+        for field, spec in schema.get("properties", {}).items():
+            if field in value:
+                validate_json(value[field], spec, f"{path}.{field}")
+    elif kind == "ARRAY":
+        for item in value:
+            validate_json(item, schema["items"], f"{path}[]")

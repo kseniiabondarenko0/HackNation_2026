@@ -318,3 +318,13 @@ form.card:not(.toolbar) button{align-self:flex-start}
 .cmp{display:inline-flex;align-items:center;gap:8px;font-size:13px;white-space:nowrap;cursor:pointer}
 .cmp input{width:18px;height:18px;margin:0;accent-color:var(--ink);cursor:pointer}
 .tbl-wrap + .cmp-bar{margin-top:24px}
+
+/* Sprawdź u nas: source evidence and organisation-specific proposals. */
+.transfer-callout{display:flex;align-items:center;justify-content:space-between;gap:24px;background:var(--lime-soft)}
+.transfer-callout p{max-width:70ch;margin-top:10px}
+.transfer-callout .btn{flex-shrink:0}
+.transfer-conclusion{border-left:8px solid var(--purple)}
+.transfer-quote{margin:18px 0;padding:8px 16px;border-left:4px solid var(--purple);line-height:1.7;overflow-wrap:anywhere}
+#transfer-form button:disabled{opacity:.65;cursor:wait}
+#transfer-progress[hidden]{display:none}
+@media(max-width:700px){.transfer-callout{align-items:flex-start;flex-direction:column}}

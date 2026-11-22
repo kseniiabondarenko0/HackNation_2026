@@ -26,13 +26,13 @@ from collection.services import reject_article
 from collection.window import cutoff, is_old, to_date
 from . import ai
 from . import currency
-from .models import Analysis
+from .models import Analysis, TransferScenario
 from .service import MAX_ANALYSIS_ATTEMPTS
 from .tabs import WAITING
 
 logger = logging.getLogger(__name__)
 STAT_KEYS = ("legacy", "old", "rejected", "junk", "expired", "date_checked", "date_resolved", "found_dropped",
-             "evicted", "currency_checked", "currency_held", "tombstones_dropped", "backup", "errors")
+             "evicted", "currency_checked", "currency_held", "tombstones_dropped", "scenarios_dropped", "backup", "errors")
 last_stats = {}
 _last_run = [0.0]
 MIN_INTERVAL_S = 300          # the worker polls every few seconds; the cleanup itself does not need to
@@ -110,7 +110,7 @@ def _held(article):
 def _expire(article, reason):
     """An unconfirmed item leaves the queue. Only one the AI already paid for keeps a hash in the Rejected registry;
     one that never got an analysis (queue overflow, no quota) is deleted without a trace, so it can be found again."""
-    if hasattr(article, "analysis"):
+    if hasattr(article, "analysis") and not (article.analysis.data or {}).get("stale"):
         reject_article(article, reason, digest=article.content_hash)
     else:
         _drop([article.pk])
@@ -228,6 +228,9 @@ def _ttl(ctx):
     for a in list(fetched):
         if _held(a):
             continue
+        analysis = getattr(a, "analysis", None)
+        if analysis and (analysis.data or {}).get("stale") and analysis.updated_at >= limit:
+            continue  # a newly changed version gets its own analysis grace period
         if a.published_at is None and a.date_checks < c["DATE_CHECKS"]:
             if checks >= c["DATE_CHECKS_PER_CYCLE"]:
                 continue                                    # next cycle
@@ -304,7 +307,13 @@ def _tombstones(ctx):
     ctx.stats["tombstones_dropped"] += n + len(over)
 
 
-STEPS = (_legacy, _window, _rejected, _junk, _ttl, _caps, _currency, _tombstones)
+def _scenarios(ctx):
+    # Inputs are session-private; do not accumulate inaccessible organisation profiles indefinitely.
+    dropped, _ = TransferScenario.objects.filter(created_at__lt=ctx.now - timedelta(days=7)).delete()
+    ctx.stats["scenarios_dropped"] += dropped
+
+
+STEPS = (_legacy, _window, _rejected, _junk, _ttl, _caps, _currency, _tombstones, _scenarios)
 
 
 def cleanup(dry=False, getter=None, now=None, before=None):

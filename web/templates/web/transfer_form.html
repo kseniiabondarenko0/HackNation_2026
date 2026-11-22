@@ -1,0 +1,17 @@
+{% extends "web/base.html" %}{% load web_extras %}
+{% block title %}Sprawdź u nas — Radar Innowacji{% endblock %}
+{% block crumb %}Inicjatywy / Sprawdź u nas{% endblock %}
+{% block pagetitle %}Sprawdź u nas{% endblock %}
+{% block content %}
+<a class="btn btn-sm" style="align-self:flex-start" href="{% url 'detail' a.pk %}">{% icon "back" %}Wróć do innowacji</a>
+<section class="card"><span class="tag mono">Ta sama innowacja, wasze warunki</span><h2>{{ a.title }}</h2><p>Co trzeba sprawdzić, żeby przenieść to rozwiązanie do waszej organizacji? AI przygotuje wstępny scenariusz na podstawie zapisanego tekstu źródłowego i poniższych odpowiedzi.</p><p class="muted">Nie podawaj danych osobowych ani poufnych informacji. Opis zostanie wysłany do skonfigurowanego dostawcy AI (Gemini lub Groq). Scenariusze zapisujemy na 7 dni i udostępniamy w tej sesji przeglądarki; sam link nie daje dostępu innym osobom.</p></section>
+<form method="post" class="card" id="transfer-form">{% csrf_token %}
+<div role="alert">{{ form.non_field_errors }}</div>
+{% for f in form %}{% if f.name == "strona_www" %}<p class="hp" aria-hidden="true"><label>{{ f.label }} {{ f }}</label></p>{% else %}<p><label for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}{% if f.errors %}<span class="err">{{ f.errors|join:" " }}</span>{% endif %}</p>{% endif %}{% endfor %}
+<p class="muted">Pierwsze obliczenie korzysta z darmowego limitu AI. Ponowne otwarcie tego samego scenariusza korzysta z zapisanego wyniku. Zmiana warunków lub tekstu źródła wymaga nowej analizy.</p>
+<button class="btn btn-primary" type="submit" id="transfer-submit">{% if reports %}Przelicz dla tych warunków{% else %}Sprawdź warunki pilotażu{% endif %}</button><p id="transfer-progress" role="status" hidden>Analizujemy źródło i wasze warunki… Może to potrwać kilkadziesiąt sekund.</p>
+<noscript><p>Po wysłaniu formularza poczekaj na odpowiedź AI.</p></noscript>
+</form>
+{% if reports %}<section class="card"><h2>Wasze zapisane scenariusze</h2><ul>{% for r in reports %}<li><a href="{% url 'transfer_result' r.pk %}">{{ r.profile.goal|truncatechars:110 }}</a> <span class="muted">· {{ r.created_at|date:"d.m.Y H:i" }}</span></li>{% endfor %}</ul></section>{% endif %}
+<script>document.getElementById('transfer-form').addEventListener('submit',function(){document.getElementById('transfer-submit').disabled=true;document.getElementById('transfer-progress').hidden=false;});</script>
+{% endblock %}

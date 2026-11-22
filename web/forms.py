@@ -18,6 +18,18 @@ class HoneypotMixin:
         return ""
 
 
+class TransferForm(HoneypotMixin, forms.Form):
+    organization_type = forms.ChoiceField(label="Typ organizacji", choices=SUBMITTER_CHOICES)
+    goal = forms.CharField(label="Co chcecie osiągnąć?", min_length=15, max_length=900,
+                          widget=forms.Textarea(attrs={"rows": 3, "placeholder": "Jaki problem ma rozwiązać ta innowacja u was?"}))
+    resources = forms.CharField(label="Jakimi zasobami dysponujecie?", min_length=10, max_length=900,
+                               widget=forms.Textarea(attrs={"rows": 3, "placeholder": "Zespół, sprzęt, partnerzy, budżet, jeśli jest znany."}))
+    constraints = forms.CharField(label="Jakie macie ograniczenia?", min_length=10, max_length=900,
+                                 widget=forms.Textarea(attrs={"rows": 3, "placeholder": "Np. brak wykonawcy, wymagana dostępność, ograniczony budżet. Brak danych też jest odpowiedzią."}))
+    strona_www = forms.CharField(required=False, widget=forms.TextInput(attrs={"tabindex": "-1", "autocomplete": "off"}),
+                                 label="Nie wypełniaj tego pola")
+
+
 class SubmitForm(HoneypotMixin, forms.Form):
     submitter_type = forms.ChoiceField(label="Kto zgłasza", choices=SUBMITTER_CHOICES, initial="school", required=False)
     organization = forms.CharField(label="Nazwa instytucji lub firmy (puste dla osoby prywatnej)", max_length=200,

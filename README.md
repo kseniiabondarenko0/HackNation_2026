@@ -20,6 +20,14 @@ Z Dockerem: `cp .env.example .env`, ustaw `DJANGO_SECRET_KEY`, potem `docker com
 
 Radar **odkrywa i analizuje istniejące innowacje** (nie jest platformą do zgłaszania pomysłów): automatycznie zbiera publikacje szkół, uczelni, samorządów i instytucji publicznych, ocenia je modelem AI (0–100, próg publikacji 50, wynik wstępny), rozdziela dane zweryfikowane (adres, data, cytaty z tekstu) od szacunków AI (ocena, etap, TRL 1–9 tylko gdy dotyczy, uzasadnienie, braki, niepewność). Obszary: Technologiczne / Edukacyjne / Administracyjne; filtry: obszar, instytucja, województwo, sektor, dojrzałość (etap wdrożenia); `/porownaj/` zestawia 2–4 wybrane pozycje. Wiek publikacji nie odrzuca pozycji; aktualność sprawdza okresowa kontrola strony źródłowej.
 
+## Funkcja dodatkowa: „Sprawdź u nas”
+
+Na karcie innowacji kliknij **Sprawdź u nas** (`/a/<id>/sprawdz-u-nas/`), wybierz typ organizacji i opisz cel, zasoby oraz ograniczenia. Radar przygotuje wstępną ocenę warunków transferu, bariery, pytania do autora, 2–3 kroki małego pilotażu i proponowane mierniki. **Cytaty są sprawdzane w zapisanym tekście**, a wszystkie rekomendacje oznaczone jako propozycje AI. Nie wyceniamy wdrożenia ani nie gwarantujemy wykonalności.
+
+**Pokaz dla jury:** wybierz jedną innowację, opisz organizację dysponującą zespołem i partnerem, a potem kliknij **Zmień warunki i przelicz** i podaj brak wykonawcy lub budżetu. Porównaj uzasadnienia i bariery w dwóch zapisanych scenariuszach. To dwa osobne zapytania AI; nie zakładamy z góry konkretnej odpowiedzi modelu.
+
+Scenariusze są prywatne dla sesji przeglądarki (sam adres UUID nie wystarcza), przechowywane 7 dni i nie trafiają do publicznego eksportu. Nie wpisuj danych osobowych ani poufnych informacji: tekst formularza trafia do tego samego dostawcy AI co analiza artykułów. Nie ma nowego API ani płatnego narzędzia. Ten sam tekst i warunki używają cache, zmiana źródła wycofuje stary wynik. Obowiązuje wspólny dzienny budżet; kolejka automatyczna zostawia 10 zapytań na scenariusze i ręczne analizy, a sesja ma limit 8 nowych scenariuszy na godzinę. Przy braku klucza lub limitu formularz pozostaje wypełniony, a błędny wynik nie jest pokazywany jako sukces.
+
 ## Szybki start z czystego klonu (bez Dockera)
 
 ```bash
@@ -65,13 +73,15 @@ Zaloguj się w `/admin/`, aby dodawać/wyłączać źródła, zmieniać interwa�
 
 ```powershell
 docker compose exec worker python manage.py collect_sources --once --all
-docker compose exec web python manage.py test tests --noinput
+docker compose exec -e GEMINI_API_KEY= -e GROQ_API_KEY= web python manage.py test tests --noinput
 docker compose exec web python manage.py check
 ```
 
 Sprawdzenie wszystkich linków (strony serwisu i adresy zewnętrzne; serwer musi działać): `python scripts/check_links.py http://127.0.0.1:8000 --out raport_linkow.txt`.
 
 `--all` pomija termin następnego sprawdzenia, ale respektuje blokadę trwającego przebiegu. Niedawno pobrane artykuły nie są ponownie ściągane. Znane artykuły trafiają do ponownej kontroli po 24 godzinach.
+
+Po każdym źródle worker wykonuje małą porcję analizy AI (2 próby), żeby pierwsze karty nie czekały na cały rejestr; dzienne limity dostawców nadal obowiązują. Zmiana tekstu wycofuje stare cytaty i ocenę do czasu ponownej analizy, zachowując ostatni snapshot i etapy obsługi. Niepoprawna struktura odpowiedzi AI nie przerywa przetwarzania pozostałych artykułów.
 
 Aby zatrzymać: `docker compose stop`. Aby wrócić: `docker compose up -d`. Komputer i Docker muszą działać, aby zbieranie odbywało się automatycznie. Dane są w trwałym wolumenie `radar-data`.
 

@@ -1,12 +1,14 @@
 from django.urls import path
 from django.views.generic import TemplateView
-from . import views, views_needs
+from . import views, views_needs, views_transfer
 urlpatterns = [
     path("", views.overview, name="overview"),
     path("inicjatywy/", views.radar, name="radar"),
     path("porownaj/", views.compare, name="compare"),
     path("a/<int:pk>/", views.detail, name="detail"),
     path("a/<int:pk>/dalej/", views.handling, name="handling"),
+    path("a/<int:pk>/sprawdz-u-nas/", views_transfer.scenario, name="transfer"),
+    path("scenariusz/<uuid:pk>/", views_transfer.result, name="transfer_result"),
     path("zglos/", views.submit, name="submit"),
     path("skutecznosc/", views.effectiveness, name="effectiveness"),
     path("potrzeby/", views_needs.needs, name="needs"),

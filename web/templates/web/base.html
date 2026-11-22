@@ -15,7 +15,7 @@
 <a class="brand" href="{% url 'overview' %}" aria-label="Radar Innowacji, strona główna">{% include "web/_logo.html" %}</a>
 <nav class="nav">
 <a href="{% url 'overview' %}"{% if page == 'overview' %} aria-current="page"{% endif %}>{% icon "grid" %}Przegląd</a>
-<a href="{% url 'radar' %}"{% if page == 'radar' or page == 'detail' %} aria-current="page"{% endif %}>{% icon "list" %}Inicjatywy</a>
+<a href="{% url 'radar' %}"{% if page == 'radar' or page == 'detail' or page == 'transfer' or page == 'transfer_result' %} aria-current="page"{% endif %}>{% icon "list" %}Inicjatywy</a>
 <a href="{% url 'submit' %}"{% if page == 'submit' %} aria-current="page"{% endif %}>{% icon "plus" %}Wskaż rozwiązanie</a>
 <a href="{% url 'needs' %}"{% if page == 'needs' or page == 'need_detail' or page == 'need_submit' %} aria-current="page"{% endif %}>{% icon "search" %}Szukam rozwiązania</a>
 <a href="{% url 'sources' %}"{% if page == 'sources' or page == 'runs' %} aria-current="page"{% endif %}>{% icon "doc" %}Źródła</a>

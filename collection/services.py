@@ -3,6 +3,7 @@ import logging
 import time
 from datetime import timedelta
 from django.conf import settings
+from django.db import transaction
 from django.db.models import Q
 from django.utils import timezone
 from . import archive as archive_mod
@@ -182,12 +183,18 @@ def _fetch_article(article, getter, stats):
         stats["unchanged"] += 1
         return
     was_fetched = bool(article.content_hash)
+    previous_text = article.text
     twin = Article.objects.filter(content_hash=digest, duplicate_of__isnull=True).exclude(pk=article.pk).order_by("pk").first()
     article.final_url, article.title, article.text = final_url, data["title"][:500], data["text"]
     article.content_hash, article.duplicate_of = digest, twin
     article.published_at = data["published_at"] or article.published_at
     article.fetched_at, article.status, article.error = timezone.now(), "fetched", ""
     article.fetch_attempts, article.next_retry_at = 0, None
-    article.save()
+    article.analysis_attempts, article.analysis_error = 0, ""
+    with transaction.atomic():
+        article.save()
+        if was_fetched:
+            from analysis.lifecycle import invalidate
+            invalidate(article, previous_text)
     Article.objects.filter(duplicate_of=article).exclude(content_hash=digest).update(duplicate_of=None)
     stats["duplicates" if twin else "updated" if was_fetched else "fetched"] += 1

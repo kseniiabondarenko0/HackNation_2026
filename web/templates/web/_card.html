@@ -6,7 +6,7 @@
 {% if an %}<div class="rmeta">
 <span class="badge {% if an.signal == 'wysoki' or an.signal == 'sredni' %}b-ok{% endif %}">Sygnały: {{ an.data.signal_label }}</span>
 <span class="badge">Etap: {{ an.data.stage_label }}</span>{% if an.data.ai.trl %}<span class="badge" title="Szacunek AI na podstawie tekstu, nie certyfikat">TRL ~{{ an.data.ai.trl }}</span>{% endif %}
-<span class="badge{% if an.completeness < 40 %} b-none{% endif %}">Dowody: {{ an.completeness }}%</span>
+<span class="badge{% if an.completeness < 40 %} b-none{% endif %}">{% if an.data.ai %}Cytaty: {{ an.data.verified.quotes|length }}/4{% else %}Dowody: {{ an.completeness }}%{% endif %}</span>
 {% if a.submission %}<span class="badge">Zgłoszenie: {{ a.submission.get_submitter_type_display }}</span>{% endif %}
 {% if an.data.path %}<span class="badge b-warn">Ścieżka: {{ an.data.path.label }}</span>{% endif %}
 {% if an.priority %}<span class="badge b-ok" title="{{ an.data.priority_reasons|join:'; ' }}">Priorytet PCI +{{ an.priority }}</span>{% endif %}

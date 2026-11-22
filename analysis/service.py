@@ -52,11 +52,15 @@ def analyze_article(article, backend=None, force=False, known_key=None):
     data["region"] = regions.resolve(f"{article.title}\n{article.text}", article.source.region,
                                      sub.region if sub else "")
     data["priority"], data["priority_reasons"] = priority(data["sector"], data["region"]["code"])
+    previous = Analysis.objects.filter(article=article).values_list("data", flat=True).first()
+    if previous and previous.get("stale") and previous.get("_previous"):
+        data["_previous"] = previous["_previous"]
     obj, _ = Analysis.objects.update_or_create(article=article, defaults={
         "input_key": key, "backend": backend, "data": data, "potential": data["potential"],
         "completeness": data["completeness"], "path": (data["path"] or {}).get("id", ""),
         "signal": data["signal"], "sector": data["sector"][:40], "stage": data["stage"],
         "verdict": data["verdict"]["id"], "priority": data.get("priority", 0), "region": data["region"]["code"]})
+    Article.objects.filter(pk=article.pk).update(analysis_attempts=0, analysis_error="")
     if data["verdict"]["id"] != "glowna":
         logger.info("Artykuł #%s -> %s: %s", article.pk, data["verdict"]["label"], data["verdict"]["reason"])
     return obj, True
@@ -73,7 +77,8 @@ def _analyze_pending_ai(force, max_calls):
         stats["stopped"] = "brak kluczy AI (GEMINI_API_KEY / GROQ_API_KEY)"
         last_stats.update(stats)
         return 0
-    budget = min(max_calls or settings.LLM["MAX_CALLS_PER_RUN"], llm.remaining_calls())
+    reserve = settings.LLM.get("SCENARIO_RESERVE", 10)
+    budget = min(max_calls or settings.LLM["MAX_CALLS_PER_RUN"], max(0, llm.remaining_calls() - reserve))
     keys = dict(Analysis.objects.values_list("article_id", "input_key"))
     rejected_hashes = set(Rejected.objects.exclude(content_hash="").values_list("content_hash", flat=True))
     pending = (Article.objects.select_related("source").filter(status="fetched", duplicate_of__isnull=True)
@@ -90,7 +95,7 @@ def _analyze_pending_ai(force, max_calls):
                 article, "Duplikat odrzuconego tekstu.", digest=article.content_hash):
             stats["rejected"] += 1
             continue
-        if calls >= budget:
+        if calls >= budget or llm.remaining_calls() <= reserve:
             stats["stopped"] = ("dostawcy AI wstrzymani lub bez limitu: artykuły czekają w kolejce" if budget == 0
                                 else "limit wywołań na przebieg")
             break

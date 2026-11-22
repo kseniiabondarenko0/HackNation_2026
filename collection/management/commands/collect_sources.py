@@ -1,6 +1,7 @@
 import logging
 import signal
 import time
+from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from django.db import OperationalError, close_old_connections
 from collection.services import run_source, due_sources
@@ -40,6 +41,7 @@ class Command(BaseCommand):
                             self.stdout.write(f"{source.name}: {stats}" + (f" ERROR: {source.last_error}" if source.last_error else ""))
                         except Exception:
                             logger.exception("Unexpected source failure: %s", source.pk)
+                        self._analyze(max_calls=settings.LLM.get("CALLS_PER_SOURCE", 2))
                     try:
                         from collection.sourcefinder import maybe_run_discovery
                         found = maybe_run_discovery()
@@ -54,11 +56,7 @@ class Command(BaseCommand):
                             self.stdout.write(f"Czyszczenie bazy: { {k: v for k, v in cleaned.items() if v} }")
                     except Exception:
                         logger.exception("Storage cleanup failed; collection continues")
-                    try:
-                        from analysis.service import analyze_pending
-                        analyze_pending()
-                    except Exception:
-                        logger.exception("Analysis step failed; collection continues")
+                    self._analyze()
                 except OperationalError:
                     if options["once"]:
                         raise
@@ -71,6 +69,14 @@ class Command(BaseCommand):
         finally:
             if previous is not None:
                 signal.signal(signal.SIGTERM, previous)
+
+    @staticmethod
+    def _analyze(max_calls=None):
+        try:
+            from analysis.service import analyze_pending
+            analyze_pending(max_calls=max_calls)
+        except Exception:
+            logger.exception("Analysis step failed; collection continues")
 
     @staticmethod
     def _stop(*args):

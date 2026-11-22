@@ -1,6 +1,6 @@
 {% extends "web/base.html" %}{% block crumb %}Informacje{% endblock %}{% block pagetitle %}O systemie{% endblock %}{% block title %}O systemie · Radar Innowacji{% endblock %}{% block content %}
 
-<p>Radar Innowacji wyszukuje w publicznych źródłach opisy rozwiązań (technicznych, edukacyjnych, organizacyjnych), porządkuje je w karty, ocenia według jawnej rubryki, sugeruje ścieżkę dalszego rozwoju, pokazuje podobne rozwiązania i kandydatów na odbiorców. Każdy wynik ma uzasadnienie, które da się sprawdzić w tekście źródła.</p>
+<p>Radar Innowacji wyszukuje w publicznych źródłach opisy rozwiązań (technicznych, edukacyjnych, organizacyjnych), porządkuje je w karty, ocenia według opisanych zasad, sugeruje ścieżkę dalszego rozwoju, pokazuje podobne rozwiązania i kandydatów na odbiorców. Cytaty można sprawdzić w tekście źródła; ocena pozostaje interpretacją systemu.</p>
 
 <section class="card"><h2>Źródła danych</h2>
 <p>W bazie: {{ article_count }} publikacji (bez duplikatów), {{ recipient_count }} aktywnych profili odbiorców.</p>
@@ -16,10 +16,13 @@
 <section class="card"><h2>Jak powstaje ocena</h2>
 <ul><li>Ocena jest w pełni automatyczna: model AI ocenia tekst w skali 0–100. Na liście „Interesujące” ląduje tylko publikacja z oceną co najmniej {{ threshold }}, z cytatem, który dosłownie występuje w tekście. Stan listy i mierniki: <a href="{% url 'effectiveness' %}">Skuteczność</a>.</li>
 <li>Baza nie jest składowiskiem: odrzucone przez AI publikacje są usuwane (zostaje tylko adres i skrót tekstu, żeby ich nie pobierać ponownie); wiek publikacji nie jest powodem odrzucenia — aktualność potwierdzonych pozycji sprawdza okresowa kontrola strony źródłowej, a materiały niepotwierdzone czekają w kolejce „Do weryfikacji” najwyżej {{ ttl }} godz.</li>
-<li>Priorytet PCI (lotnictwo i kosmos, motoryzacja, IT, zdrowie; związek z Podkarpaciem) zmienia tylko kolejność na liście, nie ocenę.</li><li>Rubryka: 5 kryteriów, każde 0–3 albo „brak danych”. Wagi (konfiguracja):{% for label, w in weights %} {{ label }} ×{{ w }}{% if not forloop.last %},{% endif %}{% endfor %}.</li>
+<li>Priorytet PCI (lotnictwo i kosmos, motoryzacja, IT, zdrowie; związek z Podkarpaciem) zmienia tylko kolejność na liście, nie ocenę.</li>{% if backend == "rules" %}<li>Rubryka trybu regułowego: 5 kryteriów, każde 0–3 albo „brak danych”. Wagi (konfiguracja):{% for label, w in weights %} {{ label }} ×{{ w }}{% if not forloop.last %},{% endif %}{% endfor %}.</li>
 <li>Ocena kryterium zostaje tylko wtedy, gdy jej cytat dosłownie występuje w tekście źródła. Inaczej: „brak danych”.</li>
 <li>„Potencjał” liczony jest tylko z kryteriów z danymi, a „kompletność dowodów” pokazana osobno. Mało danych nie oznacza niskiej wartości.</li>
 <li>Ścieżka (rozwój, transfer, komercjalizacja, wdrożenie) wybierana jest jawnymi regułami, z uzasadnieniem i listą braków.</li>
+{% else %}<li>Model AI podaje jedną ocenę 0–100, uwzględniając nowatorstwo, udokumentowane wyniki lub wdrożenie oraz możliwość przeniesienia i skalowania. Uzasadnienie, niepewność i brakujące informacje pokazujemy oddzielnie.</li>
+<li>Sprawdzamy do czterech cytatów w tekście. Ich liczba nie jest miarą pełnej wiedzy o projekcie ani potwierdzeniem skuteczności rozwiązania.</li>
+<li>Ścieżkę (rozwój, transfer, komercjalizacja, wdrożenie) proponuje model na podstawie tekstu. To rekomendacja do sprawdzenia.</li>{% endif %}
 <li>Podobne rozwiązania: podobieństwo słownictwa TF-IDF wewnątrz lokalnej bazy, z listą wspólnych słów.</li>
 <li>Odbiorcy: punktacja za zgodny sektor, wspólne słowa kluczowe, ścieżkę i etap, z wyjaśnieniem każdego punktu.</li>
 <li>Aktywny moduł analizy: <code>{{ backend }}</code>. Bez klucza AI nowe publikacje czekają w ograniczonej kolejce „Do weryfikacji” i nie są oceniane zastępczą formułą. Tryb „rules” (bez modelu językowego) włącza się wyłącznie jawnie, tylko do pracy offline.</li></ul></section>
@@ -49,6 +52,7 @@
 <li>Moduł analizy działa za adapterem: dziś Gemini z awaryjnym Groq (darmowe plany), kolejne backendy (np. lokalny model) dodaje się bez zmiany reszty systemu; wyniki są buforowane według treści i wersji.</li>
 <li>Dane dostępne do integracji: <code>/api/innowacje.json</code> i <code>/api/innowacje.csv</code> (parametr <code>widok</code> jak w radarze, np. <code>?widok=glowna</code>), <code>/api/szukaj/?q=…</code>, <code>/api/status/</code>. Eksport nie zawiera danych osobowych.</li>
 <li>Instytucje szukające rozwiązań zgłaszają potrzeby (<a href="{% url 'needs' %}">Szukam rozwiązania</a>); radar sam dopasowuje do nich innowacje.</li>
+<li>„Sprawdź u nas” na karcie przygotowuje scenariusz dla celu, zasobów i ograniczeń konkretnej organizacji: bariery, pytania, propozycję pilotażu i mierniki. Cytaty są sprawdzane w źródle, rekomendacje pozostają wnioskami AI. Zmiana źródła wycofuje stary wynik.</li>
 <li>Obecnie SQLite (WAL) i jeden kolektor; przy większej skali: PostgreSQL, kolejka zadań i kilka kolektorów.</li></ul></section>
 
 <section class="card"><h2>Bezpieczeństwo i zasady pobierania</h2>
@@ -62,6 +66,7 @@
 <li>Kontakt podany przy zgłoszeniu potrzeby zapisujemy tylko po zaznaczeniu zgody (art. 6 ust. 1 lit. a RODO) i pokazujemy wyłącznie zalogowanemu zespołowi.</li>
 <li>Eksport (<code>/api/innowacje.*</code>) nie zawiera autorów ani kontaktów.</li>
 <li>Etapy obsługi zapisujemy z nazwą konta i datą (rozliczalność).</li>
+<li>Scenariusze „Sprawdź u nas” przechowujemy 7 dni i udostępniamy tylko sesji przeglądarki, która je utworzyła. Opis celu, zasobów i ograniczeń trafia do skonfigurowanego dostawcy AI; formularz prosi o pominięcie danych osobowych i poufnych. Scenariuszy nie ma w publicznym eksporcie.</li>
 <li>Usunięcie danych: administrator usuwa publikację, zgłoszenie lub potrzebę w panelu zarządzania; automatyczne kopie zapasowe bazy (dwie ostatnie) są nadpisywane w ciągu kilku dni.</li>
 <li>Strona nie używa ciasteczek analitycznych ani śledzenia; jedyne ciasteczka to sesja i ochrona CSRF.</li></ul></section>
 {% endblock %}

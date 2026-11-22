@@ -83,6 +83,8 @@ LLM = {
     "PROVIDERS": [p for p in os.environ.get("LLM_PROVIDERS", "gemini,groq").split(",") if p],   # fallback order
     "MAX_TEXT_CHARS": int(os.environ.get("LLM_MAX_TEXT_CHARS", "6000")),   # cleaned text sent to the model
     "MAX_CALLS_PER_RUN": int(os.environ.get("LLM_MAX_CALLS_PER_RUN", "60")),
+    "CALLS_PER_SOURCE": 2,  # publish early results without waiting for the complete source sweep
+    "SCENARIO_RESERVE": 10,  # keep part of the SAME daily budget for interactive scenarios / manual analyses
 }
 # Articles older than the window leave the current base; their full record is first appended to this archive.
 ARCHIVE_DIR = Path(os.environ.get("ARCHIVE_DIR", BASE_DIR / "archive"))
