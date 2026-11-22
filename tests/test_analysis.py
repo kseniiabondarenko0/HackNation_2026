@@ -1,7 +1,8 @@
 from pathlib import Path
 from unittest import mock
 from django.core.management import call_command
-from django.test import TestCase
+from django.conf import settings
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from analysis.core import finalize, verify_quote, choose_path
 from analysis.models import Analysis
@@ -88,6 +89,7 @@ class RulesTests(TestCase):
         self.assertIsNone(choose_path(empty, "unknown", "", []))
 
 
+@override_settings(ANALYSIS={**settings.ANALYSIS, "BACKEND": "rules"})
 class ServiceTests(TestCase):
     def setUp(self):
         self.src = Source.objects.create(name="T", entry_url="https://example.org/n/")
@@ -146,6 +148,7 @@ class ServiceTests(TestCase):
         self.assertContains(self.client.get(reverse("detail", args=[a.pk])), "nie została jeszcze wykonana")
 
 
+@override_settings(ANALYSIS={**settings.ANALYSIS, "BACKEND": "rules"})
 class SearchApiTests(TestCase):
     def setUp(self):
         src = Source.objects.create(name="T", entry_url="https://example.org/n/")
@@ -170,6 +173,7 @@ class SearchApiTests(TestCase):
         self.assertEqual(self.client.get(reverse("api_search")).status_code, 400)
 
 
+@override_settings(ANALYSIS={**settings.ANALYSIS, "BACKEND": "rules"})
 class SubmitTests(TestCase):
     def test_pasted_text_is_saved_and_analyzed(self):
         r = self.client.post(reverse("submit"), {"title": "Mój beton", "text": BASE})

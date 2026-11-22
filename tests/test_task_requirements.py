@@ -2,7 +2,8 @@
 demo scenario on two use cases."""
 import io
 from django.core.management import call_command
-from django.test import TestCase
+from django.conf import settings
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from analysis.examples import EXAMPLES
 from analysis.external import external_search
@@ -22,6 +23,7 @@ class ExternalDatabasesTests(TestCase):
         self.assertIn("q=Czujnik+wykrywa", urls)
 
 
+@override_settings(ANALYSIS={**settings.ANALYSIS, "BACKEND": "rules"})
 class ExportAndDetailTests(TestCase):
     def setUp(self):
         src = Source.objects.create(name="T", entry_url="https://example.org/n/")
@@ -54,6 +56,7 @@ class ExportAndDetailTests(TestCase):
         self.assertContains(self.client.get(reverse("about")), "RODO")
 
 
+@override_settings(ANALYSIS={**settings.ANALYSIS, "BACKEND": "rules"})
 class DemoScenarioTests(TestCase):
     def test_two_use_cases_a_to_e(self):
         out = io.StringIO()
@@ -67,3 +70,12 @@ class DemoScenarioTests(TestCase):
         self.assertEqual(Article.objects.count(), 2)
         call_command("demo_cases", stdout=io.StringIO())  # idempotent
         self.assertEqual(Article.objects.count(), 2)
+
+    def test_without_ai_the_command_explains_instead_of_crashing(self):
+        from django.core.management import CommandError
+        no_keys = {"GEMINI": {**settings.GEMINI, "API_KEY": ""}, "GROQ": {**settings.GROQ, "API_KEY": ""},
+                   "ANALYSIS": {**settings.ANALYSIS, "BACKEND": "ai"}}
+        with override_settings(**no_keys), self.assertRaisesRegex(CommandError, "--backend rules"):
+            call_command("demo_cases", stdout=io.StringIO())
+        with override_settings(**no_keys):
+            call_command("demo_cases", backend="rules", stdout=io.StringIO())   # the explicit offline mode still works
