@@ -55,8 +55,8 @@ COLLECT = {"MAX_DISCOVERY_PAGES": 10, "MAX_NEW_PER_RUN": 20, "CONNECT_TIMEOUT": 
            "USER_AGENT": "RadarInnowacji-hackathon/0.1",
            "MAX_LINKS_PER_RUN": 200, "MAX_ATTEMPTS": 3,
            "RECHECK_HOURS": 24, "MAX_RUN_SECONDS": 180, "LEASE_SECONDS": 600}
-# AI analysis runs only on FREE tiers: Gemini Developer API first, Groq (free plan, no card) as the fallback.
-# Keys exist only on the server (env / .env), never in code, templates or the frontend. Billing is never needed:
+# Project policy: use free provider accounts without billing. Account tiers are configured at the provider,
+# not inferred from API keys. Keys stay on the server (env / .env), never in templates or the frontend:
 # on a 429 the provider is paused (cooldown kept in the database, no retry loop) and the next one is tried;
 # when none is available the article simply stays in the queue until a quota is restored.
 GEMINI = {
@@ -64,7 +64,7 @@ GEMINI = {
     "MODEL": os.environ.get("GEMINI_MODEL", "gemini-3.1-flash-lite"),
     "BASE_URL": "https://generativelanguage.googleapis.com/v1beta",
     "TIMEOUT_S": 45, "RETRIES": 2, "RETRY_BASE_S": 2.0,        # retries only for network errors / HTTP 5xx
-    "MIN_INTERVAL_S": float(os.environ.get("GEMINI_MIN_INTERVAL_S", "6")),   # stays under the free RPM
+    "MIN_INTERVAL_S": float(os.environ.get("GEMINI_MIN_INTERVAL_S", "6")),   # per-process pacing; 429 pauses the provider
     "MAX_OUTPUT_TOKENS": 1500,
     "MAX_CALLS_PER_DAY": int(os.environ.get("GEMINI_MAX_CALLS_PER_DAY", "250")),
     "MAX_TOKENS_PER_DAY": int(os.environ.get("GEMINI_MAX_TOKENS_PER_DAY", "1000000")),
@@ -74,10 +74,10 @@ GROQ = {
     "MODEL": os.environ.get("GROQ_MODEL", "openai/gpt-oss-120b"),
     "BASE_URL": "https://api.groq.com/openai/v1",
     "TIMEOUT_S": 45, "RETRIES": 2, "RETRY_BASE_S": 2.0,
-    "MIN_INTERVAL_S": float(os.environ.get("GROQ_MIN_INTERVAL_S", "10")),    # free plan: ~12k tokens per minute
+    "MIN_INTERVAL_S": float(os.environ.get("GROQ_MIN_INTERVAL_S", "10")),    # per-process pacing
     "MAX_OUTPUT_TOKENS": 1500,        # gpt-oss spends part of it on reasoning tokens
     "MAX_CALLS_PER_DAY": int(os.environ.get("GROQ_MAX_CALLS_PER_DAY", "900")),
-    "MAX_TOKENS_PER_DAY": int(os.environ.get("GROQ_MAX_TOKENS_PER_DAY", "90000")),  # free plan: 100k tokens/day
+    "MAX_TOKENS_PER_DAY": int(os.environ.get("GROQ_MAX_TOKENS_PER_DAY", "90000")),  # our budget, not the provider entitlement
 }
 LLM = {
     "PROVIDERS": [p for p in os.environ.get("LLM_PROVIDERS", "gemini,groq").split(",") if p],   # fallback order

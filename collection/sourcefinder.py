@@ -1,4 +1,4 @@
-"""Automatic source discovery: search queries -> candidate sites -> probe -> 'kandydat' awaiting an expert.
+"""Source discovery: providers -> candidate sites -> probe -> optional automatic activation.
 
 Every page request goes through ``safe_get`` (SSRF checks, robots.txt, per-host delay, size limits).
 Search APIs (SearXNG, Brave) are optional, configured by the administrator, and only return URLs;

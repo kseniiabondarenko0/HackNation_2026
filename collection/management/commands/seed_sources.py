@@ -12,7 +12,7 @@ def load_registry():
 
 class Command(BaseCommand):
     help = ("Load the source registry (collection/data/sources.json). Verified entries are monitored; "
-            "unverified ones wait as candidates until probe_sources or an expert confirms them. "
+            "unverified registry entries wait for probe_sources or staff confirmation. "
             "Existing configuration is preserved.")
 
     def handle(self, *a, **o):

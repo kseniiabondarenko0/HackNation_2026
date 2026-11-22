@@ -1,4 +1,4 @@
-"""Gemini analysis of one article: compact prompt, JSON schema, strict validation against the text.
+"""AI analysis of one article: compact prompt, JSON schema, strict validation against the text.
 
 Data the system can verify (page URL, date from page metadata, quotes found verbatim in the text) is kept apart
 from what the model interpreted (score, explanation, sector...): data["verified"] vs data["ai"]. The other keys
@@ -16,7 +16,7 @@ from .core import PATHS, SIGNALS, STAGES, VERDICTS, norm, priority, signal_level
 AI_VERSION = "1"
 SECTORS = [*rules.SECTORS, "Inne"]
 TYPES = [*rules.INNOVATION_TYPES, "nieokreślony"]
-CAVEAT = ("Ocena wygenerowana przez model Gemini na podstawie tekstu źródła: to interpretacja AI, a nie "
+CAVEAT = ("Ocena wygenerowana przez model AI na podstawie tekstu źródła: to interpretacja AI, a nie "
           "potwierdzony fakt. Zweryfikowane są tylko dane ze strony i cytaty występujące w tekście.")
 SYSTEM = (
     "Jesteś analitykiem Podkarpackiego Centrum Innowacji. Oceniasz, czy tekst opisuje konkretną innowację "
@@ -153,7 +153,7 @@ def finalize_ai(raw, article):
         "criteria": [], "potential": score, "known": len(quotes), "total": 4,
         "completeness": min(100, 25 * len(quotes)),
         "path": ({"id": path_id, "label": PATHS[path_id], "missing": missing[:4],
-                  "reasons": [f"Etap: {STAGES[stage]}", f"Ocena potencjału {score}/100 (Gemini)"]}
+                  "reasons": [f"Etap: {STAGES[stage]}", f"Ocena potencjału {score}/100 (AI)"]}
                  if path_id and score is not None else None),
         "dropped": [f"{dropped} cytat(ów) niewystępujących w tekście"] if dropped > 0 else [],
         "relevance": {"is_solution": is_initiative, "reason": explanation[:200], "evidence": quotes, "noise": []},

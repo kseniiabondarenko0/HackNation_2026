@@ -394,7 +394,7 @@ def submit(request):
     form = SubmitForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
         title, text, url = form.cleaned_data["title"].strip(), form.cleaned_data["text"], form.cleaned_data["url"]
-        final_url = ""
+        final_url, published_at = "", None
         if not text:
             try:
                 final_url, html = safe_get(url)
@@ -404,7 +404,8 @@ def submit(request):
                 form.add_error("url", f"Nie udało się pobrać strony ({type(exc).__name__}). Wklej opis ręcznie.")
             if data and len(data["text"]) >= 150:
                 text, title = data["text"], title or data["title"]
-            elif data is not None:
+                published_at = data.get("published_at")
+            elif not form.errors:
                 form.add_error("url", "Na stronie nie znaleziono wystarczająco dużo tekstu. Wklej opis ręcznie.")
         if text and not form.errors:
             digest = content_hash(text)
@@ -416,7 +417,7 @@ def submit(request):
             article = Article.objects.create(
                 source=source, original_url=url or f"https://radar.local/zgloszenie/{digest[:24]}",
                 final_url=final_url, title=title[:500] or "Zgłoszenie bez tytułu", text=text, content_hash=digest,
-                status="fetched", fetched_at=timezone.now(), published_at=None)
+                status="fetched", fetched_at=timezone.now(), published_at=published_at)
             d = form.cleaned_data
             consent = bool(d["consent"])
             Submission.objects.create(

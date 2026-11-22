@@ -178,9 +178,22 @@ def _fetch_article(article, getter, stats):
             stats["rejected_known"] = stats.get("rejected_known", 0) + 1
             return
     if article.content_hash == digest:
+        new_title = data["title"][:500] or article.title
+        new_date = data["published_at"] or article.published_at
+        metadata_changed = (new_title != article.title or new_date != article.published_at
+                            or final_url != (article.final_url or article.original_url))
+        article.title, article.published_at, article.final_url = new_title, new_date, final_url
         article.fetched_at, article.error, article.fetch_attempts, article.next_retry_at = timezone.now(), "", 0, None
-        article.save(update_fields=["fetched_at", "error", "fetch_attempts", "next_retry_at"])
-        stats["unchanged"] += 1
+        fields = ["title", "published_at", "final_url", "fetched_at", "error", "fetch_attempts", "next_retry_at"]
+        with transaction.atomic():
+            if metadata_changed:
+                article.analysis_attempts, article.analysis_error = 0, ""
+                fields += ["analysis_attempts", "analysis_error"]
+            article.save(update_fields=fields)
+            if metadata_changed:
+                from analysis.lifecycle import invalidate
+                invalidate(article, article.text, metadata_only=True)
+        stats["updated" if metadata_changed else "unchanged"] += 1
         return
     was_fetched = bool(article.content_hash)
     previous_text = article.text

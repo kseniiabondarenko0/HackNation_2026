@@ -1,8 +1,8 @@
 """The three lists of the radar. One definition for the views, the overview, the export and the storage policy,
 so a counter can never disagree with the list it belongs to.
 
-  glowna      Interesujące    - confirmed by the AI (score >= threshold, current date, verified quote)
-  weryfikacja Do weryfikacji  - temporary queue: waiting for the AI, or analysed but still unconfirmed (e.g. unknown date)
+  glowna      Interesujące    - AI-confirmed (score >= threshold, credible source, verified quote)
+  weryfikacja Do weryfikacji  - temporary queue: waiting for the AI, or still unconfirmed (e.g. no valid quote)
   wszystkie   Wszystkie       - everything that went through the AI check and was not removed (the two groups above
                                 without items still waiting for their first analysis)
 Items the AI rejected (score < threshold, not an innovation, too old) are deleted by analysis.retention."""

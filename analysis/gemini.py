@@ -1,4 +1,4 @@
-"""Gemini Developer API, FREE tier only (REST over httpx). No billing, no paid tools."""
+"""Gemini REST adapter. Deployment policy uses free accounts; account billing is managed at the provider."""
 from django.conf import settings
 
 from . import llmbase

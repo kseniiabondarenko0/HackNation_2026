@@ -44,15 +44,29 @@ def remaining_calls(provider, cfg):
     return max(0, cfg["MAX_CALLS_PER_DAY"] - row.calls)
 
 
-def record(provider, usage=None, error=False):
+def record(provider, usage=None, error=False, *, count_call=True):
     usage = usage or {}
     LLMUsage.objects.filter(pk=_row(provider).pk).update(
-        calls=F("calls") + 1, errors=F("errors") + int(error),
+        calls=F("calls") + int(count_call), errors=F("errors") + int(error),
         tokens_in=F("tokens_in") + int(usage.get("in") or 0), tokens_out=F("tokens_out") + int(usage.get("out") or 0))
 
 
+def _reserve_call(provider, cfg):
+    """Claim one request before HTTP, atomically across web workers and the collector.
+
+    A retry is another request. Reserve it too; failed/timeout attempts count conservatively.
+    """
+    row = _row(provider)
+    claimed = LLMUsage.objects.filter(
+        pk=row.pk, calls__lt=cfg["MAX_CALLS_PER_DAY"],
+        tokens_in__lt=cfg["MAX_TOKENS_PER_DAY"] - F("tokens_out")
+    ).update(calls=F("calls") + 1)
+    if not claimed:
+        raise LLMError("budget", f"{provider}: wyczerpany dzienny limit")
+
+
 def pace(provider, min_interval):
-    """Keep under the free requests/tokens-per-minute limits."""
+    """Minimum per-process request spacing; provider quotas are also enforced by persistent 429 cooldowns."""
     wait = min_interval - (time.monotonic() - _last_call.get(provider, 0.0))
     if wait > 0:
         time.sleep(wait)
@@ -146,26 +160,28 @@ def call(provider, cfg, url, headers, body, parse):
         if attempt:
             time.sleep(cfg["RETRY_BASE_S"] * 2 ** (attempt - 1))
         pace(provider, cfg["MIN_INTERVAL_S"])
+        _reserve_call(provider, cfg)
         try:
             response = httpx.post(url, json=body, headers=headers, timeout=cfg["TIMEOUT_S"])
         except httpx.HTTPError as exc:
             error = LLMError("network", type(exc).__name__)
+            record(provider, error=True, count_call=False)
             continue
         if response.status_code == 200:
             try:
                 text, usage, problem = parse(response)
             except LLMError as exc:
-                record(provider, error=True)
+                record(provider, error=True, count_call=False)
                 raise exc
-            record(provider, usage, error=bool(problem))
+            record(provider, usage, error=bool(problem), count_call=False)
             if problem:
                 raise problem
             note_success(provider)
             return text, usage
         error = http_error(response)
+        record(provider, error=True, count_call=False)
         if error.kind != "network":    # 429 / auth / bad request: retrying cannot help, never loop
             break
-    record(provider, error=True)
     note_failure(provider, error)
     raise error
 

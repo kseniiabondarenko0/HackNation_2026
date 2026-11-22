@@ -1,174 +1,203 @@
 # Radar Innowacji
 
-**HackNation 2026 · zadanie Podkarpackiego Centrum Innowacji · zespół Zhivchiki · licencja EUPL-1.2 (`LICENSE`)**
+**HackNation 2026 · zadanie Podkarpackiego Centrum Innowacji · zespół Zhivchiki · EUPL-1.2 ([LICENSE](LICENSE))**
 
-Radar odnajduje w publicznych źródłach (strony szkół, uczelni, samorządów i instytucji publicznych) opisy istniejących rozwiązań, zapisuje je w czytelnej karcie, ocenia ich potencjał według jasnych kryteriów i podpowiada dalszą ścieżkę: rozwój, transfer, komercjalizację albo wdrożenie. Każda karta rozdziela **dane potwierdzone** (adres, data, cytaty znalezione w tekście) od **szacunku AI** (ocena, etap, uzasadnienie, braki, niepewność). Całość działa za **0 PLN**: Gemini (darmowy limit) z awaryjnym Groq (darmowy plan), bez płatnych API.
+Dokumentacja sprawdzona z kodem i konfiguracją 22.11.2026. Liczby dotyczące rejestru i zestawu demo opisują pliki repozytorium; stan działającej bazy zmienia się wraz z pracą kolektora.
 
-**Najkrótsza droga do pokazu (ok. 2 minuty):**
+Radar zbiera publikacje publicznych instytucji, rozpoznaje opisy istniejących rozwiązań i tworzy karty z oceną AI, cytatami, brakującymi informacjami i dalszą ścieżką: rozwój, transfer, komercjalizacja lub wdrożenie. Obsługuje także rozwiązania edukacyjne, organizacyjne, społeczne i procesowe. Wyszukiwanie obejmuje rozszerzany rejestr źródeł, a nie cały internet.
 
-```bash
-python -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
-python manage.py migrate && python manage.py seed_sources && python manage.py load_demo
-python manage.py runserver     # http://127.0.0.1:8000/ — zestaw demonstracyjny jest od razu widoczny
-```
+Budżet projektu na nowe usługi i API wynosi **0 PLN**. Używamy kont Gemini/Groq w darmowych planach bez rozliczeń. Limity w aplikacji są naszymi ograniczeniami zużycia; nie określają aktualnej darmowej kwoty dostawcy i nie sprawdzają taryfy konta. Płatne wyszukiwanie ani Google Search Grounding nie są wymagane.
 
-Z Dockerem: `cp .env.example .env`, ustaw `DJANGO_SECRET_KEY`, potem `docker compose up -d --build --wait` (szczegóły niżej). Klucze `GEMINI_API_KEY` / `GROQ_API_KEY` są opcjonalne: bez nich pokaz działa na zestawie demonstracyjnym, a nowe publikacje czekają w kolejce.
+## Uruchomienie w Dockerze — Windows PowerShell
 
-**Gdzie czego szukać:** `/` przegląd · `/inicjatywy/` katalog z filtrami · `/a/<id>/` karta · `/porownaj/` porównanie 2–4 pozycji · `/potrzeby/` „Szukam rozwiązania” · `/skutecznosc/` mierniki · `/zrodla/` rejestr źródeł · `/o-systemie/` założenia, ograniczenia, RODO · `/api/innowacje.json` eksport. Testy: `python manage.py test tests --noinput`.
-
-## Co potrafi (zgodnie z oficjalnym FAQ)
-
-Radar **odkrywa i analizuje istniejące innowacje** (nie jest platformą do zgłaszania pomysłów): automatycznie zbiera publikacje szkół, uczelni, samorządów i instytucji publicznych, ocenia je modelem AI (0–100, próg publikacji 50, wynik wstępny), rozdziela dane zweryfikowane (adres, data, cytaty z tekstu) od szacunków AI (ocena, etap, TRL 1–9 tylko gdy dotyczy, uzasadnienie, braki, niepewność). Obszary: Technologiczne / Edukacyjne / Administracyjne; filtry: obszar, instytucja, województwo, sektor, dojrzałość (etap wdrożenia); `/porownaj/` zestawia 2–4 wybrane pozycje. Wiek publikacji nie odrzuca pozycji; aktualność sprawdza okresowa kontrola strony źródłowej.
-
-## Funkcja dodatkowa: „Sprawdź u nas”
-
-Na karcie innowacji kliknij **Sprawdź u nas** (`/a/<id>/sprawdz-u-nas/`), wybierz typ organizacji i opisz cel, zasoby oraz ograniczenia. Radar przygotuje wstępną ocenę warunków transferu, bariery, pytania do autora, 2–3 kroki małego pilotażu i proponowane mierniki. **Cytaty są sprawdzane w zapisanym tekście**, a wszystkie rekomendacje oznaczone jako propozycje AI. Nie wyceniamy wdrożenia ani nie gwarantujemy wykonalności.
-
-**Pokaz dla jury:** wybierz jedną innowację, opisz organizację dysponującą zespołem i partnerem, a potem kliknij **Zmień warunki i przelicz** i podaj brak wykonawcy lub budżetu. Porównaj uzasadnienia i bariery w dwóch zapisanych scenariuszach. To dwa osobne zapytania AI; nie zakładamy z góry konkretnej odpowiedzi modelu.
-
-Scenariusze są prywatne dla sesji przeglądarki (sam adres UUID nie wystarcza), przechowywane 7 dni i nie trafiają do publicznego eksportu. Nie wpisuj danych osobowych ani poufnych informacji: tekst formularza trafia do tego samego dostawcy AI co analiza artykułów. Nie ma nowego API ani płatnego narzędzia. Ten sam tekst i warunki używają cache, zmiana źródła wycofuje stary wynik. Obowiązuje wspólny dzienny budżet; kolejka automatyczna zostawia 10 zapytań na scenariusze i ręczne analizy, a sesja ma limit 8 nowych scenariuszy na godzinę. Przy braku klucza lub limitu formularz pozostaje wypełniony, a błędny wynik nie jest pokazywany jako sukces.
-
-## Szybki start z czystego klonu (bez Dockera)
-
-```bash
-python -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
-cp .env.example .env          # opcjonalnie wpisz GEMINI_API_KEY (darmowy limit) i DJANGO_SECRET_KEY
-python manage.py migrate && python manage.py seed_sources && python manage.py load_demo
-python manage.py runserver    # http://127.0.0.1:8000/ — od razu widać zestaw demonstracyjny
-python manage.py collect_sources   # w drugim terminalu: automatyczne zbieranie i analiza AI (opcjonalnie)
-```
-
-## Hosting (bezpłatnie) i trwałość danych
-
-Baza to plik SQLite, więc hosting musi mieć **trwały dysk** (w Dockerze: wolumen `radar-data`, także kopie zapasowe i archiwum w `/data`). Na darmowych instancjach z dyskiem tymczasowym dane znikają przy restarcie: wtedy `load_demo` (uruchamiany automatycznie przez Dockerfile) odtworzy zestaw demonstracyjny, ale zebrane dane trzeba zbierać od nowa. Najprościej pokazywać komisji aplikację uruchomioną lokalnie lub na własnym serwerze z Dockerem; aktualne warunki darmowych planów hostingowych należy sprawdzić u dostawcy (nie weryfikowano).
-
-## Start w Windows PowerShell
+Wymagany działający Docker Desktop z obsługą Docker Compose. Uruchamiaj polecenia w katalogu `radar`, obok `docker-compose.yml`.
 
 ```powershell
-Set-Location "C:\Project\HackNation\radar"
-# Tylko jeśli .env jeszcze nie istnieje:
+Set-Location 'C:\Project\HackNation\radar'
+# Tylko przy pierwszej konfiguracji; zachowaj istniejący .env:
 Copy-Item .env.example .env
-# Ustaw własny DJANGO_SECRET_KEY w .env.
-docker compose up -d --build --wait
 ```
 
-Przy kolejnym uruchomieniu zachowaj istniejący `.env`. Docker automatycznie wykonuje migracje, dodaje dwa początkowe źródła (PWr i UR), a następnie uruchamia web i kolektor. Istniejące ustawienia źródeł nie są nadpisywane.
-
-- Publikacje: http://localhost:8000/
-- Harmonogram i błędy źródeł: http://localhost:8000/zrodla/
-- Historia rzeczywistych przebiegów: http://localhost:8000/przebiegi/
-- Stan JSON: http://localhost:8000/api/status/
-
-Pierwsze pobieranie trwa zwykle kilkadziesiąt sekund, zależnie od stron. Widok źródeł odświeża się co 30 sekund. Domyślny interwał źródła to 60 minut; worker sprawdza harmonogram co 15 sekund.
+W `.env` ustaw własny `DJANGO_SECRET_KEY`. Klucze `GEMINI_API_KEY` i `GROQ_API_KEY` są opcjonalne do oglądania zapisanych kart; co najmniej jeden jest potrzebny do nowych analiz i scenariuszy „Sprawdź u nas”. `.env` jest ignorowany przez Git i kontekst obrazu Docker.
 
 ```powershell
+docker compose up -d --build --wait
 docker compose ps
 docker compose logs --tail=50 worker
-docker compose exec web python manage.py createsuperuser
 ```
 
-Zaloguj się w `/admin/`, aby dodawać/wyłączać źródła, zmieniać interwał i prefiks. Zalogowany administrator może też zlecić sprawdzenie na stronie źródeł. Przycisk zmienia harmonogram; pracę wykonuje worker.
+Web wykonuje migracje, `seed_sources`, próbę `load_demo` i `collectstatic`, następnie uruchamia gunicorn. Worker uruchamia `collect_sources` po sprawdzeniu zdrowia weba. Błąd ładowania demo nie zatrzymuje weba — jego przyczynę sprawdź w logach.
 
-## Ręczna kontrola i testy
+`seed_sources` wczytuje **137 wpisów**, z których **96** ma w pliku `verified: true`. Zweryfikowane nowe wpisy są aktywne, pozostałe stają się kandydatami. Komenda zachowuje ręczne decyzje i istniejącą konfigurację; może uzupełnić pusty region i aktywować zweryfikowanego kandydata z rejestru bez wcześniejszej ręcznej decyzji. Odkrywanie i demo mogą zmienić liczbę źródeł w bazie.
 
-```powershell
-docker compose exec worker python manage.py collect_sources --once --all
-docker compose exec -e GEMINI_API_KEY= -e GROQ_API_KEY= web python manage.py test tests --noinput
-docker compose exec web python manage.py check
-```
+- [Przegląd](http://localhost:8000/) i [katalog inicjatyw](http://localhost:8000/inicjatywy/).
+- [Źródła](http://localhost:8000/zrodla/) i [historia zbierania](http://localhost:8000/przebiegi/).
+- [Stan JSON](http://localhost:8000/api/status/) i [kontrola zdrowia](http://localhost:8000/health/).
 
-Sprawdzenie wszystkich linków (strony serwisu i adresy zewnętrzne; serwer musi działać): `python scripts/check_links.py http://127.0.0.1:8000 --out raport_linkow.txt`.
+Pierwsze materiały mogą pojawić się po kilkudziesięciu sekundach; pełny cykl wielu źródeł trwa dłużej. Worker sprawdza harmonogram co 15 sekund. Domyślny interwał źródła wynosi 60 minut, a źródła odkrywane automatycznie dostają 240 minut; rzeczywisty termin zależy od ustawień źródła i długości cyklu. Widok źródeł odświeża się co 30 sekund.
 
-`--all` pomija termin następnego sprawdzenia, ale respektuje blokadę trwającego przebiegu. Niedawno pobrane artykuły nie są ponownie ściągane. Znane artykuły trafiają do ponownej kontroli po 24 godzinach.
+Zatrzymanie: `docker compose stop`. Ponowne uruchomienie: `docker compose up -d`. Po zmianach kodu użyj ponownie `docker compose up -d --build --wait`. Automatyczne zbieranie wymaga działającego komputera, Dockera i workera.
 
-Po każdym źródle worker wykonuje małą porcję analizy AI (2 próby), żeby pierwsze karty nie czekały na cały rejestr; dzienne limity dostawców nadal obowiązują. Zmiana tekstu wycofuje stare cytaty i ocenę do czasu ponownej analizy, zachowując ostatni snapshot i etapy obsługi. Niepoprawna struktura odpowiedzi AI nie przerywa przetwarzania pozostałych artykułów.
+## Uruchomienie bez Dockera
 
-Aby zatrzymać: `docker compose stop`. Aby wrócić: `docker compose up -d`. Komputer i Docker muszą działać, aby zbieranie odbywało się automatycznie. Dane są w trwałym wolumenie `radar-data`.
+Python **3.12** jest wersją sprawdzaną w obrazie; zależności znajdują się w [requirements.txt](requirements.txt). Django jest ograniczone do gałęzi 5.2, pozostałe pakiety nie mają pełnego pliku blokady wersji.
 
-## Zestaw demonstracyjny (czysta instalacja)
-
-Na świeżej bazie strona jest pusta, dopóki kolektor nie pobierze publikacji, a Gemini (darmowy limit) ich nie oceni. Żeby pokaz nie zależał od tego czasu, repozytorium zawiera `analysis/data/demo_innovations.json`: 20–30 **rzeczywistych** publikacji, które system już uznał za interesujące (tytuł, instytucja, data, link, źródło, ocena AI i jej uzasadnienie, krótki fragment tekstu i zweryfikowane cytaty). Nic nie jest wymyślone; plik nie zawiera kluczy API, nazwisk autorów ani danych kontaktowych.
-
-- `python manage.py load_demo` (Docker uruchamia je automatycznie po `seed_sources`): wstawia brakujące pozycje; powtórne uruchomienie nie tworzy duplikatów. Nigdy nie nadpisuje ani nie usuwa istniejących rekordów; jeśli baza ma już własne dane, nic nie robi (`--force` dodaje tylko brakujące pozycje demo). Nie przywraca publikacji usuniętych wcześniej ani starszych niż 8 mies. `--dry-run` pokazuje, co by dodał.
-- Pozycje mają znacznik „Demo · wstępna ocena AI”; w karcie i na liście jest informacja, że oceny AI są **wstępne** (szacunek systemu, nie decyzja człowieka), a pełny tekst jest pod linkiem źródłowym.
-- Zbieranie i analiza AI działają niezależnie: pozycje demo to zwykłe rekordy z gotową analizą AI (nie są analizowane ponownie, tryb bez AI ich nie degraduje), nowe materiały pojawiają się obok, a po 8 miesiącach demo wygasa jak każda publikacja.
-- Odświeżenie zestawu na działającej bazie: `python manage.py export_demo` (bierze najlepsze potwierdzone publikacje, sprawdza, czy linki działają, odmawia zapisu, gdy w danych jest e-mail, telefon lub klucz API).
-
-## Mechanizmy i ograniczenia
-
-- HTML-lista, RSS/Atom, sitemap i ograniczone indeksy sitemap.
-- Reguły robots.txt, publiczne HTTP(S), kontrola adresów/redirectów, limit rozmiaru i czasu odpowiedzi.
-- Jednoczesny drugi przebieg tego samego źródła jest blokowany. Po przerwaniu blokada wygasa; niedokończone adresy pozostają w bazie.
-- Błąd parsowania jednej publikacji nie przerywa całego worker. Nieudane pobrania mają ograniczenie prób i opóźnienie ponowienia.
-- Unikalność URL i identycznego tekstu, osobne daty publikacji/odkrycia/pobrania.
-- `lastmod` sitemap nie jest datą publikacji.
-- Pobieranie nie używa płatnego API. Nie jest to indeks całego internetu: działa w zakresie skonfigurowanych źródeł.
-- PDF, skany, strony wymagające logowania/JS i semantyczne łączenie podobnych projektów pozostają poza zakresem MVP.
-- Ochrona URL to podstawowa warstwa dla lokalnego narzędzia; publiczne wdrożenie wymaga dodatkowej kontroli sieci, w tym ochrony przed DNS rebinding.
-
-## Lokalnie bez kontenerów
-
-Python 3.12+ i osobne dwa terminale. Windows:
+Windows PowerShell:
 
 ```powershell
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
+# Opcjonalnie, jeśli .env jeszcze nie istnieje:
+Copy-Item .env.example .env
+$env:DJANGO_DEBUG = '1'
 python manage.py migrate
 python manage.py seed_sources
-python manage.py load_demo   # zestaw demonstracyjny: strona od razu pokazuje prawdziwe publikacje
+python manage.py load_demo
 python manage.py runserver
-# Drugi terminal z aktywnym tym samym środowiskiem:
-python manage.py collect_sources
 ```
 
-Plik `.env` w katalogu projektu jest wczytywany automatycznie (`config/settings.py`); zmienne środowiska ustawione w terminalu mają pierwszeństwo. Baza domyślnie powstaje w katalogu projektu. Docker jest zalecaną, sprawdzaną ścieżką uruchomienia.
+Linux/macOS — odpowiednik w Bash:
 
-## Rejestr i automatyczne wyszukiwanie źródeł
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+# Opcjonalnie, jeśli .env jeszcze nie istnieje:
+cp .env.example .env
+export DJANGO_DEBUG=1
+python manage.py migrate
+python manage.py seed_sources
+python manage.py load_demo
+python manage.py runserver
+```
 
-- Rejestr: `collection/data/sources.json` (uczelnie, parki naukowo-technologiczne, centra transferu technologii, instytucje publiczne). `seed_sources` ładuje wpisy z `verified: true` jako monitorowane, pozostałe jako kandydatów (niezbierane).
-- Weryfikacja: `python manage.py probe_sources --registry --write` sprawdza robots.txt, dostępność strony, RSS/sitemap i listę publikacji (min. 3 linki), poprawia adres/prefiks i zapisuje wynik w rejestrze. `python manage.py probe_sources` robi to samo dla źródeł w bazie i aktywuje kandydatów z rejestru, którzy przeszli weryfikację.
-- Wyszukiwanie: `python manage.py discover_sources [--query "..."] [--provider seeds] [--dry-run]`. Dostawcy: SearXNG (`SEARXNG_URL`) i Brave Search API (`BRAVE_API_KEY`), jeśli skonfigurowane; zawsze: lista domen `collection/data/discovery_seeds.json` i linki ze stron monitorowanych źródeł. Każda znaleziona strona przechodzi przez `safe_get` (SSRF, robots.txt, opóźnienie między żądaniami) i trafia do bazy jako **kandydat**; kandydaci są aktywowani automatycznie po weryfikacji technicznej (robots.txt, linki do artykułów), bez udziału człowieka.
-- Kandydaci źródeł, którzy nie przeszli weryfikacji, są odrzucani automatycznie i nie są proponowani ponownie. Przyciski „Zatwierdź / Odrzuć” na `/zrodla/` (tylko dla zalogowanego staffu) to opcjonalna korekta listy źródeł, nie etap oceny innowacji.
-- Worker uruchamia wyszukiwanie automatycznie co `DISCOVERY_AUTO_HOURS` godzin (0 = tylko ręcznie). Historia: panel administracyjny → Discovery runs.
+W drugim terminalu aktywuj to samo środowisko, również ustaw `DJANGO_DEBUG=1` i wykonaj `python manage.py collect_sources`. Sam `runserver` nie uruchamia kolektora. Przy lokalnym rozwoju `DJANGO_DEBUG=1` zapewnia obsługę plików statycznych; `.env.example` i obraz Docker domyślnie mają `DJANGO_DEBUG=0`.
 
+`config/settings.py` automatycznie wczytuje `.env`; zmienne ustawione w terminalu mają pierwszeństwo. Domyślna baza lokalna to `db.sqlite3`, archiwum to `archive/`. Przy `DJANGO_DEBUG=0` brak własnego sekretu blokuje start; przykładowe `change-me` tylko ostrzega i należy je zastąpić.
 
-## Ocena automatyczna, przechowywanie danych, skuteczność i priorytet PCI
+## Funkcje i miejsca w interfejsie
 
-- **Ocena innowacji jest w pełni automatyczna** (Gemini free → Groq free, 0 PLN). Nie ma logowania eksperta, ręcznego zatwierdzania ani odrzucania publikacji. Zalogowany staff (panel Django) może tylko: ustawiać etap „Co dalej z tą innowacją” i widzieć kontakty z formularza (za zgodą).
-- **Trzy listy** (`/inicjatywy/?widok=...`, jedna definicja w `analysis/tabs.py`; liczniki zawsze równe listom, także z filtrami): **Interesujące** (`glowna`: ocena AI ≥ 50, zweryfikowany cytat; bez limitu wieku publikacji), **Do weryfikacji** (`weryfikacja`: tymczasowa kolejka — czeka na AI albo jest przeanalizowana, lecz niepotwierdzona), **Wszystkie** (`wszystkie`: wszystko, co przeszło kontrolę AI i nie zostało usunięte).
-- **Polityka przechowywania** (`analysis/retention.py`, uruchamiana w każdym cyklu workera oraz ręcznie `python manage.py cleanup_storage [--apply]`; bez `--apply` to próba bez zmian):
-  - wiek publikacji nie jest powodem odrzucenia (wymóg oficjalnego FAQ). Aktualność potwierdzonych pozycji sprawdza kontrola strony źródłowej co `CURRENCY_DAYS` (14) dni, kilka na cykl; po 3 kolejnych błędach pozycja wraca do „Do weryfikacji” (nic nie jest usuwane). Opcjonalne okno wieku: `WINDOW_MONTHS=N` (domyślnie 0 = wyłączone; starsze trafiają wtedy najpierw do archiwum `archive/old_articles.jsonl.gz`);
-  - ocena AI < 50 lub „to nie innowacja” → usunięcie; zostaje tylko URL + skrót treści + powód (`Rejected`), żeby nie pobierać i nie analizować tego ponownie; wpisy wygasają po 12 miesiącach (lub oknie + 1 miesiąc) i mają limit `TOMBSTONE_MAX`;
-  - duplikaty, strony bez treści, wyczerpane błędy pobierania → usunięcie;
-  - kolejka „Do weryfikacji”: TTL `QUEUE_TTL_HOURS` (48 h), limit `QUEUE_MAX`; gdy AI jest niedostępne, artykuły czekają tylko w tej ograniczonej kolejce. Pozycja, której nigdy nie oceniło AI, odpada bez śladu (bez wpisu w `Rejected`) i może zostać znaleziona ponownie; pozycja wstrzymana po 3 błędach kontroli źródła nie wygasa;
-  - brak daty: przed usunięciem system sprawdza datę w stronie źródłowej (`DATE_CHECKS`); znaleziona data uruchamia tylko regułę werdyktu na zapisanej odpowiedzi AI (bez nowego wywołania);
-  - kopia zapasowa SQLite (`archive/backups/`, ostatnie `BACKUP_KEEP`) powstaje przed pierwszym usunięciem; `cleanup_storage --apply` robi ją zawsze i przerywa, jeśli się nie uda;
-  - zgłoszenia z formularza nie są usuwane przez okno ani werdykt (po TTL znika odrzucone zgłoszenie razem z danymi kontaktowymi).
-- **`/skutecznosc/`**: stan bazy na żywo (ile przechowujemy, ile czeka, ile usunięto), wynik filtra regułowego (tryb offline, bez modelu AI) na oznaczonych przykładach (`analysis/examples.py`, to samo co `evaluate_filter`); jakość analizy AI nie jest tam mierzona, jakość źródeł.
-- **Priorytet PCI**: sektory „Lotnictwo i kosmos”, „Motoryzacja” (nowe), „IT i sztuczna inteligencja”, „Zdrowie i medycyna” +2, związek z Podkarpaciem +1. Wpływa tylko na sortowanie („Priorytet PCI”), nie na potencjał ani werdykt. Lista sektorów: `settings.ANALYSIS["PRIORITY_SECTORS"]` (opcjonalnie).
-
-
-## Pokrycie wymagań zadania (stan 2026-11-21)
-
-| Wymaganie (treść zadania) | Gdzie w systemie |
+| Miejsce | Co robi |
 |---|---|
-| Szkoły, uczelnie, JST, inne instytucje publiczne | Rejestr `collection/data/sources.json` (uczelnie, szkoła, miasto, powiat, gmina, agencje); kandydaci źródeł |
-| Innowacje także organizacyjne, edukacyjne, społeczne, procesowe | Reguły w `analysis/rules.py`, pole „Typ innowacji”, przykłady w `analysis/examples.py` |
-| Zgłaszanie lub automatyczne wykrywanie | Kolektor + „Wskaż rozwiązanie” |
-| Ocena według jasnych kryteriów | Rubryka z cytatami, automatyczny werdykt z powodem i oceną AI |
-| Rekomendowanie ścieżki | Rozwój / transfer / komercjalizacja / wdrożenie + „czego brakuje” |
-| Wyszukiwanie podobnych, ograniczanie dublowania | „Podobne rozwiązania” + linki do baz z pkt 7 (Espacenet/EPO, UPRP, PBN, PPM, PAN, Interreg, NCBR) |
-| Łączenie z użytkownikami, partnerami, inwestorami | Profile odbiorców + „Szukam rozwiązania” (instytucje zgłaszają potrzeby, radar dopasowuje innowacje) |
-| Co dzieje się po identyfikacji (pkt 9) | „Co dalej z tą innowacją”: kontakt → przekazano partnerowi → pilotaż → wdrożono, z historią |
-| Mierniki skuteczności (pkt 6e) | `/skutecznosc/`, `manage.py evaluate_filter` |
-| Co najmniej dwa przypadki użycia (pkt 6) | `python manage.py demo_cases` — scenariusz a)–e) dla przypadku technologicznego i organizacyjnego |
-| Integracja | `/api/innowacje.json`, `/api/innowacje.csv`, `/api/szukaj/`, `/api/status/` |
-| Bezpieczeństwo i ochrona danych | „O systemie” → RODO; eksport bez danych osobowych; kontakt tylko za zgodą |
-| Licencja EUPL-1.2 | `LICENSE` |
+| `/` | Liczniki i najnowsze publikacje według daty publikacji |
+| `/inicjatywy/` | Karty/tabela, wyszukiwanie bez rozróżniania polskich znaków i wielkości liter, filtry źródła, instytucji, regionu, sektora, obszaru, etapu i ścieżki |
+| `/a/<id>/` | Zebrany tekst, źródło, oddzielne daty publikacji/wykrycia/pobrania, cytaty, ocena AI, braki, TRL gdy dotyczy, rekomendowana ścieżka |
+| `/porownaj/?id=1&id=2` | Porównanie 2–4 wybranych kart; identyfikatory są przykładowe |
+| `/zglos/` | „Wskaż rozwiązanie”: URL lub tekst istniejącego rozwiązania, typ zgłaszającego i województwo |
+| `/potrzeby/` | „Szukam rozwiązania”: potrzeby i profile odbiorców, dopasowanie według sektora, słów kluczowych, etapu, ścieżki i regionu |
+| `/a/<id>/dalej/` | Zmiana etapu „Co dalej” przez zalogowany staff: kontakt, przekazanie partnerowi, pilotaż, wdrożenie lub zamknięcie; historia zmian |
+| `/skutecznosc/` | Stan bazy, etapy obsługi, jakość źródeł i test filtra regułowego na przykładach |
+| `/dla-kogo/`, `/o-systemie/` | Użytkownicy, zasady działania, ograniczenia i przetwarzanie danych |
+| `/admin/` | Zarządzanie danymi zgodnie z uprawnieniami Django |
 
+„Podobne rozwiązania” wykorzystują TF-IDF w bieżącej bazie. Linki do Espacenet/EPO, UPRP, PBN, PPM, PAN, Interreg i NCBR pomagają w dalszym wyszukiwaniu; nie są automatycznym przeszukaniem tych baz ani badaniem zdolności patentowej.
 
-## Województwa i użytkownicy (2026-11-21, uwagi kuratorów)
+Ocena innowacji jest automatyczna; osobny ekran ręcznego zatwierdzania/odrzucania publikacji nie jest częścią obecnego interfejsu. Staff zarządza m.in. źródłami i etapami obsługi; panel Django pozostaje dostępny zgodnie z nadanymi uprawnieniami.
 
-- **Dowolne województwo.** Filtr „Województwo” w radarze i w eksporcie (`?woj=małopolskie`, `?woj=ogólnopolskie`). Region publikacji: województwo najczęściej wymienione w tekście → siedziba instytucji źródła (`region` w `sources.json`) → wybór w zgłoszeniu. Kod: `analysis/regions.py` (16 województw). Bonus priorytetu za województwo: `PRIORITY_REGION` w `.env` (domyślnie `podkarpackie`, puste = brak). Odbiorca z tego samego województwa dostaje +1 pkt dopasowania.
-- **Kto korzysta.** Szkoły, uczelnie, samorządy, inne instytucje, firmy prywatne, organizacje pozarządowe i osoby prywatne: „Wskaż rozwiązanie” ma pole „Kto zgłasza” i województwo (model `collection.Submission`), „Zgłoś potrzebę” ma typ „Osoba prywatna”. Filtr „Od kogo” w radarze (`?kto=company`). Dane osobowe tylko za zgodą, nazwisko publiczne tylko na życzenie, kontakt widoczny dla zespołu. Ukryte pole przeciw automatom. Strona `/dla-kogo/`.
+## Funkcja dodatkowa: „Sprawdź u nas”
+
+Na karcie kliknij **Sprawdź u nas** (`/a/<id>/sprawdz-u-nas/`). Podaj typ organizacji, cel, zasoby i ograniczenia. AI przygotowuje wstępną ocenę warunków transferu, bariery, pytania do autora, propozycję pilotażu i mierniki. Dosłowne cytaty są sprawdzane w zapisanym tekście; pozostałe treści są oznaczone jako wnioski lub propozycje AI. Obecność cytatu nie potwierdza niezależnie prawdziwości wyników. Scenariusz nie wycenia wdrożenia ani nie gwarantuje wykonalności.
+
+- Wynik jest dostępny najwyżej 7 dni, w sesji przeglądarki, która go utworzyła; sam adres UUID nie wystarcza. Usunięcie ciasteczka sesji oznacza utratę dostępu. Wygasłe rekordy usuwa działający worker lub kolejna próba wygenerowania scenariusza.
+- Ten sam tekst i warunki korzystają z cache bez kolejnego wywołania AI. **Zmień warunki i przelicz** przygotowuje nowy scenariusz. Zmiana źródła wycofuje stare cytaty i rekomendacje z widoku.
+- Limit sesji: 8 nowych scenariuszy na godzinę. Nie podawaj danych osobowych ani poufnych: treść formularza trafia do skonfigurowanego dostawcy AI. Scenariuszy nie ma w publicznym eksporcie.
+- Przy braku klucza, limitu lub poprawnej odpowiedzi formularz pozostaje wypełniony. Błędna odpowiedź nie jest zapisywana jako gotowy raport. Otworzenie formularza lub zapisanego wyniku nie wywołuje modelu.
+
+**Pomysł na pokaz:** ta sama innowacja, dwa profile organizacji — z dostępnym partnerem i bez wykonawcy lub budżetu. Porównaj uzasadnienia i bariery. To dwa nowe zapytania AI; nie zakładamy z góry odpowiedzi modelu. Zapisane karty demo nie zawierają gotowych scenariuszy dla organizacji.
+
+## AI, ocena i limity
+
+Domyślny backend to `ai`: Gemini, następnie Groq, jeśli ma skonfigurowany klucz. Domyślne nazwy modeli w kodzie to `gemini-3.1-flash-lite` i `openai/gpt-oss-120b`; można je zmienić przez `GEMINI_MODEL` / `GROQ_MODEL`. Ich dostępność i darmowe limity zależą od konta dostawcy. Backend Ollama nie jest zaimplementowany w obecnej wersji.
+
+| Wewnętrzne ustawienie | Gemini | Groq |
+|---|---:|---:|
+| Wywołania na dzień | 250 | 900 |
+| Tokeny wejścia + wyjścia na dzień | 1 000 000 | 90 000 |
+| Odstęp między wywołaniami w procesie | 6 s | 10 s |
+| Maksymalna długość odpowiedzi | 1500 tokenów | 1500 tokenów |
+
+To wartości domyślne z `config/settings.py`, **nie oficjalne limity darmowych planów**. Wspólny licznik obejmuje analizy artykułów i scenariusze. Automatyczna kolejka wstrzymuje nowe analizy, gdy pozostaje najwyżej 10 dostępnych wywołań (`LLM["SCENARIO_RESERVE"]`), zostawiając rezerwę na pracę ręczną. Rezerwa nie zwiększa budżetu; niedostępny dostawca lub limit tokenów może zablokować AI wcześniej. Dzień licznika określa data procesu serwera, a czas odnowienia kwoty dostawcy może być inny.
+
+Model dostaje do 6000 znaków oczyszczonego tekstu. Worker wykonuje do 2 prób analizy artykułu po każdym źródle i do 60 po cyklu. Każda próba HTTP, także ponowienie po błędzie sieci, rezerwuje miejsce w dziennym liczniku przed wysłaniem. Limity prób artykułów na przebieg nie są osobnym limitem żądań HTTP: ponowienia i fallback nadal zużywają wspólny budżet dzienny. `analyze --max-calls 0` pomija nowe analizy. HTTP 429 wstrzymuje dostawcę; nie jest ponawiany w pętli. Niepoprawny JSON nie jest powodem odrzucenia innowacji. Zmiana tekstu lub metadanych źródła wycofuje starą ocenę do ponownej analizy tylko tej publikacji; ostatni snapshot i etapy obsługi są zachowane.
+
+AI podaje **jedną ocenę 0–100**, uzasadnienie, braki i niepewność. To nie jest średnia pięciu osobnych ocen kryteriów. Rubryka 0–3 dla pięciu kryteriów należy do pomocniczego backendu `rules`, uruchamianego wyłącznie jawnie przez `ANALYSIS_BACKEND=rules`; nie zastępuje automatycznie niedostępnego AI. Liczba zweryfikowanych cytatów nie oznacza procentowej kompletności wiedzy o projekcie.
+
+## Zestaw demonstracyjny i zakres sprawdzenia
+
+Plik `analysis/data/demo_innovations.json` zawiera **21 publikacji z adresami źródłowymi i zapisanymi ocenami AI**. `load_demo` dodaje brakujące rekordy na pustej bazie, bez wywoływania modelu. Na bazie z własnymi artykułami domyślnie nic nie dodaje; `--force` pozwala dołączyć brakujące demo. Istniejące URL-e i wpisy w `Rejected` są pomijane; rekordy nie są nadpisywane.
+
+Pozycje mają znacznik demo i zawierają fragment tekstu oraz cytaty, a pełny tekst jest pod źródłowym linkiem. Ich cache może zostać unieważniony po pobraniu zmienionej treści. **Domyślnie nie ma limitu wieku ani automatycznego wygaśnięcia demo po 8 miesiącach** (`WINDOW_MONTHS=0`). Opcjonalne okno `WINDOW_MONTHS=N` stosuje się również do demo.
+
+Eksport zestawu z działającej bazy: `python manage.py export_demo`. W Dockerze, aby zachować nowy plik poza kontenerem:
+
+```powershell
+docker compose exec web python manage.py export_demo --out /data/demo_innovations.json
+docker compose cp web:/data/demo_innovations.json ./analysis/data/demo_innovations.json
+```
+
+Eksporter sprawdza linki i określone wzorce e-maili, telefonów oraz kluczy. Czyści pola autorów, ale fragmenty publicznego tekstu mogą zawierać nazwiska; to nie jest pełna anonimizacja treści.
+
+`analysis/examples.py` to osobny zbiór **29 syntetycznych przykładów zespołu**. `/skutecznosc/` oraz `python manage.py evaluate_filter` mierzą na nim filtr `rules`, a nie jakość Gemini/Groq na rzeczywistym internecie. `python manage.py demo_cases --backend rules` przetwarza dwa takie przykłady i zapisuje je w bazie — używaj bazy testowej. Bez tej opcji `demo_cases` domyślnie korzysta z AI i zużywa limit.
+
+**Stan weryfikacji 22.11.2026:** cały zestaw **308 testów offline** przeszedł po audycie kodu (290 wcześniejszych + 18 nowych regresji). `check`, `makemigrations --check --dry-run` i `pip check` bez problemów. Sprawdzono strukturę 137 wpisów rejestru i zgodność zapisanych cytatów wszystkich 21 pozycji demo z ich fragmentami tekstu; nie jest to ponowna kontrola dostępności wszystkich stron w internecie. W audycie nie wykonywano nowych zapytań AI. Wcześniejsze rzeczywiste próby Gemini obejmowały dwa rozwiązania i wiadomość kontrolną. „Sprawdź u nas” sprawdzono z kontrolowaną odpowiedzią i w przeglądarce; dwa rzeczywiste scenariusze pozostają do weryfikacji po odnowieniu limitu. To nie jest pomiar jakości AI na reprezentatywnym zbiorze.
+
+Audyt objął również polecenia administracyjne, obsługę zgłoszeń, wzorce wykrywania kluczy przy eksporcie i kontekst obrazu Docker. `.tmp_x`, lokalne archiwum i inne pliki robocze są wyłączone z budowania obrazu. Diagnostyka odrzuconego eksportu podaje kategorię problemu, bez drukowania znalezionego klucza lub kontaktu. Minimalna wersja Django podniesiona do zainstalowanej 5.2.19; gałąź 5.2 LTS jest nadal wspierana ([Django: wspierane wersje](https://www.djangoproject.com/download/), [wydanie 5.2.19](https://docs.djangoproject.com/en/5.2/releases/5.2.19/)). Pełnego audytu wszystkich zależności pod kątem CVE nie przeprowadzano.
+
+## Przechowywanie danych
+
+SQLite działa w trybie WAL. Web i worker współdzielą trwały wolumen `radar-data`: baza `/data/db.sqlite3`, archiwum i kopie w `/data/archive`. Hosting z dyskiem tymczasowym traci zebrane dane przy restarcie; samo odtworzenie demo ich nie przywróci. Nie wybrano ani nie sprawdzano darmowego hostingu.
+
+Polityka `analysis/retention.py` działa automatycznie z workerem. `python manage.py cleanup_storage` jest próbą bez zmian; `--apply` wykonuje politykę po wymuszonej kopii SQLite.
+
+- **Interesujące** (`widok=glowna`): potwierdzona przez filtr inicjatywa, ocena AI co najmniej 50, co najmniej jeden zweryfikowany cytat i wiarygodność inna niż niska. Nieustalona data sama nie blokuje publikacji.
+- **Do weryfikacji** (`widok=weryfikacja`): artykuły oczekujące na AI i przeanalizowane, ale niepotwierdzone. Zwykła kolejka ma TTL 48 h i limit 300 pobranych rekordów; osobny limit znalezionych URL-i to 300.
+- **Wszystkie** (`widok=wszystkie`): zachowane artykuły po analizie, z werdyktem `glowna` lub `weryfikacja`; nie obejmuje jeszcze nieprzeanalizowanych.
+- Odrzucone materiały, np. ocena poniżej 50 lub brak innowacji, są usuwane. Zostaje `Rejected`: URL, powód i hash ocenionego tekstu. Dla błędów technicznych hash może być pusty. Nigdy nieoceniona pozycja po TTL/przepełnieniu odpada bez wpisu, aby mogła zostać znaleziona ponownie.
+- Wpisy `Rejected` domyślnie wygasają po 12 miesiącach i mają limit 20 000. Kopie SQLite: dwie ostatnie, zwykle co najmniej 24 h między kopiami; ręczne `--apply` wymusza kopię. Przy włączonym oknie wieku archiwum zachowuje maksymalnie 2000 rekordów.
+- Dostępność źródła potwierdzonych pozycji jest sprawdzana co 14 dni, do 10 na cykl. Po 3 kolejnych błędach karta wraca do weryfikacji i jest chroniona przed zwykłym TTL/limitem kolejki; kolejne udane sprawdzenie może przywrócić poprzedni werdykt. To kontrola dostępności, nie dowód aktualności wszystkich twierdzeń.
+- Zgłoszenia z formularza mają wyjątki od automatycznego usuwania; odrzucone zgłoszenie usuwa się po TTL wraz z danymi kontaktowymi. Scenariusze organizacji mają osobne 7 dni przechowywania.
+
+## Źródła i rozszerzanie zasięgu
+
+Rejestr: `collection/data/sources.json`; startowe domeny odkrywania: `collection/data/discovery_seeds.json`. Obsługiwane są listy HTML, RSS/Atom i sitemap, w tym ograniczone indeksy sitemap. Obowiązują robots.txt, opóźnienia, limit 2 MB odpowiedzi oraz kontrola URL-i i przekierowań.
+
+Domyślne odkrywanie to **`seeds,links`**, co 24 godziny (`DISCOVERY_AUTO_HOURS=0` wyłącza automatyczne odkrywanie). Kandydaci przechodzą kontrolę techniczną i przy `DISCOVERY_AUTO_APPROVE=1` mogą być aktywowani automatycznie. Staff może skorygować listę źródeł. Opcjonalne adaptery SearXNG/Brave wymagają jawnego dodania dostawcy w `DISCOVERY_PROVIDERS` i odpowiednio adresu/klucza; sam klucz nie włącza wyszukiwania. Nie są potrzebne do podstawowej, bezpłatnej konfiguracji.
+
+Polecenia administracyjne (wykonują pobieranie i mogą zmieniać dane):
+
+```text
+python manage.py probe_sources --registry --write
+python manage.py probe_sources
+python manage.py discover_sources --provider seeds --dry-run
+python manage.py collect_sources --once --all
+```
+
+`probe_sources --registry --write` zapisuje wynik do pliku rejestru; w Dockerze zmieniony plik trzeba skopiować na host, aby zachować go po przebudowie. `collect_sources --once --all` pomija termin źródła, ale respektuje blokadę aktywnego przebiegu i 24-godzinny odstęp ponownego pobierania artykułu; wykonuje też analizę AI, odkrywanie i czyszczenie. Nie jest poleceniem samej kontroli zdrowia.
+
+## API, priorytet i dane użytkowników
+
+Eksport: `/api/innowacje.json` i `/api/innowacje.csv`, do 2000 rekordów, z filtrami `widok`, `woj`, `kto`. Inne rozszerzenia zwracają 404. Eksport nie zawiera pól autorów, kontaktów ani scenariuszy organizacji. Pole `kompletnosc` / `completeness` pozostaje dla zgodności API: w trybie AI oznacza liczbę zweryfikowanych cytatów względem czterech miejsc, a nie kompletność wiedzy o projekcie. `/api/szukaj/?q=...` obsługuje wyszukiwanie, `/api/status/` pokazuje stan zbierania, `/health/` sprawdza bazę. Wersja pochodzi z `settings.APP_VERSION`.
+
+Domyślne sortowanie katalogu: priorytet PCI, ocena AI, data publikacji. Sektory „Lotnictwo i kosmos”, „Motoryzacja”, „IT i sztuczna inteligencja”, „Zdrowie i medycyna” otrzymują +2 priorytetu, wybrane województwo +1 (`PRIORITY_REGION=podkarpackie`, puste wyłącza bonus). Nie zmienia to oceny ani werdyktu. Odbiorca z tego samego województwa otrzymuje +1 pkt dopasowania.
+
+Zgłoszenia są dostępne dla szkół, uczelni, samorządów, innych instytucji, firm, NGO i osób prywatnych. Formularze mają CSRF i ukryte pole przeciw automatom. Kontakt wymaga zgody i jest widoczny dla staffu; nazwisko zgłaszającego jest publiczne na jego życzenie. Publicznie wymienieni autorzy publikacji mogą być pokazani, gdy ich nazwiska znajdują się w tekście źródła. Szczegóły: `/o-systemie/`.
+
+## Kontrola i testy bez zapytań AI
+
+```powershell
+docker compose exec web python manage.py check
+docker compose exec web python manage.py makemigrations --check --dry-run
+docker compose exec web python -m pip check
+docker compose exec -e GEMINI_API_KEY= -e GROQ_API_KEY= web python manage.py test tests --noinput
+```
+
+Testy nie wczytują lokalnego `.env`, ale mogą dziedziczyć zmienne procesu, dlatego klucze są jawnie czyszczone w poleceniu Docker. Do pełnego zestawu używaj czystego kodu bez lokalnego `.env`: podprocesy testujące konfigurację startu mogą ten plik wczytać. Obraz Docker wyklucza `.env` i jest sprawdzaną ścieżką testową. Nie nadpisuj `DB_PATH` adresem roboczej bazy na potrzeby testów ręcznych.
+
+Kontrola linków bez wysyłania formularzy, przy działającym serwerze: `python scripts/check_links.py http://127.0.0.1:8000 --no-external --out raport_linkow.txt`. Usuń `--no-external`, aby sprawdzić także adresy zewnętrzne. Skrypt odwiedza strony i zapisuje raport; nie mierzy jakości analizy AI.
+
+Konto administratora: `docker compose exec web python manage.py createsuperuser`.
+
+## Ograniczenia MVP
+
+PDF-y, skany, strony wymagające JS lub logowania nie są obsługiwane. Ochrona przed SSRF jest podstawowa, bez pełnej ochrony przed DNS rebinding. Dopasowanie i TF-IDF nie zastępują analizy eksperta ani pełnego wyszukiwania patentowego. Pomyślne testy programu i zgodność cytatów nie dowodzą trafności oceny AI. Jakość AI na większym oznaczonym zbiorze oraz dwa rzeczywiste scenariusze „Sprawdź u nas” pozostają do sprawdzenia.

@@ -101,7 +101,7 @@ def _drop(pks):
 def _held(article):
     """Confirmed item sent back to 'Do weryfikacji' because its source page keeps failing (analysis.currency).
 
-    It waits for a human decision: neither the queue TTL nor the queue cap may delete it."""
+    Later availability checks can restore it; neither the queue TTL nor the queue cap may delete it."""
     analysis = getattr(article, "analysis", None)
     failures = ((analysis.data or {}).get("currency") or {}).get("failures", 0) if analysis else 0
     return int(failures) >= cfg()["CURRENCY_FAILS"]
@@ -138,6 +138,8 @@ def _legacy(ctx):
 
 def _window(ctx):
     """Older than the window: the full record goes to the archive FIRST, then the row is removed."""
+    if settings.ANALYSIS["WINDOW_MONTHS"] <= 0:
+        return
     old = list(Article.objects.filter(published_at__date__lt=cutoff(), submission__isnull=True)
                .select_related("analysis", "source"))
     if not old:

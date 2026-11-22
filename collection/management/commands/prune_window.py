@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from collection import archive
 from collection.models import Article
@@ -6,7 +7,7 @@ from collection.window import cutoff
 
 
 class Command(BaseCommand):
-    help = ("Articles published before the window (default 8 months): full record -> archive file, then the row is "
+    help = ("Articles published before the optional WINDOW_MONTHS window (default 0 = disabled): full record -> archive file, then the row is "
             "replaced by a URL/hash/reason entry in the Rejected registry. Dry run unless --apply. "
             "Manual submissions are never touched. The same rule runs automatically (analysis.retention).")
 
@@ -14,6 +15,9 @@ class Command(BaseCommand):
         parser.add_argument("--apply", action="store_true")
 
     def handle(self, *args, **options):
+        if settings.ANALYSIS["WINDOW_MONTHS"] <= 0:
+            self.stdout.write("Okno wieku jest wyłączone (WINDOW_MONTHS=0); nic nie usunięto.")
+            return
         old = Article.objects.filter(published_at__date__lt=cutoff()).select_related("analysis", "source")
         old = list(old.filter(submission__isnull=True))
         if not options["apply"]:

@@ -78,7 +78,7 @@ class ChangedEvidenceTests(TempArchive, TestCase):
 
     def change_text(self, text):
         stats = dict.fromkeys(("fetched", "updated", "duplicates", "skipped", "errors", "unchanged"), 0)
-        with mock.patch("collection.services.extract_article", return_value={"title": "Zmieniony tekst", "text": text,
+        with mock.patch("collection.services.extract_article", return_value={"title": self.a.title, "text": text,
                                                                            "published_at": self.a.published_at}):
             _fetch_article(self.a, lambda url: (url, "<html></html>"), stats)
         self.a.refresh_from_db()

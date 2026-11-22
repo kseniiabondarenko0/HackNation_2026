@@ -32,7 +32,7 @@ SOURCE_FIELDS = ("name", "entry_url", "organization_type", "region", "discovery_
                  "sitemap_url", "origin")
 REQUIRED_ANALYSIS = ("potential", "completeness", "path", "signal", "sector", "stage", "priority", "region", "data")
 PERSONAL = re.compile(r"[\w.+-]+@[\w-]+\.[\w.-]+|(?<!\d)(?:\+?48[ -]?)?(?:\d[ -]?){9}(?!\d)")
-SECRET = re.compile(r"AIza[0-9A-Za-z_-]{20,}|gsk_[0-9A-Za-z]{20,}|sk-[0-9A-Za-z]{20,}", re.I)
+SECRET = re.compile(r"AIza[0-9A-Za-z_-]{20,}|AQ\.[0-9A-Za-z_-]{20,}|gsk_[0-9A-Za-z]{20,}|sk-[0-9A-Za-z]{20,}", re.I)
 
 
 class DemoError(Exception):
@@ -163,7 +163,8 @@ def build_payload(items):
 def check_clean(payload):
     """Refuse to write a file containing e-mails, phone numbers or API keys. Returns the list of problems."""
     blob = json.dumps(payload, ensure_ascii=False)
-    return [m.group(0) for rx in (PERSONAL, SECRET) for m in rx.finditer(blob)]
+    # Diagnostics must not echo the very contact/credential that prevented export.
+    return [label for label, rx in (("dane kontaktowe", PERSONAL), ("klucz API", SECRET)) if rx.search(blob)]
 
 
 # ------------------------------------------------------------------ load

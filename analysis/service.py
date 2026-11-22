@@ -14,7 +14,7 @@ from .models import Analysis
 logger = logging.getLogger(__name__)
 
 # Backends take (text, title) and return a raw dict; finalize() validates it.
-# "ai" (Gemini free tier -> Groq free plan, analysis/llm.py) works on the whole article and decides the verdict itself.
+# "ai" (analysis/llm.py) uses a bounded source excerpt and derives the verdict from the model answer.
 BACKENDS = {"rules": rules.analyze, "ai": None}
 MAX_ANALYSIS_ATTEMPTS = 3
 last_stats = {}   # outcome of the latest analyze_pending() run, read by the management command
@@ -78,14 +78,16 @@ def _analyze_pending_ai(force, max_calls):
         last_stats.update(stats)
         return 0
     reserve = settings.LLM.get("SCENARIO_RESERVE", 10)
-    budget = min(max_calls or settings.LLM["MAX_CALLS_PER_RUN"], max(0, llm.remaining_calls() - reserve))
+    requested = settings.LLM["MAX_CALLS_PER_RUN"] if max_calls is None else max(0, max_calls)
+    budget = min(requested, max(0, llm.remaining_calls() - reserve))
     keys = dict(Analysis.objects.values_list("article_id", "input_key"))
     rejected_hashes = set(Rejected.objects.exclude(content_hash="").values_list("content_hash", flat=True))
     pending = (Article.objects.select_related("source").filter(status="fetched", duplicate_of__isnull=True)
                .exclude(text="").filter(analysis_attempts__lt=MAX_ANALYSIS_ATTEMPTS)
-               .filter(Q(published_at__isnull=True) | Q(published_at__gte=timezone.make_aware(
-                   datetime.combine(cutoff(), dtime()))))
                .order_by("-published_at", "-pk"))
+    if settings.ANALYSIS["WINDOW_MONTHS"] > 0:
+        pending = pending.filter(Q(published_at__isnull=True) | Q(published_at__gte=timezone.make_aware(
+            datetime.combine(cutoff(), dtime()))))
     calls = 0
     for article in pending.iterator():
         if not force and keys.get(article.pk) == _key(article, "ai"):

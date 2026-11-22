@@ -4,7 +4,7 @@ from collection.sourcefinder import run_discovery
 
 class Command(BaseCommand):
     help = ("Find new candidate sources: search queries -> sites -> robots/RSS/sitemap check -> "
-            "'kandydat' awaiting expert approval (admin or /zrodla/).")
+            "candidate, automatically activated when DISCOVERY_AUTO_APPROVE=1; staff may correct sources.")
 
     def add_arguments(self, parser):
         parser.add_argument("--query", action="append", help="Search query (repeatable); default: settings")

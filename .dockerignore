@@ -5,3 +5,9 @@ db.sqlite3*
 __pycache__
 *.pyc
 docs
+.tmp_x
+archive
+staticfiles
+.idea
+.DS_Store
+raport_linkow.txt

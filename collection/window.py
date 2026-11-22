@@ -26,5 +26,7 @@ def to_date(value):
 
 def is_old(value):
     """True only when the date is known and outside the window (unknown dates are not 'old')."""
+    if settings.ANALYSIS["WINDOW_MONTHS"] <= 0:
+        return False
     d = to_date(value)
     return d is not None and d < cutoff()

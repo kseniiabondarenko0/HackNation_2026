@@ -4,12 +4,13 @@ from analysis.models import LLMState
 
 
 class Command(BaseCommand):
-    help = "Analyze fetched articles (cached; use --force to recompute). Backend: ai (Gemini free -> Groq free; default with a key) or rules (offline dev)."
+    help = "Analyze fetched articles (cached; use --force to recompute). Default backend ai requires a configured provider; rules is explicit offline mode."
 
     def add_arguments(self, parser):
         parser.add_argument("--force", action="store_true")
-        parser.add_argument("--backend", default=None)
-        parser.add_argument("--max-calls", type=int, default=None, help="limit AI calls in this run")
+        parser.add_argument("--backend", choices=("ai", "rules"), default=None)
+        parser.add_argument("--max-calls", type=int, default=None,
+                            help="max article analysis attempts (0 = none); HTTP retries/fallback share daily counters")
 
     def handle(self, *args, **options):
         n = service.analyze_pending(options["backend"], options["force"], options["max_calls"])

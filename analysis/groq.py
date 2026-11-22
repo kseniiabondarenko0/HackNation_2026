@@ -1,4 +1,4 @@
-"""Groq API (OpenAI-compatible), FREE plan only: the fallback when Gemini is paused or out of quota."""
+"""Groq REST fallback. Use a free account as required by the project; keys do not identify the billing tier."""
 from django.conf import settings
 
 from . import llmbase

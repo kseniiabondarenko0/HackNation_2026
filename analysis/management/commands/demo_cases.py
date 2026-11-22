@@ -1,4 +1,4 @@
-"""Task, section 6: run the demo scenario a)–e) on two use cases and print the result.
+"""Run two synthetic examples through the demo scenario a)–e), printing the result.
 
 Case A: a technological innovation from a university. Case B: an organisational innovation from local government.
 Both go through the same pipeline as the 'Zgłoś innowację' form, so they also appear in the web interface.
@@ -22,7 +22,7 @@ SUBMIT_SOURCE = {"entry_url": "https://radar.local/zgloszenia/",
 
 
 class Command(BaseCommand):
-    help = "Scenariusz demonstracyjny a)–e) na dwóch przypadkach użycia (dodaje je też do bazy jako zgłoszenia)."
+    help = "Dwa syntetyczne przykłady zespołu, scenariusz a)–e). Zapisuje rekordy w bazie; korzystaj z bazy testowej."
 
     def add_arguments(self, parser):
         parser.add_argument("--backend", choices=("ai", "rules"), default=None,
@@ -51,7 +51,11 @@ class Command(BaseCommand):
             for c in d["criteria"]:
                 score = f"{c['score']}/3" if c["score"] is not None else "brak danych"
                 w(f"     {c['label']:<12} {score:<12} „{c['quote'][:90]}”" if c["quote"] else f"     {c['label']:<12} {score}")
-            w(f"   potencjał {d['potential']}/100, kompletność dowodów {d['completeness']}%")
+            w(f"   potencjał {d['potential']}/100")
+            if d.get("ai"):
+                w(f"   zweryfikowane cytaty: {len(d['verified']['quotes'])}/4 (nie miara kompletności wiedzy)")
+            else:
+                w(f"   kompletność dowodów regułowych: {d['completeness']}%")
             p = d["path"]
             w(f"d) Ścieżka: {p['label'] if p else 'brak'}" + (f" — {'; '.join(p['reasons'])}" if p else ""))
             if p and p["missing"]:
@@ -61,9 +65,9 @@ class Command(BaseCommand):
             sim = similar(article, limit=2)
             w("   podobne w bazie: " + ("; ".join(f"{s['article'].title} ({s['percent']}%)" for s in sim) or "brak"))
             w(f"   bazy zewnętrzne: zapytanie „{external_search(article.title)['query']}” (Espacenet, UPRP, PBN, NCBR…)")
-            w("e) Uzasadnienie: każda ocena ma cytat zweryfikowany w tekście (powyżej); mierniki — niżej i na /skutecznosc/.")
+            w("e) Uzasadnienie: cytaty sprawdzono w tekście przykładu; interpretacja pozostaje wynikiem systemu.")
         r = evaluate()
-        w("\n" + "=" * 78 + f"\nMIERNIKI na {len(r['rows'])} oznaczonych przykładach (analysis/examples.py):")
+        w("\n" + "=" * 78 + f"\nMIERNIKI FILTRA RULES na {len(r['rows'])} syntetycznych przykładach (analysis/examples.py), nie jakość AI:")
         for name, m in (("lista główna + weryfikacja", r["lenient"]), ("tylko lista główna", r["strict"])):
             w(f"  {name}: precyzja {100 * m['precision']:.0f}%, czułość {100 * m['recall']:.0f}% "
               f"(TP {m['tp']}, FP {m['fp']}, FN {m['fn']})")
