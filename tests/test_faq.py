@@ -5,6 +5,7 @@ from unittest import mock
 from django.conf import settings
 from django.test import SimpleTestCase, TestCase, override_settings
 from django.urls import reverse
+from django.utils import timezone
 
 from analysis import ai, currency, retention
 from analysis.core import AREAS, area_of, area_sectors
@@ -85,6 +86,9 @@ class CurrencyTests(RetentionBase):
                 an.data["currency"] = state
                 an.save()
                 stats = retention.cleanup(getter=boom)
+            Article.objects.filter(pk=a.pk).update(first_seen_at=timezone.now() - timedelta(hours=200))
+            for _ in range(2):                                   # later cycles: the queue TTL must not delete it
+                retention.cleanup(getter=boom)
         an = Analysis.objects.get(article=a)
         self.assertEqual((an.verdict, an.data["currency"]["failures"], stats["currency_held"]), ("weryfikacja", 3, 1))
         self.assertTrue(Article.objects.filter(pk=a.pk).exists())

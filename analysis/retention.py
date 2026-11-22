@@ -98,6 +98,24 @@ def _drop(pks):
         Article.objects.filter(pk__in=chunk).delete()
 
 
+def _held(article):
+    """Confirmed item sent back to 'Do weryfikacji' because its source page keeps failing (analysis.currency).
+
+    It waits for a human decision: neither the queue TTL nor the queue cap may delete it."""
+    analysis = getattr(article, "analysis", None)
+    failures = ((analysis.data or {}).get("currency") or {}).get("failures", 0) if analysis else 0
+    return int(failures) >= cfg()["CURRENCY_FAILS"]
+
+
+def _expire(article, reason):
+    """An unconfirmed item leaves the queue. Only one the AI already paid for keeps a hash in the Rejected registry;
+    one that never got an analysis (queue overflow, no quota) is deleted without a trace, so it can be found again."""
+    if hasattr(article, "analysis"):
+        reject_article(article, reason, digest=article.content_hash)
+    else:
+        _drop([article.pk])
+
+
 def _reason(analysis, default):
     return ((analysis.data or {}).get("verdict") or {}).get("reason") or default
 
@@ -161,7 +179,7 @@ def _junk(ctx):
         elif a.status == "error":
             reject_article(a, "Błąd pobierania.", digest="")
         else:
-            reject_article(a, "Analiza AI nieudana: " + (a.analysis_error or "brak odpowiedzi")[:120], digest=a.content_hash)
+            reject_article(a, "Analiza AI nieudana: " + (a.analysis_error or "brak odpowiedzi")[:120], digest="")   # URL only: the text may be fine elsewhere
         ctx.stats["junk"] += 1
 
 
@@ -208,6 +226,8 @@ def _ttl(ctx):
                                       first_seen_at__lt=limit).select_related("analysis", "source"))
     checks = 0
     for a in list(fetched):
+        if _held(a):
+            continue
         if a.published_at is None and a.date_checks < c["DATE_CHECKS"]:
             if checks >= c["DATE_CHECKS_PER_CYCLE"]:
                 continue                                    # next cycle
@@ -234,7 +254,7 @@ def _ttl(ctx):
                     ctx.stats["rejected"] += 1
                     continue
         ctx.backup()
-        reject_article(a, f"Niepotwierdzone w ciągu {c['QUEUE_TTL_HOURS']} h.", digest=a.content_hash)
+        _expire(a, f"Niepotwierdzone w ciągu {c['QUEUE_TTL_HOURS']} h.")
         ctx.stats["expired"] += 1
     # links that were found but never fetched, and failing fetches, simply expire without a trace
     stale = list(Article.objects.filter(status__in=("found", "error"), submission__isnull=True, first_seen_at__lt=limit)
@@ -256,10 +276,10 @@ def _caps(ctx):
         ctx.stats["found_dropped"] += len(extra)
     waiting = (Article.objects.filter(WAITING, status="fetched", duplicate_of__isnull=True, submission__isnull=True)
                .order_by(F("published_at").desc(nulls_last=True), "-first_seen_at", "-pk"))
-    over = list(waiting.select_related("analysis")[c["QUEUE_MAX"]:])
-    for a in over:
+    queue = [a for a in waiting.select_related("analysis") if not _held(a)]
+    for a in queue[c["QUEUE_MAX"]:]:
         ctx.backup()
-        reject_article(a, "Kolejka pełna: najstarsze niepotwierdzone odpadają.", digest=a.content_hash)
+        _expire(a, "Kolejka pełna: najstarsze niepotwierdzone odpadają.")
         ctx.stats["evicted"] += 1
 
 

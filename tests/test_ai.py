@@ -14,7 +14,7 @@ from django.core.management import CommandError, call_command
 from django.test import SimpleTestCase, TestCase, override_settings
 from django.utils import timezone
 
-from analysis import groq, llmbase, service
+from analysis import groq, llmbase, retention, service
 from analysis.models import Analysis, LLMState, LLMUsage
 from collection import sourcefinder
 from collection.extract import content_hash
@@ -275,6 +275,32 @@ class AnalysisTests(TempArchive, TestCase):
         self.assertEqual((n, net.count()), (0, 1))
         self.assertEqual(Article.objects.get(pk=a.pk).analysis_attempts, 1)
 
+    def test_wrong_key_pauses_the_provider_and_burns_no_attempts(self):
+        arts = [mk_article(i, published_at=ago(5)) for i in range(3)]
+        n, net = self.run_pending([err(400, "API key not valid. Please pass a valid API key.")])
+        self.assertEqual((n, net.count()), (0, 1))                       # one call, the batch stops
+        self.assertEqual(sum(Article.objects.get(pk=a.pk).analysis_attempts for a in arts), 0)
+        self.assertIsNotNone(LLMState.objects.get(provider="gemini").blocked_until)
+        _, net2 = self.run_pending()
+        self.assertEqual(net2.count(), 0)                                # paused: no hot loop
+
+    def test_unknown_model_404_is_a_provider_error_not_an_article_error(self):
+        a = mk_article(published_at=ago(5))
+        self.run_pending([err(404, "models/gone is not found for API version v1beta")])
+        self.assertEqual(Article.objects.get(pk=a.pk).analysis_attempts, 0)
+
+    def test_http_error_kinds(self):
+        kinds = lambda status, msg: llmbase.http_error(err(status, msg)).kind
+        self.assertEqual(kinds(400, "The model `llama-3.3-70b-versatile` has been decommissioned"), "config")
+        self.assertEqual(kinds(400, "API key not valid. Please pass a valid API key."), "config")
+        self.assertEqual(kinds(404, "anything"), "config")
+        self.assertEqual(kinds(400, "Invalid value at 'generation_config.response_schema'"), "bad_request")
+        self.assertEqual(kinds(400, "bad schema"), "bad_request")
+        self.assertEqual(kinds(401, "x"), "auth")
+        self.assertEqual(kinds(429, "x"), "quota")
+        self.assertEqual(kinds(503, "x"), "network")
+        self.assertEqual(llmbase.cooldown_seconds(llmbase.LLMError("config"), 1), 3600)
+
     def test_invalid_json_is_counted_and_eventually_marked_as_error(self):
         a = mk_article(published_at=ago(5))
         for _ in range(3):
@@ -343,6 +369,28 @@ class FallbackTests(TempArchive, TestCase):
         _, net2 = self.run_pending()
         self.assertEqual(net2.count(), 0)                                # both paused: no calls at all
         self.assertEqual(Article.objects.count(), 3)
+
+    def test_misconfigured_providers_destroy_nothing(self):
+        """A bad Gemini key and a retired Groq model must not burn attempts or blacklist the queue."""
+        arts = [mk_article(i, published_at=ago(5)) for i in range(4)]
+        for _ in range(4):                       # several worker cycles (+ cleanup), as in production
+            self.run_pending([err(400, "API key not valid. Please pass a valid API key.")],
+                             [err(400, "The model `llama-3.3-70b-versatile` has been decommissioned")])
+            retention.cleanup()
+        self.assertEqual(Article.objects.filter(pk__in=[a.pk for a in arts], analysis_attempts=0).count(), 4)
+        self.assertEqual((Rejected.objects.count(), Analysis.objects.count()), (0, 0))
+
+    def test_gpt_oss_gets_low_reasoning_effort_other_models_do_not(self):
+        mk_article(published_at=ago(5))
+        _, net = self.run_pending([err(429)], [q_reply(raw())])
+        body = net.calls[1][1]["json"]
+        self.assertEqual((body["model"], body["reasoning_effort"]), ("openai/gpt-oss-120b", "low"))
+        with override_settings(GROQ={**GRQ_ON, "MODEL": "llama-3.1-8b-instant"}):
+            Article.objects.all().delete()
+            LLMState.objects.all().delete()
+            mk_article(2, published_at=ago(5))
+            _, net = self.run_pending([err(429)], [q_reply(raw())])
+        self.assertNotIn("reasoning_effort", net.calls[1][1]["json"])
 
     def test_unusable_gemini_answer_falls_through_to_groq(self):
         a = mk_article(published_at=ago(5))

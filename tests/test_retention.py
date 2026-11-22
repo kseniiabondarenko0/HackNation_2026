@@ -123,6 +123,12 @@ class JunkTests(RetentionBase):
         self.assertFalse(self.gone(original))
         self.assertEqual(Rejected.objects.get(url=dup.original_url).content_hash, "")
 
+    def test_exhausted_ai_failures_keep_the_url_but_not_the_hash(self):
+        a = self.mk(analysis_attempts=3, analysis_error="bad_response: x")
+        retention.cleanup()
+        self.assertTrue(self.gone(a))
+        self.assertEqual(Rejected.objects.get(url=a.original_url).content_hash, "")
+
     def test_skipped_and_exhausted_errors_are_removed_young_errors_wait(self):
         skipped = self.mk(status="skipped")
         dead = self.mk(status="error", fetch_attempts=settings.COLLECT["MAX_ATTEMPTS"])
@@ -145,7 +151,7 @@ class JunkTests(RetentionBase):
 
 class QueueTests(RetentionBase):
     def test_unconfirmed_items_expire_after_ttl(self):
-        old = self.mk(hours=50)
+        old = self.mk(hours=50, verdict="weryfikacja")
         fresh = self.mk(hours=5)
         kept = self.mk(hours=50, verdict="glowna")
         stats = retention.cleanup()
@@ -166,6 +172,34 @@ class QueueTests(RetentionBase):
             stats = retention.cleanup()
         self.assertEqual([self.gone(a) for a in items], [True, True, False, False])
         self.assertEqual(stats["evicted"], 2)
+
+    def test_never_analysed_items_leave_no_hash_when_the_queue_overflows_or_expires(self):
+        with override_settings(RETENTION={**settings.RETENTION, "QUEUE_MAX": 1}):
+            keep, evicted = self.mk(published=days_ago(5)), self.mk(published=days_ago(30))
+            expired = self.mk(hours=60, published=days_ago(2))
+            stats = retention.cleanup()
+        self.assertEqual([self.gone(keep), self.gone(evicted), self.gone(expired)], [False, True, True])
+        self.assertEqual(Rejected.objects.count(), 0)            # the AI never saw them: they may be found again
+        self.assertEqual((stats["evicted"], stats["expired"]), (1, 1))
+
+    def test_analysed_but_unconfirmed_expiry_keeps_the_hash(self):
+        a = self.mk(hours=60, verdict="weryfikacja", published=None, date_checks=settings.RETENTION["DATE_CHECKS"])
+        retention.cleanup()
+        self.assertTrue(self.gone(a))
+        self.assertEqual(Rejected.objects.get(url=a.original_url).content_hash, a.content_hash)
+
+    def test_item_held_for_verification_survives_ttl_and_queue_cap(self):
+        held = self.mk(hours=200, verdict="weryfikacja")
+        an = Analysis.objects.get(article=held)
+        an.data["currency"] = {"failures": settings.RETENTION["CURRENCY_FAILS"], "status": "niedostepny",
+                               "checked_at": timezone.now().isoformat()}
+        an.save()
+        others = [self.mk(published=days_ago(d)) for d in (1, 2)]
+        with override_settings(RETENTION={**settings.RETENTION, "QUEUE_MAX": 1}):
+            for _ in range(3):
+                retention.cleanup()
+        self.assertFalse(self.gone(held))
+        self.assertEqual([self.gone(a) for a in others], [False, True])   # the cap still works for the rest
 
     def test_found_links_are_bounded(self):
         with override_settings(RETENTION={**settings.RETENTION, "FOUND_MAX": 2}):
