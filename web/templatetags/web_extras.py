@@ -13,6 +13,12 @@ SECTOR_COLORS = {
 
 
 @register.simple_tag
+def demo_mode():
+    from django.conf import settings
+    return settings.DEMO_MODE
+
+
+@register.simple_tag
 def icon(name, cls=""):
     return format_html('<svg class="i {}" aria-hidden="true"><use href="#i-{}"/></svg>', cls, name)
 

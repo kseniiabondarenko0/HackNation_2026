@@ -47,9 +47,9 @@ def _parse(response):
     return text, counts, problem
 
 
-def generate_json(system, prompt, schema):
-    """Returns (dict, {"in", "out"}). Raises LLMError."""
-    c = cfg()
+def generate_json(system, prompt, schema, limits=None):
+    """Returns (dict, {"in", "out"}). Raises LLMError. limits override MAX_OUTPUT_TOKENS / TIMEOUT_S / RETRIES."""
+    c = {**cfg(), **(limits or {})}
     body = {"model": c["MODEL"], "temperature": 0.1, "max_tokens": c["MAX_OUTPUT_TOKENS"],
             "response_format": {"type": "json_object"},
             "messages": [{"role": "system", "content": system + "\n" + schema_hint(schema)},

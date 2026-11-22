@@ -13,5 +13,8 @@
 <noscript><p>Po wysłaniu formularza poczekaj na odpowiedź AI.</p></noscript>
 </form>
 {% if reports %}<section class="card"><h2>Wasze zapisane scenariusze</h2><ul>{% for r in reports %}<li><a href="{% url 'transfer_result' r.pk %}">{{ r.profile.goal|truncatechars:110 }}</a> <span class="muted">· {{ r.created_at|date:"d.m.Y H:i" }}</span></li>{% endfor %}</ul></section>{% endif %}
-<script>document.getElementById('transfer-form').addEventListener('submit',function(){document.getElementById('transfer-submit').disabled=true;document.getElementById('transfer-progress').hidden=false;});</script>
+<script>(function(){var f=document.getElementById('transfer-form'),b=document.getElementById('transfer-submit'),p=document.getElementById('transfer-progress'),t=null,msg=p.textContent;
+function reset(){b.disabled=false;p.hidden=true;p.textContent=msg;if(t){clearTimeout(t);t=null;}}
+f.addEventListener('submit',function(){b.disabled=true;p.hidden=false;t=setTimeout(function(){p.textContent='To trwa dłużej niż zwykle. Jeśli strona się nie odświeży, wróć do karty innowacji i spróbuj ponownie. Zapisane scenariusze pozostają dostępne.';},60000);});
+window.addEventListener('pageshow',reset);})();</script>
 {% endblock %}

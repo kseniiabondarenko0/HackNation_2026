@@ -36,7 +36,7 @@
 <main id="main" tabindex="-1">
 {% for message in messages %}<div class="flash" role="status">{% icon "check" %}<span>{{ message }}</span></div>{% endfor %}
 {% block content %}{% endblock %}
-<footer class="site"><span>Radar Innowacji · automatyczne zbieranie publikacji z publicznych źródeł</span><span>Daty i godziny: Europe/Warsaw</span></footer>
+{% demo_mode as demo %}<footer class="site"><span>Radar Innowacji · automatyczne zbieranie publikacji z publicznych źródeł{% if demo %} · tryb pokazowy: zbieranie i analiza AI w tle są wstrzymane{% endif %}</span><span>Daty i godziny: Europe/Warsaw</span></footer>
 </main></div></div>
 {% endwith %}
 <script>(function(){var r=document.documentElement,b=document.getElementById('theme');if(!b)return;
