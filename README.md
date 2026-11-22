@@ -135,7 +135,7 @@ Plik `.env` w katalogu projektu jest wczytywany automatycznie (`config/settings.
   - brak daty: przed usunięciem system sprawdza datę w stronie źródłowej (`DATE_CHECKS`); znaleziona data uruchamia tylko regułę werdyktu na zapisanej odpowiedzi AI (bez nowego wywołania);
   - kopia zapasowa SQLite (`archive/backups/`, ostatnie `BACKUP_KEEP`) powstaje przed pierwszym usunięciem; `cleanup_storage --apply` robi ją zawsze i przerywa, jeśli się nie uda;
   - zgłoszenia z formularza nie są usuwane przez okno ani werdykt (po TTL znika odrzucone zgłoszenie razem z danymi kontaktowymi).
-- **`/skutecznosc/`**: stan bazy na żywo (ile przechowujemy, ile czeka, ile usunięto), wynik na oznaczonych przykładach (`analysis/examples.py`, to samo co `evaluate_filter`), jakość źródeł.
+- **`/skutecznosc/`**: stan bazy na żywo (ile przechowujemy, ile czeka, ile usunięto), wynik filtra regułowego (tryb offline, bez modelu AI) na oznaczonych przykładach (`analysis/examples.py`, to samo co `evaluate_filter`); jakość analizy AI nie jest tam mierzona, jakość źródeł.
 - **Priorytet PCI**: sektory „Lotnictwo i kosmos”, „Motoryzacja” (nowe), „IT i sztuczna inteligencja”, „Zdrowie i medycyna” +2, związek z Podkarpaciem +1. Wpływa tylko na sortowanie („Priorytet PCI”), nie na potencjał ani werdykt. Lista sektorów: `settings.ANALYSIS["PRIORITY_SECTORS"]` (opcjonalnie).
 
 
@@ -145,7 +145,7 @@ Plik `.env` w katalogu projektu jest wczytywany automatycznie (`config/settings.
 |---|---|
 | Szkoły, uczelnie, JST, inne instytucje publiczne | Rejestr `collection/data/sources.json` (uczelnie, szkoła, miasto, powiat, gmina, agencje); kandydaci źródeł |
 | Innowacje także organizacyjne, edukacyjne, społeczne, procesowe | Reguły w `analysis/rules.py`, pole „Typ innowacji”, przykłady w `analysis/examples.py` |
-| Zgłaszanie lub automatyczne wykrywanie | Kolektor + „Zgłoś innowację” |
+| Zgłaszanie lub automatyczne wykrywanie | Kolektor + „Wskaż rozwiązanie” |
 | Ocena według jasnych kryteriów | Rubryka z cytatami, automatyczny werdykt z powodem i oceną AI |
 | Rekomendowanie ścieżki | Rozwój / transfer / komercjalizacja / wdrożenie + „czego brakuje” |
 | Wyszukiwanie podobnych, ograniczanie dublowania | „Podobne rozwiązania” + linki do baz z pkt 7 (Espacenet/EPO, UPRP, PBN, PPM, PAN, Interreg, NCBR) |
@@ -161,4 +161,4 @@ Plik `.env` w katalogu projektu jest wczytywany automatycznie (`config/settings.
 ## Województwa i użytkownicy (2026-11-21, uwagi kuratorów)
 
 - **Dowolne województwo.** Filtr „Województwo” w radarze i w eksporcie (`?woj=małopolskie`, `?woj=ogólnopolskie`). Region publikacji: województwo najczęściej wymienione w tekście → siedziba instytucji źródła (`region` w `sources.json`) → wybór w zgłoszeniu. Kod: `analysis/regions.py` (16 województw). Bonus priorytetu za województwo: `PRIORITY_REGION` w `.env` (domyślnie `podkarpackie`, puste = brak). Odbiorca z tego samego województwa dostaje +1 pkt dopasowania.
-- **Kto korzysta.** Szkoły, uczelnie, samorządy, inne instytucje, firmy prywatne, organizacje pozarządowe i osoby prywatne: „Zgłoś innowację” ma pole „Kto zgłasza” i województwo (model `collection.Submission`), „Zgłoś potrzebę” ma typ „Osoba prywatna”. Filtr „Od kogo” w radarze (`?kto=company`). Dane osobowe tylko za zgodą, nazwisko publiczne tylko na życzenie, kontakt widoczny dla zespołu. Ukryte pole przeciw automatom. Strona `/dla-kogo/`.
+- **Kto korzysta.** Szkoły, uczelnie, samorządy, inne instytucje, firmy prywatne, organizacje pozarządowe i osoby prywatne: „Wskaż rozwiązanie” ma pole „Kto zgłasza” i województwo (model `collection.Submission`), „Zgłoś potrzebę” ma typ „Osoba prywatna”. Filtr „Od kogo” w radarze (`?kto=company`). Dane osobowe tylko za zgodą, nazwisko publiczne tylko na życzenie, kontakt widoczny dla zespołu. Ukryte pole przeciw automatom. Strona `/dla-kogo/`.

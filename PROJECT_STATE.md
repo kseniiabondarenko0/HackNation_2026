@@ -16,7 +16,7 @@ Django 5.2 + SQLite (WAL), Docker (web na gunicorn + worker `collect_sources`). 
 ## Znane ograniczenia
 - Ocena AI to szacunek, nie werdykt; zbieranie obejmuje tylko skonfigurowane źródła, nie cały internet.
 - Groq (domyślnie `openai/gpt-oss-120b`, bo `llama-3.3-70b-versatile` wygasa 2026-08-16) sprawdzony tylko na mockach (brak prawdziwego klucza); błędy konfiguracji (zły klucz, nieistniejący model) wstrzymują dostawcę na 1 h i nie zużywają prób artykułów. Limity free tier: Gemini RPD/TPM, Groq ok. 100 tys. tokenów/dzień.
-- `/skutecznosc/` liczy dokładność na 29 oznaczonych przykładach przez `analysis.evaluation.evaluate`, domyślnie z backendem `rules`, czyli mierzy filtr regułowy, a nie model AI.
+- `/skutecznosc/` liczy dokładność na 29 oznaczonych przykładach przez `analysis.evaluation.evaluate`, domyślnie z backendem `rules`, czyli mierzy filtr regułowy, a nie model AI. Strona podaje to wprost.
 - Hosting z dyskiem tymczasowym gubi bazę przy restarcie (demo wraca przez `load_demo`). Zbieranie wymaga działającego workera.
 - PDF-y, skany i strony wymagające JS/logowania nie są obsługiwane. Ochrona przed SSRF to warstwa podstawowa (bez ochrony DNS rebinding).
 

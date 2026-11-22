@@ -49,3 +49,12 @@
 - Wyszukiwanie w katalogu ignoruje wielkość liter i polskie znaki (`analysis.search.fold`): SQLite `LIKE` zna tylko ASCII, więc „Łódź”, „łódź” i „lodz” dawały różne wyniki.
 - `.env.example` ma `DJANGO_DEBUG=0` (jak obraz Dockera); usunięte pozostałości Ollamy (`OLLAMA_*`, `extra_hosts`).
 - Usunięty wewnętrzny plan `docs/PLAN_V2.md` (po rosyjsku i nieaktualny: backendy Ollama, sklearn); zostaje w historii gita.
+
+## Poprawki po przeglądzie (2026-11-22)
+- `/skutecznosc/`: blok z precyzją i czułością opisany jako test filtra regułowego (tryb offline), z uwagą, że przykłady napisał zespół, a jakość analizy AI nie została jeszcze zmierzona. Wcześniej wynik 100% mógł być odczytany jako jakość Gemini lub Groq.
+- Nazwa formularza w README zgodna z interfejsem: „Wskaż rozwiązanie” (wcześniej „Zgłoś innowację”).
+- Usunięty `docs/V0_1_VERIFICATION.md`: raport z pierwszej wersji (Windows, Django 5.1, brak analizy AI) nie opisywał już projektu.
+- `/api/innowacje.<format>`: znane są tylko `json` i `csv`, każdy inny format zwraca 404 (wcześniej każdy nieznany zwracał CSV).
+- Wersja w `/health/` i `/api/status/` pochodzi z jednego miejsca (`settings.APP_VERSION`).
+- Karta „Najnowsze” na Przeglądzie pokazuje datę publikacji; „Wykryto” tylko, gdy publikacja nie ma daty (data wykrycia pozycji demo to dzień załadowania do bazy).
+- Porządki w kodzie: nieużywane importy, `raise ... from ...` w obsłudze błędów, `stacklevel` przy ostrzeżeniu o kluczu.

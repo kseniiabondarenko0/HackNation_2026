@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.paginator import Paginator
 from django.db.models import Count, F, Q, Max
-from django.http import HttpResponse, JsonResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.views.decorators.http import require_POST
@@ -305,7 +305,7 @@ def favicon(request):
 
 def health(request):
     Source.objects.exists()
-    return JsonResponse({"status": "ok", "version": "0.1"})
+    return JsonResponse({"status": "ok", "version": settings.APP_VERSION})
 
 
 EXPORT_FIELDS = ["id", "tytul", "url", "zrodlo", "typ_instytucji", "wojewodztwo", "werdykt", "potencjal",
@@ -337,6 +337,8 @@ def _export_rows(request):
 
 def export(request, fmt):
     """Innovations for other systems (CRM, spreadsheets, BI). No personal data: authors and contacts are omitted."""
+    if fmt not in ("json", "csv"):
+        raise Http404("Dostępne formaty: json, csv.")
     rows = list(_export_rows(request))
     if fmt == "json":
         return JsonResponse({"count": len(rows), "fields": EXPORT_FIELDS, "results": rows},
@@ -354,7 +356,7 @@ def export(request, fmt):
 
 def status(request):
     return JsonResponse({
-        "version": "0.1", "sources": Source.objects.filter(enabled=True).count(),
+        "version": settings.APP_VERSION, "sources": Source.objects.filter(enabled=True).count(),
         "articles": Article.objects.filter(status="fetched", duplicate_of__isnull=True).count(),
         "pending": Article.objects.filter(status="found").count(),
         "errors": Article.objects.filter(status="error").count(),

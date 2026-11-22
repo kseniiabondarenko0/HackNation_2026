@@ -23,6 +23,6 @@ class Command(BaseCommand):
         try:   # the whole batch is archived before the first deletion
             written = archive.append(old, f"Starsze niż okno ({cutoff():%d.%m.%Y})")
         except OSError as exc:
-            raise CommandError(f"Archiwum niezapisane, nic nie usunięto: {exc}")
+            raise CommandError(f"Archiwum niezapisane, nic nie usunięto: {exc}") from exc
         done = sum(reject_article(a, f"Starsze niż okno (publikacja {a.published_at:%d.%m.%Y}).") for a in old)
         self.stdout.write(f"Zarchiwizowano: {written}; usunięto z aktualnej bazy: {done}. Archiwum: {archive.path()}")

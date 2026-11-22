@@ -176,7 +176,7 @@ def parse_json(text):
     try:
         value = json.loads(text)
     except ValueError:
-        raise LLMError("bad_response", "niepoprawny JSON w odpowiedzi modelu")
+        raise LLMError("bad_response", "niepoprawny JSON w odpowiedzi modelu") from None
     if not isinstance(value, dict):
         raise LLMError("bad_response", "oczekiwano obiektu JSON")
     return value

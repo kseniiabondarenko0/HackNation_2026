@@ -17,7 +17,7 @@ class Command(BaseCommand):
         try:
             r = demo.load(o["file"], force=o["force"], dry=o["dry_run"])
         except demo.DemoError as exc:
-            raise CommandError(str(exc))
+            raise CommandError(str(exc)) from exc
         if r["refused"]:
             self.stdout.write(f"Baza zawiera już własne rekordy ({r['own_records']}): zestaw demo pominięty, nic nie zmieniono "
                               "(--force dodaje tylko brakujące pozycje demo).")
