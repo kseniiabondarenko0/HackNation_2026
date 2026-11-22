@@ -26,7 +26,7 @@ def _parse(response):
         cand = (data.get("candidates") or [{}])[0]
         text = "".join(p.get("text", "") for p in (cand.get("content") or {}).get("parts", []))
     except (ValueError, AttributeError, TypeError, IndexError):
-        raise LLMError("bad_response", "odpowiedź Gemini nie jest poprawnym JSON-em")
+        raise LLMError("bad_response", "odpowiedź Gemini nie jest poprawnym JSON-em") from None
     counts = {"in": usage.get("promptTokenCount") or 0,
               "out": (usage.get("candidatesTokenCount") or 0) + (usage.get("thoughtsTokenCount") or 0)}
     finish, problem = cand.get("finishReason"), None

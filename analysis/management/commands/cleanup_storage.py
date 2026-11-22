@@ -3,7 +3,6 @@ from django.db import connection
 from django.utils import timezone
 
 from analysis.retention import backup_db, cleanup, counts
-from analysis.tabs import WAITING
 from collection.models import Article
 
 
@@ -32,7 +31,7 @@ class Command(BaseCommand):
             try:
                 path = backup_db(force=True)
             except Exception as exc:
-                raise CommandError(f"Kopia zapasowa nieudana, nic nie usunięto: {exc}")
+                raise CommandError(f"Kopia zapasowa nieudana, nic nie usunięto: {exc}") from exc
             self.stdout.write(f"Kopia zapasowa: {path or 'brak (baza nie jest plikiem SQLite)'}")
         stats = cleanup(dry=not apply, before=restart if o["restart_queue_clock"] else None)
         self.stdout.write(("Wykonano: " if apply else "Próba (bez zmian): ") + str({k: v for k, v in stats.items() if v}))

@@ -19,7 +19,7 @@ from collection.extract import content_hash, extract_article
 from collection.models import Article, Rejected, Source
 from collection.netsafe import safe_get
 from collection.window import is_old, to_date
-from .core import norm, verify_quote
+from .core import norm
 from .models import Analysis
 from .service import _key
 
@@ -45,7 +45,7 @@ def read(path=DEMO_PATH):
     try:
         payload = json.loads(Path(path).read_text(encoding="utf-8"))
     except (OSError, ValueError) as exc:
-        raise DemoError(f"Nie można odczytać zestawu demo ({path}): {exc}")
+        raise DemoError(f"Nie można odczytać zestawu demo ({path}): {exc}") from exc
     if payload.get("format") != FORMAT or not isinstance(payload.get("items"), list) or not payload["items"]:
         raise DemoError("Zestaw demo ma nieznany format albo jest pusty.")
     seen = set()
@@ -60,7 +60,7 @@ def read(path=DEMO_PATH):
         try:
             date.fromisoformat(item["published_at"])
         except ValueError:
-            raise DemoError(f"{where}: zła data publikacji.")
+            raise DemoError(f"{where}: zła data publikacji.") from None
         if any(not item["source"].get(k) for k in ("name", "entry_url")):
             raise DemoError(f"{where}: źródło bez nazwy lub adresu.")
         analysis = item["analysis"]

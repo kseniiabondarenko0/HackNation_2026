@@ -110,7 +110,7 @@ class TabsAndPagesTests(TestCase):
     def test_effectiveness_page(self):
         r = self.client.get(reverse("effectiveness"))
         self.assertContains(r, "Aktualne materiały w bazie")
-        self.assertContains(r, "Test na oznaczonych przykładach")
+        self.assertContains(r, "Test filtra regułowego na oznaczonych przykładach")
         self.assertEqual(r.context["stored"], 3)
         kept = Analysis.objects.filter(verdict__in=("glowna", "weryfikacja")).count()
         self.assertEqual(r.context["waiting"], 3 - kept)

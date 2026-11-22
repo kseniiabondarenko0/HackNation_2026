@@ -40,7 +40,7 @@ def _parse(response):
         choice = (data.get("choices") or [{}])[0]
         text = (choice.get("message") or {}).get("content") or ""
     except (ValueError, AttributeError, TypeError, IndexError):
-        raise LLMError("bad_response", "odpowiedź Groq nie jest poprawnym JSON-em")
+        raise LLMError("bad_response", "odpowiedź Groq nie jest poprawnym JSON-em") from None
     counts = {"in": usage.get("prompt_tokens") or 0, "out": usage.get("completion_tokens") or 0}
     finish = choice.get("finish_reason")
     problem = LLMError("bad_response", f"finish_reason={finish}") if finish not in (None, "stop") else None

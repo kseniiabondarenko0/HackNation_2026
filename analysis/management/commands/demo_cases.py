@@ -41,7 +41,7 @@ class Command(BaseCommand):
                 an, _ = analyze_article(article, o["backend"], force=True)
             except LLMError as exc:
                 raise CommandError(f"Analiza AI niedostępna ({exc}). Ustaw GEMINI_API_KEY / GROQ_API_KEY "
-                                   "albo uruchom z --backend rules (tryb offline bez modelu).")
+                                   "albo uruchom z --backend rules (tryb offline bez modelu).") from exc
             d = an.data
             w("\n" + "=" * 78 + f"\nPRZYPADEK {label}: {article.title}  (karta: /a/{article.pk}/)\n" + "=" * 78)
             w("a) Wprowadzenie: zgłoszenie przez ten sam potok co formularz / kolektor.")

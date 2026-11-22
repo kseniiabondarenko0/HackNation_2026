@@ -8,7 +8,6 @@ import re
 from datetime import date
 
 from django.conf import settings
-from django.utils import timezone
 
 from collection.window import cutoff, to_date
 from . import llm, regions, rules

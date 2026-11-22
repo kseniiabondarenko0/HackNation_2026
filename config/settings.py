@@ -28,7 +28,7 @@ if not DEBUG and not TESTING:
         raise ImproperlyConfigured("Ustaw własny DJANGO_SECRET_KEY w .env (wymagany przy DJANGO_DEBUG=0).")
     if SECRET_KEY == "change-me":
         import warnings
-        warnings.warn("DJANGO_SECRET_KEY ma wartość przykładową 'change-me': zmień ją przed publicznym wdrożeniem.")
+        warnings.warn("DJANGO_SECRET_KEY ma wartość przykładową 'change-me': zmień ją przed publicznym wdrożeniem.", stacklevel=2)
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 INSTALLED_APPS = ["django.contrib.admin", "django.contrib.auth", "django.contrib.contenttypes",
     "django.contrib.sessions", "django.contrib.messages", "django.contrib.staticfiles", "collection", "analysis", "matching", "web"]
@@ -41,6 +41,7 @@ TEMPLATES = [{"BACKEND": "django.template.backends.django.DjangoTemplates", "DIR
     "django.contrib.auth.context_processors.auth", "django.contrib.messages.context_processors.messages"]}}]
 DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": os.environ.get("DB_PATH", BASE_DIR / "db.sqlite3"),
     "OPTIONS": {"timeout": 20, "init_command": "PRAGMA journal_mode=WAL;"}}}
+APP_VERSION = "mvp-hacknation-2026"
 LANGUAGE_CODE = "pl"
 TIME_ZONE = "Europe/Warsaw"
 USE_I18N = True

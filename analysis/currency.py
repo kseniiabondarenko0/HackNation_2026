@@ -3,7 +3,6 @@ time to time. A page that keeps failing sends the item back to 'Do weryfikacji';
 from datetime import timedelta
 
 from django.conf import settings
-from django.utils import timezone
 
 from .models import Analysis
 
