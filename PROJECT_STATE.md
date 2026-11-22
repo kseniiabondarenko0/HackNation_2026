@@ -10,7 +10,8 @@ Django 5.2 + SQLite (WAL), Docker (web na gunicorn + worker `collect_sources`). 
 - **Funkcje z zadania:** ścieżka (rozwój/transfer/komercjalizacja/wdrożenie) z „czego brakuje”, podobne rozwiązania (TF-IDF), linki do baz zewnętrznych (UPRP, EPO, PBN, PPM, PAN, Interreg), „Szukam rozwiązania” (dopasowanie), „Co dalej z tą innowacją”, `/porownaj/`, priorytet PCI i filtr województw, formularze zgłoszeń z RODO, eksport JSON/CSV, `demo_cases` (dwa przypadki a)–e)).
 - **Demo:** `analysis/data/demo_innovations.json` (rzeczywiste publikacje z oceną AI), `load_demo`/`export_demo`, znacznik „Demo · wstępna ocena AI”.
 - **Twardnienie:** `DJANGO_DEBUG=0` wymaga własnego `DJANGO_SECRET_KEY`; `/robots.txt`, `/favicon.ico`; `/health/`.
-- **Testy:** 239 offline (`python manage.py test tests --noinput`).
+- **Testy:** ponad 250 offline (`python manage.py test tests --noinput`).
+- **Wyszukiwanie w katalogu:** nie zależy od wielkości liter ani polskich znaków diakrytycznych (`analysis.search.fold`).
 
 ## Znane ograniczenia
 - Ocena AI to szacunek, nie werdykt; zbieranie obejmuje tylko skonfigurowane źródła, nie cały internet.

@@ -44,3 +44,8 @@
 - Domyślna kolejność katalogu: priorytet PCI, potem ocena AI, potem data publikacji (wcześniej: kolejność wykrycia, przy zestawie demo przypadkowa, więc na górze lądowały pozycje z oceną 65). Dawny parametr `sort=priorytet` działa jak domyślny; „Najnowsze” to jawne `sort=najnowsze` (data publikacji).
 - Na „Przeglądzie” sekcja „Ostatnio dodane” pokazuje najnowsze publikacje (po dacie publikacji), nie kolejność ładowania.
 - TRL nie jest uzupełniany ręcznie ani formułą: pochodzi wyłącznie z odpowiedzi modelu AI.
+
+## Porządki przed pokazem (2026-11-22)
+- Wyszukiwanie w katalogu ignoruje wielkość liter i polskie znaki (`analysis.search.fold`): SQLite `LIKE` zna tylko ASCII, więc „Łódź”, „łódź” i „lodz” dawały różne wyniki.
+- `.env.example` ma `DJANGO_DEBUG=0` (jak obraz Dockera); usunięte pozostałości Ollamy (`OLLAMA_*`, `extra_hosts`).
+- Usunięty wewnętrzny plan `docs/PLAN_V2.md` (po rosyjsku i nieaktualny: backendy Ollama, sklearn); zostaje w historii gita.
