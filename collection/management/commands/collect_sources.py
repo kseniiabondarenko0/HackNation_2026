@@ -29,6 +29,11 @@ class Command(BaseCommand):
                 pass  # command may be called from a test thread
         self.stdout.write("Kolektor uruchomiony; oczekiwanie na aktywne źródła.")
         try:
+            if settings.DEMO_MODE and not options["once"]:
+                self.stdout.write("Tryb pokazowy (DEMO_MODE=1): zbieranie i analiza AI w tle są wyłączone; "
+                                  "cały limit AI zostaje na zapytania z interfejsu. Usuń DEMO_MODE z .env, aby je włączyć.")
+                while True:
+                    time.sleep(3600)
             while True:
                 close_old_connections()
                 try:

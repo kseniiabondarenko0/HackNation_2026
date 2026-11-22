@@ -28,7 +28,15 @@ Na karcie innowacji kliknij **Sprawdź u nas** (`/a/<id>/sprawdz-u-nas/`), wybie
 
 Scenariusze są prywatne dla sesji przeglądarki (sam adres UUID nie wystarcza), przechowywane 7 dni i nie trafiają do publicznego eksportu. Nie wpisuj danych osobowych ani poufnych informacji: tekst formularza trafia do tego samego dostawcy AI co analiza artykułów. Nie ma nowego API ani płatnego narzędzia. Ten sam tekst i warunki używają cache, zmiana źródła wycofuje stary wynik. Obowiązuje wspólny dzienny budżet; kolejka automatyczna zostawia 10 zapytań na scenariusze i ręczne analizy, a sesja ma limit 8 nowych scenariuszy na godzinę. Przy braku klucza lub limitu formularz pozostaje wypełniony, a błędny wynik nie jest pokazywany jako sukces.
 
-## Szybki start z czystego klonu (bez Dockera)
+## Pokaz dla jury: start od razu, 1–2 zapytania AI
+
+Pokaz nie czeka na zbieranie ani analizę w tle. Ustaw w `.env` `DEMO_MODE=1` (kolektor zostaje uruchomiony, ale nic nie pobiera, nie czyści bazy i nie wywołuje AI; stopka i `/zrodla/` informują o tym, `/api/status/` zwraca `demo_mode`). Aplikacja startuje na zapisanym zestawie demonstracyjnym, a cały darmowy limit Gemini zostaje na zapytania z interfejsu.
+
+1. `docker compose up -d --build --wait` (albo `python manage.py runserver`, bez uruchamiania `collect_sources`).
+2. Wejdź w kartę innowacji i kliknij **Sprawdź u nas**; uruchom scenariusz A, potem **Zmień warunki i przelicz** (scenariusz B). To 2 zapytania AI, wynik jest zapisany i pokazywany od razu przy kolejnym otwarciu (bez nowego zapytania).
+3. Przed prezentacją warto raz wykonać oba scenariusze w tej samej przeglądarce, bo scenariusze są prywatne dla sesji przeglądarki i przechowywane 7 dni.
+4. Zbieranie w tle włącza usunięcie `DEMO_MODE` z `.env` i `docker compose up -d`. Ręczne `collect_sources --once` działa także w trybie pokazowym.
+
 
 ```bash
 python -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
@@ -89,9 +97,9 @@ Aby zatrzymać: `docker compose stop`. Aby wrócić: `docker compose up -d`. Kom
 
 Na świeżej bazie strona jest pusta, dopóki kolektor nie pobierze publikacji, a Gemini (darmowy limit) ich nie oceni. Żeby pokaz nie zależał od tego czasu, repozytorium zawiera `analysis/data/demo_innovations.json`: 20–30 **rzeczywistych** publikacji, które system już uznał za interesujące (tytuł, instytucja, data, link, źródło, ocena AI i jej uzasadnienie, krótki fragment tekstu i zweryfikowane cytaty). Nic nie jest wymyślone; plik nie zawiera kluczy API, nazwisk autorów ani danych kontaktowych.
 
-- `python manage.py load_demo` (Docker uruchamia je automatycznie po `seed_sources`): wstawia brakujące pozycje; powtórne uruchomienie nie tworzy duplikatów. Nigdy nie nadpisuje ani nie usuwa istniejących rekordów; jeśli baza ma już własne dane, nic nie robi (`--force` dodaje tylko brakujące pozycje demo). Nie przywraca publikacji usuniętych wcześniej ani starszych niż 8 mies. `--dry-run` pokazuje, co by dodał.
+- `python manage.py load_demo` (Docker uruchamia je automatycznie po `seed_sources`): wstawia brakujące pozycje; powtórne uruchomienie nie tworzy duplikatów. Nigdy nie nadpisuje ani nie usuwa istniejących rekordów; jeśli baza ma już własne dane, nic nie robi (`--force` dodaje tylko brakujące pozycje demo). Nie przywraca publikacji usuniętych wcześniej ani (gdy ustawiono opcjonalne `WINDOW_MONTHS`) starszych niż okno wieku. `--dry-run` pokazuje, co by dodał.
 - Pozycje mają znacznik „Demo · wstępna ocena AI”; w karcie i na liście jest informacja, że oceny AI są **wstępne** (szacunek systemu, nie decyzja człowieka), a pełny tekst jest pod linkiem źródłowym.
-- Zbieranie i analiza AI działają niezależnie: pozycje demo to zwykłe rekordy z gotową analizą AI (nie są analizowane ponownie, tryb bez AI ich nie degraduje), nowe materiały pojawiają się obok, a po 8 miesiącach demo wygasa jak każda publikacja.
+- Zbieranie i analiza AI działają niezależnie: pozycje demo to zwykłe rekordy z gotową analizą AI (nie są analizowane ponownie, tryb bez AI ich nie degraduje), nowe materiały pojawiają się obok, wiek publikacji nie powoduje odrzucenia (chyba że ustawiono opcjonalne `WINDOW_MONTHS`), a aktualność sprawdza kontrola strony źródłowej.
 - Odświeżenie zestawu na działającej bazie: `python manage.py export_demo` (bierze najlepsze potwierdzone publikacje, sprawdza, czy linki działają, odmawia zapisu, gdy w danych jest e-mail, telefon lub klucz API).
 
 ## Mechanizmy i ograniczenia

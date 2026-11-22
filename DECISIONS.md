@@ -61,3 +61,12 @@
 - Wersja w `/health/` i `/api/status/` pochodzi z jednego miejsca (`settings.APP_VERSION`).
 - Karta „Najnowsze” na Przeglądzie pokazuje datę publikacji; „Wykryto” tylko, gdy publikacja nie ma daty (data wykrycia pozycji demo to dzień załadowania do bazy).
 - Porządki w kodzie: nieużywane importy, `raise ... from ...` w obsłudze błędów, `stacklevel` przy ostrzeżeniu o kluczu.
+
+## „Sprawdź u nas” i pokaz (2026-11-22)
+- Scenariusz transferu używa tego samego adaptera Gemini → Groq i wspólnego dziennego budżetu; kolejka w tle zostawia `SCENARIO_RESERVE` (10) zapytań na interakcje. Zapytania interaktywne mają własne limity: timeout 25 s, jedna ponowna próba, 2500 tokenów odpowiedzi (`transfer.INTERACTIVE`), żeby użytkownik nie czekał minutami.
+- Walidacja odpowiedzi jest tolerancyjna, ale uczciwa: czwarty i kolejne elementy list są obcinane do trzech, cytaty niewystępujące w zapisanym tekście są odrzucane (liczba odrzuconych jest pokazana, ich treść nie), a wynik bez ani jednego potwierdzonego cytatu nie jest zapisywany jako sukces. Nie ma gotowych odpowiedzi „na pokaz” ani cichego przejścia na wyliczenia bez AI: błąd pokazuje komunikat i zachowuje formularz.
+- Porównanie po zmianie warunków (`transfer.compare`) jest deterministyczne i opiera się na tekstach dwóch zapisanych odpowiedzi (podobieństwo rdzeni słów), a nie na kolejnym zapytaniu AI. Dlatego tę samą uwagę ujętą innymi słowami może pokazać jako zmianę; interfejs mówi to wprost. Porównanie jest prywatne dla sesji i dotyczy tej samej publikacji.
+- `VERSION` scenariusza pozostaje `transfer-1`: jej zmiana uznałaby zapisane wyniki za nieaktualne względem źródła.
+- Tryb pokazowy `DEMO_MODE=1`: kolektor w tle nic nie pobiera, nie czyści bazy i nie wywołuje AI; aplikacja startuje od razu na zapisanym zestawie, a cały darmowy limit zostaje na 1–2 zapytania z interfejsu. Tryb jest jawnie oznaczony w stopce, na `/zrodla/` i w `/api/status/`. Domyślnie wyłączony (`DEMO_MODE=0`), ręczne `collect_sources --once` działa także w trybie pokazowym.
+- Okno wieku publikacji pozostaje wyłączone (`WINDOW_MONTHS=0`) zgodnie z oficjalnym FAQ; jeśli zespół zdecyduje inaczej, wystarczy `WINDOW_MONTHS=8` w `.env` (starsze pozycje trafiają wtedy najpierw do archiwum).
+- Pliki statyczne: `WHITENOISE_USE_FINDERS=True`, żeby szybki start bez Dockera (`DJANGO_DEBUG=0` z `.env.example`) miał style bez ręcznego `collectstatic`. Dockerfile nadal go wykonuje; kompresja i hashowanie nazw nie są używane.

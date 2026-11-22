@@ -227,3 +227,155 @@ class TransferTests(TestCase):
         (new, cached), _ = self.generate()
         self.assertFalse(cached)
         self.assertNotEqual(new.pk, old.pk)
+
+
+B_PROFILE = {**PROFILE, "resources": "Brak wykonawcy i administratora IT."}
+B_REPORT = {**REPORT, "verdict": "mismatch",
+            "blockers": ["Brak administratora może utrudnić utrzymanie systemu.", "Brak wykonawcy uniemożliwia wdrożenie rozwiązania w szkole."],
+            "steps": ["Najpierw ustal, kto mógłby wykonać próbę.", "Omów warunki i bezpieczeństwo danych z autorem."]}
+
+
+@override_settings(GEMINI=GEM, GROQ=GRQ_OFF)
+class TransferResilienceTests(TestCase):
+    """Answers that are slightly off must not waste a call; nothing unverifiable is ever shown as a fact."""
+
+    def setUp(self):
+        self.a = mk_article(text=("Opis metody oceny prac uczniowskich. " * 6) + QUOTE)
+        self.url = reverse("transfer", args=[self.a.pk])
+
+    def generate(self, report, profile=None, owner="one"):
+        net = Net([g_reply(deepcopy(report))])
+        with mock.patch("analysis.llmbase.httpx.post", side_effect=net):
+            return transfer.generate(self.a, profile or PROFILE, owner)[0], net
+
+    def test_interactive_limits_reach_the_request(self):
+        _, net = self.generate(REPORT)
+        sent = net.calls[0][1]
+        self.assertEqual(sent["json"]["generationConfig"]["maxOutputTokens"], transfer.INTERACTIVE["MAX_OUTPUT_TOKENS"])
+        self.assertEqual(sent["timeout"], transfer.INTERACTIVE["TIMEOUT_S"])
+        self.assertLess(transfer.INTERACTIVE["TIMEOUT_S"], GEM["TIMEOUT_S"])
+
+    def test_a_fourth_item_is_trimmed_instead_of_rejecting_the_whole_answer(self):
+        long = {**REPORT, "blockers": [f"Bariera numer {i} wymaga potwierdzenia." for i in range(1, 5)]}
+        report, _ = self.generate(long)
+        self.assertEqual(report.status, "ready")
+        self.assertEqual(report.data["ai"]["blockers"], long["blockers"][:3])
+
+    def test_unverifiable_quote_is_dropped_and_counted_when_another_one_is_real(self):
+        report, _ = self.generate({**REPORT, "evidence": [QUOTE, "Tego zdania model nie znalazł w żadnym tekście źródłowym."]})
+        self.assertEqual(report.data["verified"], {"quotes": [QUOTE], "dropped": 1})
+        page = self.client.get(reverse("transfer_result", args=[report.pk]))
+        self.assertEqual(page.status_code, 404)       # another browser session: no access
+        with mock.patch("analysis.llmbase.httpx.post", side_effect=Net([g_reply(REPORT)])):
+            posted = self.client.post(self.url, PROFILE)
+        self.assertEqual(posted.status_code, 302)
+
+    def test_dropped_quotes_are_reported_on_the_page_and_never_quoted(self):
+        bad = "Tego zdania model nie znalazł w żadnym tekście źródłowym."
+        with mock.patch("analysis.llmbase.httpx.post", side_effect=Net([g_reply({**REPORT, "evidence": [QUOTE, bad]})])):
+            page = self.client.get(self.client.post(self.url, PROFILE)["Location"])
+        self.assertContains(page, "Pominięte cytaty, których nie znaleziono w tekście źródła: 1")
+        self.assertNotContains(page, bad)
+
+    def test_an_empty_list_is_still_a_bad_answer(self):
+        with self.assertRaises(LLMError):
+            self.generate({**REPORT, "blockers": ["   "]})
+        self.assertFalse(TransferScenario.objects.filter(status="ready").exists())
+
+    def test_one_word_answers_are_accepted_by_the_form(self):
+        form = TransferForm({**PROFILE, "resources": "Brak", "constraints": "Brak"})
+        self.assertTrue(form.is_valid(), form.errors)
+
+    def test_provider_errors_get_specific_polish_messages_and_keep_the_form(self):
+        cases = {401: "odrzucił klucz API", 500: "Nie udało się połączyć z dostawcą AI"}
+        for status, expected in cases.items():
+            with self.subTest(status=status):
+                TransferScenario.objects.all().delete()
+                LLMState.objects.all().delete()
+                with mock.patch("analysis.llmbase.httpx.post", return_value=err(status)):
+                    response = self.client.post(self.url, PROFILE)
+                self.assertContains(response, expected)
+                self.assertContains(response, PROFILE["constraints"])
+        TransferScenario.objects.all().delete()
+        LLMState.objects.all().delete()
+        with mock.patch("analysis.llmbase.httpx.post", return_value=err(429, "Quota exceeded", **{"retry-after": "30"})):
+            self.assertContains(self.client.post(self.url, PROFILE), "darmowym limicie")
+
+
+@override_settings(GEMINI=GEM, GROQ=GRQ_OFF)
+class TransferComparisonTests(TestCase):
+    """Changing one condition and recalculating shows what moved, without another AI call."""
+
+    def setUp(self):
+        self.a = mk_article(text=("Opis metody oceny prac uczniowskich. " * 6) + QUOTE)
+        self.url = reverse("transfer", args=[self.a.pk])
+
+    def post(self, profile, report, url=None):
+        with mock.patch("analysis.llmbase.httpx.post", side_effect=Net([g_reply(deepcopy(report))])):
+            return self.client.post(url or self.url, profile)
+
+    def run_a_then_b(self):
+        first = self.post(PROFILE, REPORT)
+        a = TransferScenario.objects.get()
+        second = self.post(B_PROFILE, B_REPORT, self.url + "?from=" + str(a.pk))
+        return a, TransferScenario.objects.exclude(pk=a.pk).get(), first, second
+
+    def test_second_scenario_redirects_with_its_basis_and_lists_the_new_barrier(self):
+        a, b, first, second = self.run_a_then_b()
+        self.assertNotIn("vs=", first["Location"])
+        self.assertTrue(second["Location"].endswith("?vs=" + str(a.pk)))
+        with mock.patch("analysis.llmbase.httpx.post") as post:
+            page = self.client.get(second["Location"])
+        post.assert_not_called()
+        self.assertContains(page, "Co się zmieniło po zmianie warunków")
+        self.assertContains(page, "To porównanie tekstów, a nie nowa analiza")
+        comparison = page.context["comparison"]
+        self.assertEqual([c["label"] for c in comparison["changed"]], ["Zasoby"])
+        blockers = next(s for s in comparison["sections"] if s["key"] == "blockers")
+        self.assertEqual(blockers["added"], ["Brak wykonawcy uniemożliwia wdrożenie rozwiązania w szkole."])
+        self.assertEqual((blockers["removed"], blockers["kept"]), ([], 1))
+        self.assertTrue(comparison["verdict_changed"])
+        self.assertContains(page, "Obecne warunki nie pasują")
+        # unanswered questions of the author stay visible in the normal result
+        self.assertContains(page, B_REPORT["questions"][0])
+
+    def test_unchanged_barrier_with_other_wording_is_not_reported_as_new(self):
+        reworded = {**B_REPORT, "blockers": ["Brak administratora IT może utrudnić utrzymanie systemu w szkole.", *B_REPORT["blockers"][1:]]}
+        a, b, _, second = self.run_a_then_b()
+        TransferScenario.objects.filter(pk=b.pk).update(data={**b.data, "ai": {**b.data["ai"], "blockers": reworded["blockers"]}})
+        b.refresh_from_db()
+        blockers = next(s for s in transfer.compare(a, b)["sections"] if s["key"] == "blockers")
+        self.assertEqual(blockers["added"], ["Brak wykonawcy uniemożliwia wdrożenie rozwiązania w szkole."])
+        self.assertEqual(blockers["kept"], 1)
+
+    def test_comparison_is_private_and_ignores_unusable_vs(self):
+        a, b, _, second = self.run_a_then_b()
+        base = reverse("transfer_result", args=[b.pk])
+        for vs in ("not-a-uuid", "", str(b.pk), "00000000-0000-0000-0000-000000000000"):
+            with self.subTest(vs=vs):
+                page = self.client.get(base + "?vs=" + vs)
+                self.assertEqual(page.status_code, 200)
+                self.assertIsNone(page.context["comparison"])
+        # a scenario of another browser session is never compared
+        TransferScenario.objects.filter(pk=a.pk).update(owner="somebody-else")
+        self.assertIsNone(self.client.get(base + "?vs=" + str(a.pk)).context["comparison"])
+
+    def test_link_to_compare_with_the_previous_scenario_is_offered_without_vs(self):
+        a, b, _, _ = self.run_a_then_b()
+        page = self.client.get(reverse("transfer_result", args=[b.pk]))
+        self.assertContains(page, "Porównaj z poprzednim scenariuszem")
+        self.assertContains(page, "?vs=" + str(a.pk))
+        self.assertNotContains(self.client.get(reverse("transfer_result", args=[a.pk])), "Porównaj z poprzednim")
+
+    def test_changed_source_withdraws_the_comparison_too(self):
+        a, b, _, second = self.run_a_then_b()
+        Article.objects.filter(pk=self.a.pk).update(text="Całkowicie zmieniona publikacja. " * 8)
+        page = self.client.get(second["Location"])
+        self.assertContains(page, "Źródło zmieniło się")
+        self.assertNotContains(page, "Co się zmieniło po zmianie warunków")
+        self.assertNotContains(page, B_REPORT["blockers"][1])
+
+
+from analysis.models import LLMState  # noqa: E402
+from tests.test_ai import err  # noqa: E402
+from web.forms import TransferForm  # noqa: E402
