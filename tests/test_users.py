@@ -1,6 +1,7 @@
 """Schools, private persons and private firms use the site too (curators' remark)."""
 from django.contrib.auth.models import User
-from django.test import TestCase
+from django.conf import settings
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from analysis.examples import EXAMPLES
 from collection.models import Article, Submission
@@ -11,6 +12,7 @@ def ex(i):
     return next(e for e in EXAMPLES if e["id"] == i)
 
 
+@override_settings(ANALYSIS={**settings.ANALYSIS, "BACKEND": "rules"})
 class SubmissionTests(TestCase):
     def post(self, **extra):
         e = ex("szkola-matematyka")

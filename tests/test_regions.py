@@ -1,5 +1,6 @@
 """Voivodeship filter: any of the 16 voivodeships can be chosen (curators: any voivodeship may be used)."""
-from django.test import TestCase
+from django.conf import settings
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from analysis.examples import EXAMPLES
 from analysis.models import Analysis
@@ -35,6 +36,7 @@ class DetectTests(TestCase):
         self.assertEqual(resolve("Nic.")["code"], "")
 
 
+@override_settings(ANALYSIS={**settings.ANALYSIS, "BACKEND": "rules"})
 class RegionFilterTests(TestCase):
     def setUp(self):
         warsaw = Source.objects.create(name="PW", entry_url="https://pw.example/n/", region="mazowieckie")

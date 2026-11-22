@@ -3,11 +3,12 @@
 Case A: a technological innovation from a university. Case B: an organisational innovation from local government.
 Both go through the same pipeline as the 'Zgłoś innowację' form, so they also appear in the web interface.
 """
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 from django.utils import timezone
 from analysis.evaluation import evaluate
 from analysis.examples import EXAMPLES
 from analysis.external import external_search
+from analysis.llmbase import LLMError
 from analysis.service import analyze_article
 from collection.extract import content_hash
 from collection.models import Article, Source
@@ -23,6 +24,10 @@ SUBMIT_SOURCE = {"entry_url": "https://radar.local/zgloszenia/",
 class Command(BaseCommand):
     help = "Scenariusz demonstracyjny a)–e) na dwóch przypadkach użycia (dodaje je też do bazy jako zgłoszenia)."
 
+    def add_arguments(self, parser):
+        parser.add_argument("--backend", choices=("ai", "rules"), default=None,
+                            help="domyślnie jak w ustawieniach (ai); rules = tryb offline bez modelu, tylko do pokazu lokalnego")
+
     def handle(self, *args, **o):
         source, _ = Source.objects.get_or_create(**SUBMIT_SOURCE)
         w = self.stdout.write
@@ -32,7 +37,11 @@ class Command(BaseCommand):
             article = Article.objects.filter(content_hash=digest).first() or Article.objects.create(
                 source=source, original_url=f"https://radar.local/zgloszenie/{digest[:24]}", title=ex["title"],
                 text=ex["text"], content_hash=digest, status="fetched", fetched_at=timezone.now())
-            an, _ = analyze_article(article, force=True)
+            try:
+                an, _ = analyze_article(article, o["backend"], force=True)
+            except LLMError as exc:
+                raise CommandError(f"Analiza AI niedostępna ({exc}). Ustaw GEMINI_API_KEY / GROQ_API_KEY "
+                                   "albo uruchom z --backend rules (tryb offline bez modelu).")
             d = an.data
             w("\n" + "=" * 78 + f"\nPRZYPADEK {label}: {article.title}  (karta: /a/{article.pk}/)\n" + "=" * 78)
             w("a) Wprowadzenie: zgłoszenie przez ten sam potok co formularz / kolektor.")

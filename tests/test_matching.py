@@ -1,4 +1,5 @@
-from django.test import TestCase
+from django.conf import settings
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from analysis.service import analyze_article
 from collection.extract import content_hash
@@ -45,6 +46,7 @@ class SimilarTests(Base):
         self.assertEqual(similar(dup), [])
 
 
+@override_settings(ANALYSIS={**settings.ANALYSIS, "BACKEND": "rules"})
 class RecipientTests(Base):
     def test_seeded_profiles_exist(self):
         self.assertGreaterEqual(Recipient.objects.filter(active=True).count(), 8)
@@ -82,6 +84,7 @@ class RecipientTests(Base):
         self.assertTrue(match_recipients(a, None))
 
 
+@override_settings(ANALYSIS={**settings.ANALYSIS, "BACKEND": "rules"})
 class PageTests(Base):
     def test_detail_shows_rubric_path_similar_and_recipients(self):
         a = self.art("Beton z odpadów PET", CONCRETE)

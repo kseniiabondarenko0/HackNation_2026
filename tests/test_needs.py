@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
-from django.test import TestCase
+from django.conf import settings
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from analysis.examples import EXAMPLES
 from analysis.service import analyze_pending
@@ -13,6 +14,7 @@ def ex(i):
     return next(e for e in EXAMPLES if e["id"] == i)
 
 
+@override_settings(ANALYSIS={**settings.ANALYSIS, "BACKEND": "rules"})
 class NeedsTests(TestCase):
     def setUp(self):
         src = Source.objects.create(name="T", entry_url="https://example.org/n/")
