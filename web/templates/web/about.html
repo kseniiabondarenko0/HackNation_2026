@@ -22,7 +22,7 @@
 <li>Ścieżka (rozwój, transfer, komercjalizacja, wdrożenie) wybierana jest jawnymi regułami, z uzasadnieniem i listą braków.</li>
 <li>Podobne rozwiązania: podobieństwo słownictwa TF-IDF wewnątrz lokalnej bazy, z listą wspólnych słów.</li>
 <li>Odbiorcy: punktacja za zgodny sektor, wspólne słowa kluczowe, ścieżkę i etap, z wyjaśnieniem każdego punktu.</li>
-<li>Aktywny moduł analizy: <code>{{ backend }}</code>. Tryb „rules” działa bez modelu językowego; wynik jest zapisywany i powtarzalny.</li></ul></section>
+<li>Aktywny moduł analizy: <code>{{ backend }}</code>. Bez klucza AI nowe publikacje czekają w ograniczonej kolejce „Do weryfikacji” i nie są oceniane zastępczą formułą. Tryb „rules” (bez modelu językowego) włącza się wyłącznie jawnie, tylko do pracy offline.</li></ul></section>
 
 <section class="card"><h2>Założenia</h2>
 <ul><li>Innowacje, także „ukryte”, zostawiają ślad w publicznych komunikatach uczelni, szkół, samorządów i agencji.</li>
@@ -46,7 +46,7 @@
 
 <section class="card"><h2>Skalowalność i integracja</h2>
 <ul><li>Nowe źródła dodaje się w panelu zarządzania, bez zmiany kodu; harmonogram i blokady przebiegów są per źródło.</li>
-<li>Moduł analizy działa za adapterem: dziś reguły, kolejne backendy (np. lokalny model) dodaje się bez zmiany reszty systemu; wyniki są buforowane według treści i wersji.</li>
+<li>Moduł analizy działa za adapterem: dziś Gemini z awaryjnym Groq (darmowe plany), kolejne backendy (np. lokalny model) dodaje się bez zmiany reszty systemu; wyniki są buforowane według treści i wersji.</li>
 <li>Dane dostępne do integracji: <code>/api/innowacje.json</code> i <code>/api/innowacje.csv</code> (parametr <code>widok</code> jak w radarze, np. <code>?widok=glowna</code>), <code>/api/szukaj/?q=…</code>, <code>/api/status/</code>. Eksport nie zawiera danych osobowych.</li>
 <li>Instytucje szukające rozwiązań zgłaszają potrzeby (<a href="{% url 'needs' %}">Szukam rozwiązania</a>); radar sam dopasowuje do nich innowacje.</li>
 <li>Obecnie SQLite (WAL) i jeden kolektor; przy większej skali: PostgreSQL, kolejka zadań i kilka kolektorów.</li></ul></section>

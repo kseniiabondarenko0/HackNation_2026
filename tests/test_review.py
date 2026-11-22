@@ -1,6 +1,7 @@
 """Expert review of publications, the 'Skuteczność' page and PCI priority."""
 from django.contrib.auth.models import User
-from django.test import TestCase
+from django.conf import settings
+from django.test import TestCase, override_settings
 from django.urls import NoReverseMatch, reverse
 from analysis.core import finalize, priority
 from analysis.models import Analysis
@@ -31,6 +32,7 @@ class PriorityTests(TestCase):
         self.assertTrue(any("podkarpackie" in r for r in d["priority_reasons"]))
 
 
+@override_settings(ANALYSIS={**settings.ANALYSIS, "BACKEND": "rules"})
 class TabsAndPagesTests(TestCase):
     """Automatic assessment only: no expert login/decision UI, three lists with counters equal to the lists."""
     def setUp(self):
@@ -112,6 +114,7 @@ class NonTechnologicalInnovationTests(TestCase):
         self.assertEqual(evaluate()["errors"], [])
 
 
+@override_settings(ANALYSIS={**settings.ANALYSIS, "BACKEND": "rules"})
 class HandlingTests(TestCase):
     """Task, section 9: what happens with an innovation after it has been identified."""
 

@@ -85,9 +85,10 @@ LLM = {
 }
 # Articles older than the window leave the current base; their full record is first appended to this archive.
 ARCHIVE_DIR = Path(os.environ.get("ARCHIVE_DIR", BASE_DIR / "archive"))
-# Analysis: backend registry lives in analysis/service.py. "ai" is the default when any AI key is configured.
-# "rules" (keyword signals, no LLM) is only the offline development mode; it is never a runtime fallback.
-ANALYSIS = {"BACKEND": os.environ.get("ANALYSIS_BACKEND") or ("ai" if GEMINI["API_KEY"] or GROQ["API_KEY"] else "rules"),
+# Analysis: backend registry lives in analysis/service.py. "ai" is ALWAYS the default: without a key the articles wait in
+# the bounded queue (see _analyze_pending_ai). "rules" (keyword signals, no LLM) runs only when ANALYSIS_BACKEND=rules is
+# set explicitly (offline development); it is never a default and never a fallback.
+ANALYSIS = {"BACKEND": os.environ.get("ANALYSIS_BACKEND") or "ai",
             "WINDOW_MONTHS": int(os.environ.get("WINDOW_MONTHS", "0")),  # 0 = no age limit (FAQ); N > 0 = only the last N months
             "WEIGHTS": {"problem": 1, "dowody": 2, "wyniki": 2, "przenosnosc": 1, "gotowosc": 1},
             # Voivodeship that gets the +1 priority bonus (ordering only); "" = none. Any of analysis.regions.CODES.

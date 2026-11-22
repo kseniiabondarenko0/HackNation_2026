@@ -332,6 +332,24 @@ class AnalysisTests(TempArchive, TestCase):
         self.assertEqual((counts["opublikowano"], counts["odrzucono"], counts["znaleziono"]), (1, 2, 0))
 
 
+class NoKeysDefaultTests(SimpleTestCase):
+    """A fresh clone without keys must not silently fall back to the rule formula (README: articles wait in the queue)."""
+
+    def backend_without_keys(self, **extra):
+        import os, subprocess, sys
+        env = {k: v for k, v in os.environ.items() if k not in ("GEMINI_API_KEY", "GROQ_API_KEY", "ANALYSIS_BACKEND")}
+        env.update(extra)
+        code = "from config import settings; print(settings.ANALYSIS['BACKEND'])"
+        out = subprocess.run([sys.executable, "-c", code], cwd=settings.BASE_DIR, env=env, capture_output=True, text=True)
+        return out.stdout.strip().splitlines()[-1]
+
+    def test_default_is_ai_without_keys(self):
+        self.assertEqual(self.backend_without_keys(), "ai")
+
+    def test_rules_only_when_set_explicitly(self):
+        self.assertEqual(self.backend_without_keys(ANALYSIS_BACKEND="rules"), "rules")
+
+
 @override_settings(GEMINI=GEM, GROQ=GRQ_ON)
 class FallbackTests(TempArchive, TestCase):
     def run_pending(self, gemini=(), groq=(), **kw):
