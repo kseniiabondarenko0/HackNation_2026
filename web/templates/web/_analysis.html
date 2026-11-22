@@ -9,5 +9,5 @@
 {% if not d.ai %}<div><h3>Sygnały innowacyjności</h3><p style="margin-top:8px"><strong>{{ d.signal_label|capfirst }}</strong>{% if d.signal_terms %}<br><span class="muted">{{ d.signal_terms|join:", " }}</span>{% endif %}</p></div>{% endif %}
 {% if d.lead %}<p><em>{{ d.lead }}</em></p>{% endif %}
 <div><h3>Sugerowana ścieżka</h3>{% if d.path %}<p style="margin:8px 0"><span class="badge b-warn">{{ d.path.label }}</span></p><ul class="clean">{% for r in d.path.reasons %}<li>{% icon "check" %}<span>{{ r }}</span></li>{% endfor %}</ul>{% if d.path.missing %}<p class="muted" style="margin:10px 0 6px">Czego brakuje:</p><ul class="clean">{% for m in d.path.missing %}<li>{% icon "minus" %}<span class="muted">{{ m }}</span></li>{% endfor %}</ul>{% endif %}{% else %}<p class="muted" style="margin-top:8px">Za mało danych, aby zasugerować ścieżkę (brak rozpoznanego etapu rozwoju).</p>{% endif %}</div>
-{% else %}<div class="note">{% icon "alert" %}<span><strong>Analiza nie została jeszcze wykonana.</strong> Uruchamia ją kolektor lub polecenie <code>manage.py analyze</code>.</span></div>{% endif %}
+{% else %}<div class="note">{% icon "alert" %}<span><strong>Analiza nie została jeszcze wykonana.</strong> Pozycja czeka w kolejce; analiza AI uruchamia się automatycznie, gdy dostępny jest klucz AI i limit.</span></div>{% endif %}
 </div>

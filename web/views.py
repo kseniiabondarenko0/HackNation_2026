@@ -13,7 +13,7 @@ from analysis import demo
 from analysis.external import external_search
 from analysis.regions import CODES as REGIONS, NATIONAL
 from analysis.models import Analysis
-from analysis.search import search
+from analysis.search import matching_pks, search
 from analysis.llmbase import LLMError
 from analysis.service import analyze_article
 from collection.extract import content_hash, extract_article
@@ -88,7 +88,7 @@ def radar(request):
         qs = qs.filter(source_id=selected)
     query = request.GET.get("q", "")[:200].strip()
     if query:
-        qs = qs.filter(Q(text__icontains=query) | Q(title__icontains=query))
+        qs = qs.filter(pk__in=matching_pks(qs, query))
     # Three lists (analysis.tabs): Interesujące (AI-confirmed), Do weryfikacji (temporary queue), Wszystkie (checked).
     # Every filter is applied BEFORE the counters, so a counter always equals what its tab would list.
     view = request.GET.get("widok", "glowna")

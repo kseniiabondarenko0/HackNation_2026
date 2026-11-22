@@ -112,7 +112,7 @@ python manage.py runserver
 python manage.py collect_sources
 ```
 
-Przy lokalnym uruchomieniu plik `.env` nie jest automatycznie wczytywany przez Django: zmienne ustaw w środowisku terminala. Baza domyślnie powstaje w katalogu projektu. Docker jest zalecaną, sprawdzaną ścieżką uruchomienia.
+Plik `.env` w katalogu projektu jest wczytywany automatycznie (`config/settings.py`); zmienne środowiska ustawione w terminalu mają pierwszeństwo. Baza domyślnie powstaje w katalogu projektu. Docker jest zalecaną, sprawdzaną ścieżką uruchomienia.
 
 ## Rejestr i automatyczne wyszukiwanie źródeł
 

@@ -1,10 +1,28 @@
 """Local relevance search over stored articles (TF-IDF-like, no external services)."""
 import math
 import re
+import unicodedata
 from collections import Counter
 from collection.models import Article
 
 TOKEN = re.compile(r"\w+")
+
+
+def fold(text):
+    """Lower-case, without diacritics ("Łódź" -> "lodz", "ŻYWNOŚĆ" -> "zywnosc"): the same word matches however it was typed."""
+    text = (text or "").casefold().replace("ł", "l")
+    return "".join(c for c in unicodedata.normalize("NFKD", text) if not unicodedata.combining(c))
+
+
+def matching_pks(qs, query):
+    """pks of the articles whose title or text contains the query (folded, so Polish letters and case never matter).
+
+    SQLite LIKE ignores case only for ASCII, so the comparison is done here; the set is bounded by the retention policy."""
+    needle = fold(query).strip()
+    if not needle:
+        return None
+    return [pk for pk, title, text in qs.values_list("pk", "title", "text").iterator()
+            if needle in fold(title) or needle in fold(text)]
 
 
 def tokens(text):
