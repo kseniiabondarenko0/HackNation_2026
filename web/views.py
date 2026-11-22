@@ -74,7 +74,7 @@ def overview(request):
             .annotate(n=Count("pk")).order_by("-n") if r["analysis__sector"]][:6]
     top = rows[0]["n"] if rows else 1
     return render(request, "web/overview.html", {
-        "latest": list(main.order_by("-first_seen_at", "-pk")[:3]), "total": total, "scored": scored,
+        "latest": list(main.order_by(F("published_at").desc(nulls_last=True), "-first_seen_at", "-pk")[:3]), "total": total, "scored": scored,
         "high": high, "mid_low": scored - high, "unscored": total - scored,
         "queue": Article.objects.filter(status="fetched", duplicate_of__isnull=True).filter(WAITING).count(),
         "demo_count": demo.loaded_count(),
@@ -118,10 +118,12 @@ def radar(request):
     tabs = [(k, label, qs.filter(tab_q(k)).count()) for k, label in TABS.items()]
     qs = qs.filter(tab_q(view))
     if sort == "potencjal":
-        qs = qs.order_by(F("analysis__potential").desc(nulls_last=True), "-first_seen_at")
-    elif sort == "priorytet":
-        qs = qs.order_by(F("analysis__priority").desc(nulls_last=True),
-                         F("analysis__potential").desc(nulls_last=True), "-first_seen_at")
+        qs = qs.order_by(F("analysis__potential").desc(nulls_last=True), "-first_seen_at", "-pk")
+    elif sort == "najnowsze":
+        qs = qs.order_by(F("published_at").desc(nulls_last=True), "-first_seen_at", "-pk")
+    else:    # default: PCI priority first, then the AI score (the best items open the list), then the newest
+        qs = qs.order_by(F("analysis__priority").desc(nulls_last=True), F("analysis__potential").desc(nulls_last=True),
+                         F("published_at").desc(nulls_last=True), "-pk")
     page = Paginator(qs, CATALOG_PAGE).get_page(request.GET.get("page"))
     has_demo = any(((getattr(a, "analysis", None) and a.analysis.data) or {}).get("demo") for a in page)
     params = request.GET.copy()

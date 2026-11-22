@@ -48,6 +48,27 @@ class TabsAndPagesTests(TestCase):
         r = self.client.get(reverse("radar"), {"sort": "priorytet", "widok": "wszystkie"})
         self.assertEqual(r.context["articles"][0].title, "Dron")
 
+    def test_default_catalog_opens_with_priority_then_score_and_newest_is_explicit(self):
+        from datetime import timedelta
+        from django.utils import timezone
+        Article.objects.all().delete()
+        src = Source.objects.get()
+        now = timezone.now()
+        spec = [("Nowy słaby", 0, 60, 1), ("Stary mocny", 0, 90, 20), ("Priorytet", 3, 70, 10), ("Średni", 0, 75, 5)]
+        for i, (title, prio, score, days) in enumerate(spec):
+            a = Article.objects.create(source=src, original_url=f"https://example.org/o/{i}", title=title, text=title * 50,
+                                       content_hash=content_hash(title), status="fetched",
+                                       published_at=now - timedelta(days=days))
+            Analysis.objects.create(article=a, input_key="k", backend="ai", data={}, potential=score, priority=prio,
+                                    verdict="glowna")
+        order = lambda **q: [x.title for x in self.client.get(reverse("radar"), q).context["articles"]]
+        self.assertEqual(order(), ["Priorytet", "Stary mocny", "Średni", "Nowy słaby"])        # default
+        self.assertEqual(order(sort="priorytet"), order())                                  # old bookmarks still work
+        self.assertEqual(order(sort="potencjal"), ["Stary mocny", "Średni", "Priorytet", "Nowy słaby"])
+        self.assertEqual(order(sort="najnowsze"), ["Nowy słaby", "Średni", "Priorytet", "Stary mocny"])
+        latest = [x.title for x in self.client.get(reverse("overview")).context["latest"]]
+        self.assertEqual(latest, ["Nowy słaby", "Średni", "Priorytet"])                      # newest publications
+
     def test_no_expert_moderation_in_ui(self):
         with self.assertRaises(NoReverseMatch):
             reverse("review", args=[self.beton.pk])

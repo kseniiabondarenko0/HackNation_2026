@@ -39,3 +39,8 @@
 - `Rejected` z hashem tylko dla pozycji, za której ocenę AI już „zapłaciło”. Pozycja bez analizy (przepełnienie kolejki, TTL) odpada bez śladu, a po wyczerpaniu prób AI zostaje sam URL (hash pusty).
 - Pozycja wstrzymana kontrolą aktualności (`currency.failures` ≥ `CURRENCY_FAILS`) nie podlega TTL ani limitowi kolejki: czeka na człowieka.
 - Domyślny model Groq: `openai/gpt-oss-120b` z `reasoning_effort=low` (tokeny rozumowania wchodzą w limit wyjścia).
+
+## Pierwszy ekran katalogu (2026-11-22)
+- Domyślna kolejność katalogu: priorytet PCI, potem ocena AI, potem data publikacji (wcześniej: kolejność wykrycia, przy zestawie demo przypadkowa, więc na górze lądowały pozycje z oceną 65). Dawny parametr `sort=priorytet` działa jak domyślny; „Najnowsze” to jawne `sort=najnowsze` (data publikacji).
+- Na „Przeglądzie” sekcja „Ostatnio dodane” pokazuje najnowsze publikacje (po dacie publikacji), nie kolejność ładowania.
+- TRL nie jest uzupełniany ręcznie ani formułą: pochodzi wyłącznie z odpowiedzi modelu AI.
