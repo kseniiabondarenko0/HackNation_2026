@@ -70,11 +70,11 @@ GEMINI = {
 }
 GROQ = {
     "API_KEY": os.environ.get("GROQ_API_KEY", ""),
-    "MODEL": os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile"),
+    "MODEL": os.environ.get("GROQ_MODEL", "openai/gpt-oss-120b"),
     "BASE_URL": "https://api.groq.com/openai/v1",
     "TIMEOUT_S": 45, "RETRIES": 2, "RETRY_BASE_S": 2.0,
     "MIN_INTERVAL_S": float(os.environ.get("GROQ_MIN_INTERVAL_S", "10")),    # free plan: ~12k tokens per minute
-    "MAX_OUTPUT_TOKENS": 1000,
+    "MAX_OUTPUT_TOKENS": 1500,        # gpt-oss spends part of it on reasoning tokens
     "MAX_CALLS_PER_DAY": int(os.environ.get("GROQ_MAX_CALLS_PER_DAY", "900")),
     "MAX_TOKENS_PER_DAY": int(os.environ.get("GROQ_MAX_TOKENS_PER_DAY", "90000")),  # free plan: 100k tokens/day
 }

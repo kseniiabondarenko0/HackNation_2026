@@ -33,3 +33,9 @@
 
 ## Twardnienie (2026-11-22)
 - `DJANGO_DEBUG=0` bez własnego `DJANGO_SECRET_KEY` kończy się błędem startu (wartość `change-me` tylko ostrzega, żeby nie zablokować pokazu). `/robots.txt` blokuje wyłącznie `/admin/`.
+
+## Ochrona danych przy awarii AI (2026-11-22)
+- Błąd 404 oraz 400 o kluczu/modelu to błąd dostawcy (`config`, pauza 1 h), nie artykułu: nie zużywa `analysis_attempts` i nie prowadzi do `Rejected`. Zwykłe 400 (np. schemat) nadal liczy się artykułowi.
+- `Rejected` z hashem tylko dla pozycji, za której ocenę AI już „zapłaciło”. Pozycja bez analizy (przepełnienie kolejki, TTL) odpada bez śladu, a po wyczerpaniu prób AI zostaje sam URL (hash pusty).
+- Pozycja wstrzymana kontrolą aktualności (`currency.failures` ≥ `CURRENCY_FAILS`) nie podlega TTL ani limitowi kolejki: czeka na człowieka.
+- Domyślny model Groq: `openai/gpt-oss-120b` z `reasoning_effort=low` (tokeny rozumowania wchodzą w limit wyjścia).

@@ -54,6 +54,8 @@ def generate_json(system, prompt, schema):
             "response_format": {"type": "json_object"},
             "messages": [{"role": "system", "content": system + "\n" + schema_hint(schema)},
                          {"role": "user", "content": prompt}]}
+    if c["MODEL"].startswith("openai/gpt-oss"):
+        body["reasoning_effort"] = "low"     # reasoning tokens count against max_tokens; extraction needs little
     text, usage = llmbase.call(NAME, c, f"{c['BASE_URL']}/chat/completions",
                                {"Authorization": f"Bearer {c['API_KEY']}"}, body, _parse)
     return llmbase.parse_json(text), usage

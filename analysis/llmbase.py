@@ -17,14 +17,14 @@ from django.utils import timezone
 from .models import LLMState, LLMUsage
 
 # The whole batch should stop (the item itself is fine) ...
-BATCH_ERRORS = ("no_key", "budget", "quota", "auth", "network", "unavailable")
+BATCH_ERRORS = ("no_key", "budget", "quota", "auth", "config", "network", "unavailable")
 # ... versus a failure of this one item (counted against the article).
 ARTICLE_ERRORS = ("bad_request", "bad_response", "blocked")
 _last_call = {}
 
 
 class LLMError(Exception):
-    """kind: no_key | budget | quota | auth | network | unavailable | bad_request | bad_response | blocked."""
+    """kind: no_key | budget | quota | auth | config | network | unavailable | bad_request | bad_response | blocked."""
 
     def __init__(self, kind, message="", retry_after=None):
         self.kind, self.retry_after = kind, retry_after
@@ -73,8 +73,8 @@ def note_success(provider):
 def cooldown_seconds(error, failures):
     if error.kind == "quota":
         return error.retry_after or min(6 * 3600, 120 * 4 ** max(0, failures - 1))
-    if error.kind == "auth":
-        return 3600          # wrong key / API disabled: do not keep asking
+    if error.kind in ("auth", "config"):
+        return 3600          # wrong key / API disabled / model gone: do not keep asking
     if error.kind == "network":
         return 120
     return 0
@@ -106,6 +106,11 @@ def retry_after_seconds(response):
     return None
 
 
+# A 400 that blames the key or the model (not the article): the whole provider is misconfigured.
+_CONFIG_400 = re.compile(r"api[ _]key|decommission|model_not_found|model[^.]{0,80}(not found|does not exist|not supported)"
+                         r"|(not found|does not exist)[^.]{0,40}model", re.IGNORECASE)
+
+
 def http_error(response):
     """Map an HTTP error to LLMError. The message never contains the key."""
     try:
@@ -119,6 +124,10 @@ def http_error(response):
         return LLMError("auth", message or "klucz odrzucony lub API wyłączone")
     if status >= 500:
         return LLMError("network", f"HTTP {status}")
+    # 404 (unknown model / endpoint) and 400 about the key or model say nothing about the article: pause the
+    # provider instead of charging an attempt to every article in the queue.
+    if status == 404 or (status == 400 and (_CONFIG_400.search(message) or _CONFIG_400.search(response.text[:600]))):
+        return LLMError("config", f"HTTP {status} {message}")
     return LLMError("bad_request", f"HTTP {status} {message}")
 
 
