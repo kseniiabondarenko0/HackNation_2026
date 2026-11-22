@@ -20,12 +20,14 @@ def remaining_calls():
     return sum(llmbase.remaining_calls(p.NAME, p.cfg()) for p in chain() if llmbase.available(p.NAME))
 
 
-def complete_json(system, prompt, schema):
-    """(dict, {"provider", "model", "in", "out"}). Tries the providers in order; raises LLMError."""
+def complete_json(system, prompt, schema, limits=None):
+    """(dict, {"provider", "model", "in", "out"}). Tries the providers in order; raises LLMError.
+
+    limits: optional overrides of MAX_OUTPUT_TOKENS / TIMEOUT_S / RETRIES for this one call (interactive use)."""
     article_error = batch_error = None
     for provider in chain():
         try:
-            raw, usage = provider.generate_json(system, prompt, schema)
+            raw, usage = provider.generate_json(system, prompt, schema, limits)
             llmbase.validate_json(raw, schema)
         except LLMError as exc:
             if exc.kind in ARTICLE_ERRORS:

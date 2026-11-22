@@ -219,11 +219,12 @@ ul.clean li svg{margin-top:4px;width:14px;height:14px}
 @media (max-width:1100px){
   .hero{grid-template-columns:1fr} .hero-r{border-left:0;border-top:3px solid var(--ink)}
   .sum{grid-template-columns:1fr}
-  .two,.cols{grid-template-columns:1fr}
+  .two,.cols{grid-template-columns:minmax(0,1fr)} .cols>*,.two>*{min-width:0}
   .c8,.c6,.c4{grid-column:span 12}
 }
 @media (max-width:900px){
-  .app{grid-template-columns:1fr}
+  .app{grid-template-columns:minmax(0,1fr)} .app>div{min-width:0}
+  main table{display:block;max-width:100%;overflow-x:auto}   /* wide tables scroll inside the card instead of widening the page */
   .sidebar{position:static;height:auto;border-right:0;border-bottom:3px solid var(--ink)}
   .brand{padding:14px 20px;border-bottom:3px solid var(--ink)} .brand svg{width:200px}
   .nav{flex-direction:row;flex-wrap:wrap;padding:14px 20px}
@@ -328,3 +329,11 @@ form.card:not(.toolbar) button{align-self:flex-start}
 #transfer-form button:disabled{opacity:.65;cursor:wait}
 #transfer-progress[hidden]{display:none}
 @media(max-width:700px){.transfer-callout{align-items:flex-start;flex-direction:column}}
+
+/* long URLs and file names never widen a card */
+.src,.src>div{min-width:0}.src .mono,.src strong{overflow-wrap:anywhere}
+main a{overflow-wrap:anywhere}
+@media (max-width:560px){.badge{white-space:normal}}
+.transfer-delta{border-left:8px solid var(--lime)}
+.transfer-delta h3{margin:18px 0 6px}
+.delta-gone li{color:var(--ink2);text-decoration:line-through}

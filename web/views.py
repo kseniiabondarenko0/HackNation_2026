@@ -360,7 +360,7 @@ def status(request):
         "articles": Article.objects.filter(status="fetched", duplicate_of__isnull=True).count(),
         "pending": Article.objects.filter(status="found").count(),
         "errors": Article.objects.filter(status="error").count(),
-        "runs": CollectionRun.objects.count(),
+        "runs": CollectionRun.objects.count(), "demo_mode": settings.DEMO_MODE,
         "last_checked": Source.objects.aggregate(value=Max("last_checked"))["value"],
     })
 

@@ -72,7 +72,7 @@ python manage.py load_demo
 python manage.py runserver
 ```
 
-W drugim terminalu aktywuj to samo środowisko, również ustaw `DJANGO_DEBUG=1` i wykonaj `python manage.py collect_sources`. Sam `runserver` nie uruchamia kolektora. Przy lokalnym rozwoju `DJANGO_DEBUG=1` zapewnia obsługę plików statycznych; `.env.example` i obraz Docker domyślnie mają `DJANGO_DEBUG=0`.
+W drugim terminalu aktywuj to samo środowisko, również ustaw `DJANGO_DEBUG=1` i wykonaj `python manage.py collect_sources`. Sam `runserver` nie uruchamia kolektora. Przy lokalnym rozwoju można użyć `DJANGO_DEBUG=1`; `.env.example` i obraz Docker domyślnie mają `DJANGO_DEBUG=0`. `WHITENOISE_USE_FINDERS=True` zapewnia style także bez wcześniejszego `collectstatic`; Docker nadal wykonuje tę komendę przy starcie.
 
 `config/settings.py` automatycznie wczytuje `.env`; zmienne ustawione w terminalu mają pierwszeństwo. Domyślna baza lokalna to `db.sqlite3`, archiwum to `archive/`. Przy `DJANGO_DEBUG=0` brak własnego sekretu blokuje start; przykładowe `change-me` tylko ostrzega i należy je zastąpić.
 
@@ -97,14 +97,22 @@ Ocena innowacji jest automatyczna; osobny ekran ręcznego zatwierdzania/odrzucan
 
 ## Funkcja dodatkowa: „Sprawdź u nas”
 
-Na karcie kliknij **Sprawdź u nas** (`/a/<id>/sprawdz-u-nas/`). Podaj typ organizacji, cel, zasoby i ograniczenia. AI przygotowuje wstępną ocenę warunków transferu, bariery, pytania do autora, propozycję pilotażu i mierniki. Dosłowne cytaty są sprawdzane w zapisanym tekście; pozostałe treści są oznaczone jako wnioski lub propozycje AI. Obecność cytatu nie potwierdza niezależnie prawdziwości wyników. Scenariusz nie wycenia wdrożenia ani nie gwarantuje wykonalności.
+Na karcie kliknij **Sprawdź u nas** (`/a/<id>/sprawdz-u-nas/`). Podaj typ organizacji, cel, zasoby i ograniczenia. AI przygotowuje wstępną ocenę warunków transferu, bariery, pytania do autora, propozycję pilotażu i mierniki. Dosłowne cytaty są sprawdzane w zapisanym tekście; niepotwierdzone są pomijane i liczone, a bez co najmniej jednego prawidłowego cytatu wynik nie powstaje. Listy są ograniczone do trzech elementów. Pozostałe treści są oznaczone jako wnioski lub propozycje AI. Obecność cytatu nie potwierdza niezależnie prawdziwości wyników. Scenariusz nie wycenia wdrożenia ani nie gwarantuje wykonalności.
 
-- Wynik jest dostępny najwyżej 7 dni, w sesji przeglądarki, która go utworzyła; sam adres UUID nie wystarcza. Usunięcie ciasteczka sesji oznacza utratę dostępu. Wygasłe rekordy usuwa działający worker lub kolejna próba wygenerowania scenariusza.
-- Ten sam tekst i warunki korzystają z cache bez kolejnego wywołania AI. **Zmień warunki i przelicz** przygotowuje nowy scenariusz. Zmiana źródła wycofuje stare cytaty i rekomendacje z widoku.
+- Wynik jest dostępny najwyżej 7 dni, w sesji przeglądarki, która go utworzyła; sam adres UUID nie wystarcza. Usunięcie ciasteczka sesji oznacza utratę dostępu. Wygasłe rekordy usuwa worker w trybie zbierania lub kolejna próba wygenerowania scenariusza.
+- Ten sam tekst i warunki korzystają z cache bez kolejnego wywołania AI. **Zmień warunki i przelicz** przygotowuje nowy scenariusz i zestawia go z poprzednim: zmienione warunki, ocena, nowe i pominięte bariery, pytania oraz kroki. Porównanie tekstów jest obliczane lokalnie, bez kolejnego zapytania AI; odmienne sformułowanie tej samej uwagi może wyglądać jak zmiana. Zmiana źródła wycofuje stare cytaty i rekomendacje z widoku.
 - Limit sesji: 8 nowych scenariuszy na godzinę. Nie podawaj danych osobowych ani poufnych: treść formularza trafia do skonfigurowanego dostawcy AI. Scenariuszy nie ma w publicznym eksporcie.
 - Przy braku klucza, limitu lub poprawnej odpowiedzi formularz pozostaje wypełniony. Błędna odpowiedź nie jest zapisywana jako gotowy raport. Otworzenie formularza lub zapisanego wyniku nie wywołuje modelu.
 
 **Pomysł na pokaz:** ta sama innowacja, dwa profile organizacji — z dostępnym partnerem i bez wykonawcy lub budżetu. Porównaj uzasadnienia i bariery. To dwa nowe zapytania AI; nie zakładamy z góry odpowiedzi modelu. Zapisane karty demo nie zawierają gotowych scenariuszy dla organizacji.
+
+## Tryb pokazowy dla jury
+
+Ustaw `DEMO_MODE=1` w `.env` i uruchom `docker compose up -d --build --wait`. Worker w tle nie pobiera stron, nie analizuje i nie czyści bazy; zapisane karty i ręczne scenariusze nadal działają. Tryb jest oznaczony w stopce, na `/zrodla/` i w `/api/status/` (`demo_mode`). Nie odnawia już wykorzystanego limitu AI.
+
+Przed pokazem przygotuj dwa scenariusze w tej samej przeglądarce. Każdy nowy scenariusz zwykle wymaga jednego zapytania, ale ponowienia i fallback mogą zwiększyć ich liczbę. Ponowne otwieranie i porównanie zapisanych wyników nie wywołuje modelu. Wyniki pozostają prywatne dla sesji i dostępne przez 7 dni.
+
+Aby wrócić do zbierania, ustaw `DEMO_MODE=0` i wykonaj `docker compose up -d`. Jawne `collect_sources --once` działa także w trybie pokazowym i może pobierać, analizować oraz czyścić dane.
 
 ## AI, ocena i limity
 
@@ -117,7 +125,7 @@ Domyślny backend to `ai`: Gemini, następnie Groq, jeśli ma skonfigurowany klu
 | Odstęp między wywołaniami w procesie | 6 s | 10 s |
 | Maksymalna długość odpowiedzi | 1500 tokenów | 1500 tokenów |
 
-To wartości domyślne z `config/settings.py`, **nie oficjalne limity darmowych planów**. Wspólny licznik obejmuje analizy artykułów i scenariusze. Automatyczna kolejka wstrzymuje nowe analizy, gdy pozostaje najwyżej 10 dostępnych wywołań (`LLM["SCENARIO_RESERVE"]`), zostawiając rezerwę na pracę ręczną. Rezerwa nie zwiększa budżetu; niedostępny dostawca lub limit tokenów może zablokować AI wcześniej. Dzień licznika określa data procesu serwera, a czas odnowienia kwoty dostawcy może być inny.
+Tabela dotyczy analizy artykułów. Scenariusze „Sprawdź u nas” mają maksymalnie 2500 tokenów odpowiedzi, timeout 25 s i jedną ponowną próbę (`transfer.INTERACTIVE`), przy tym samym budżecie dziennym. To wartości ustawione w kodzie, **nie oficjalne limity darmowych planów**. Wspólny licznik obejmuje analizy artykułów i scenariusze. Automatyczna kolejka wstrzymuje nowe analizy, gdy pozostaje najwyżej 10 dostępnych wywołań (`LLM["SCENARIO_RESERVE"]`), zostawiając rezerwę na pracę ręczną. Rezerwa nie zwiększa budżetu; niedostępny dostawca lub limit tokenów może zablokować AI wcześniej. Dzień licznika określa data procesu serwera, a czas odnowienia kwoty dostawcy może być inny.
 
 Model dostaje do 6000 znaków oczyszczonego tekstu. Worker wykonuje do 2 prób analizy artykułu po każdym źródle i do 60 po cyklu. Każda próba HTTP, także ponowienie po błędzie sieci, rezerwuje miejsce w dziennym liczniku przed wysłaniem. Limity prób artykułów na przebieg nie są osobnym limitem żądań HTTP: ponowienia i fallback nadal zużywają wspólny budżet dzienny. `analyze --max-calls 0` pomija nowe analizy. HTTP 429 wstrzymuje dostawcę; nie jest ponawiany w pętli. Niepoprawny JSON nie jest powodem odrzucenia innowacji. Zmiana tekstu lub metadanych źródła wycofuje starą ocenę do ponownej analizy tylko tej publikacji; ostatni snapshot i etapy obsługi są zachowane.
 
@@ -140,7 +148,7 @@ Eksporter sprawdza linki i określone wzorce e-maili, telefonów oraz kluczy. Cz
 
 `analysis/examples.py` to osobny zbiór **29 syntetycznych przykładów zespołu**. `/skutecznosc/` oraz `python manage.py evaluate_filter` mierzą na nim filtr `rules`, a nie jakość Gemini/Groq na rzeczywistym internecie. `python manage.py demo_cases --backend rules` przetwarza dwa takie przykłady i zapisuje je w bazie — używaj bazy testowej. Bez tej opcji `demo_cases` domyślnie korzysta z AI i zużywa limit.
 
-**Stan weryfikacji 22.11.2026:** cały zestaw **308 testów offline** przeszedł po audycie kodu (290 wcześniejszych + 18 nowych regresji). `check`, `makemigrations --check --dry-run` i `pip check` bez problemów. Sprawdzono strukturę 137 wpisów rejestru i zgodność zapisanych cytatów wszystkich 21 pozycji demo z ich fragmentami tekstu; nie jest to ponowna kontrola dostępności wszystkich stron w internecie. W audycie nie wykonywano nowych zapytań AI. Wcześniejsze rzeczywiste próby Gemini obejmowały dwa rozwiązania i wiadomość kontrolną. „Sprawdź u nas” sprawdzono z kontrolowaną odpowiedzią i w przeglądarce; dwa rzeczywiste scenariusze pozostają do weryfikacji po odnowieniu limitu. To nie jest pomiar jakości AI na reprezentatywnym zbiorze.
+**Stan weryfikacji 22.11.2026:** cały zestaw **325 testów offline** przeszedł po połączeniu audytu kodu (308 testów) i PR #7 (17 dodatkowych testów). `check`, `makemigrations --check --dry-run` i `pip check` bez problemów. Sprawdzono strukturę 137 wpisów rejestru i zgodność zapisanych cytatów wszystkich 21 pozycji demo z ich fragmentami tekstu; nie jest to ponowna kontrola dostępności wszystkich stron w internecie. W audycie nie wykonywano nowych zapytań AI. Wcześniejsze rzeczywiste próby Gemini obejmowały dwa rozwiązania i wiadomość kontrolną. „Sprawdź u nas” sprawdzono z kontrolowaną odpowiedzią i w przeglądarce; dwa rzeczywiste scenariusze pozostają do weryfikacji po odnowieniu limitu. To nie jest pomiar jakości AI na reprezentatywnym zbiorze.
 
 Audyt objął również polecenia administracyjne, obsługę zgłoszeń, wzorce wykrywania kluczy przy eksporcie i kontekst obrazu Docker. `.tmp_x`, lokalne archiwum i inne pliki robocze są wyłączone z budowania obrazu. Diagnostyka odrzuconego eksportu podaje kategorię problemu, bez drukowania znalezionego klucza lub kontaktu. Minimalna wersja Django podniesiona do zainstalowanej 5.2.19; gałąź 5.2 LTS jest nadal wspierana ([Django: wspierane wersje](https://www.djangoproject.com/download/), [wydanie 5.2.19](https://docs.djangoproject.com/en/5.2/releases/5.2.19/)). Pełnego audytu wszystkich zależności pod kątem CVE nie przeprowadzano.
 

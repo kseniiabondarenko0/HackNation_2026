@@ -42,12 +42,18 @@ TEMPLATES = [{"BACKEND": "django.template.backends.django.DjangoTemplates", "DIR
 DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": os.environ.get("DB_PATH", BASE_DIR / "db.sqlite3"),
     "OPTIONS": {"timeout": 20, "init_command": "PRAGMA journal_mode=WAL;"}}}
 APP_VERSION = "mvp-hacknation-2026"
+# Jury demo: DEMO_MODE=1 keeps everything still in the background. The long-running collector neither fetches nor calls
+# the AI nor cleans the base, so the app starts at once on the stored data and the whole free AI budget stays for the few
+# requests made from the interface ("Sprawdź u nas", "Wskaż rozwiązanie"). An explicit `collect_sources --once` still works.
+DEMO_MODE = os.environ.get("DEMO_MODE", "0") == "1"
 LANGUAGE_CODE = "pl"
 TIME_ZONE = "Europe/Warsaw"
 USE_I18N = True
 USE_TZ = True
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+# Serve app static files directly too, so the no-Docker quick start (DEBUG=0 from .env.example) is styled without `collectstatic`.
+WHITENOISE_USE_FINDERS = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Collector limits (our own settings, tunable after first measurements)
 COLLECT = {"MAX_DISCOVERY_PAGES": 10, "MAX_NEW_PER_RUN": 20, "CONNECT_TIMEOUT": 5, "READ_TIMEOUT": 10,
